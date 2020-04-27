@@ -58,7 +58,9 @@
 
 - Orientierung an der vorliegenden Hardware (Befehlssatz des Zentralprozessors)
 - Typische Vertretter: Assemblersprachen
+
 **Befehl**
+
 - kleinste, nicht weiter zerlegbare Einheit einer Programmiersprache
 - bezeichnen einzelne Arbeitsschritte
 - bei problemorientierten Sprachen: Anweisung (oft keine einzelnen Schritte, sondern komplexere Abläufe)

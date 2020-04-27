@@ -20,10 +20,10 @@
 - [ ] Ableitung einer Grammatik
 - [ ] Chomsky-Hierarchie, Kellerautomaten
 
-## SWE 
+## SWE
 
-- [ ] Organisatorisches
-- [ ] Unterschiede C/C++
+- [X] Organisatorisches
+- [X] Unterschiede C/C++
 - [ ] Funktions-Features
   - [ ] alter Kurztest
 - [ ] I/O und File-I/O
