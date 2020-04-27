@@ -1,0 +1,6 @@
+# Ignore all files
+**.*
+
+# Un-ignore some files
+!**.md
+!.gitignore
