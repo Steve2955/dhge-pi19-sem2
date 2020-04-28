@@ -48,3 +48,25 @@ bool delete(int key, double &val);
 *(func(...)) = ...;
 ```
 	- Der Wert auf der rechten Seite der Zuweisung wird in jenes Objekt gespeichert, auf das die Referenz zeigt, die als Returnwert von der Funktion zurückkommt
+
+## Objektorientierte Software-Entwicklung
+
+- Bisher (C): Ablauforientiert = Schritt für Schritt = am Code orientiert
+- Jetzt (C++): Datenorientiert -> Daten statt Algorithmus im Mittelpunkt
+- Aufspaltung von Code in Objekte mit Eigenschaften und Funktionalitäten
+	- Neue Denkweise: Daten sind aktiv, d.h. können Operationen auf sich selbst ausführen und werden für ein bestimmtes Objekt aufgerufen (in jeder Funktion gibt es einen "ich selbst"-wert)
+
+### Konzepte und Terminologien
+
+**Klasse**
+- vgl. ```struct```-Typ erweitert um Funktionen und einiges mehr
+- enthält keine Werte oder Daten, sondern dien als Schablone für diese
+
+**Objekt**
+- Instanz einer Klasse
+
+**Methode**
+- Einer Klasse zugehörige Funktion
+
+**Member-Variable**
+- Einer Klasse zugehöriges Datenelement (Primitives oder andere Objekte)

@@ -27,7 +27,7 @@
 - [X] Funktions-Features
   - [ ] alter Kurztest
 - [ ] I/O und File-I/O
-- [ ] Ziele, Konzepte, Geschichte, ...
+- [X] Ziele, Konzepte, Geschichte, ...
 
 ## MAT
 
