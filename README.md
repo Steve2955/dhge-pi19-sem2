@@ -24,7 +24,7 @@
 
 - [X] Organisatorisches
 - [X] Unterschiede C/C++
-- [ ] Funktions-Features
+- [X] Funktions-Features
   - [ ] alter Kurztest
 - [ ] I/O und File-I/O
 - [ ] Ziele, Konzepte, Geschichte, ...
