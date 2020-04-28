@@ -3,7 +3,7 @@
 ## INF
 
 - [X] Programmierparadigmen / Adressierungsarten
-- [ ] Sprachen und Grammatiken
+- [X] Sprachen und Grammatiken
 - [ ] BNF
 - [ ] Übungsaufgabe BNF Prototypvereinbarung
 - [ ] Syntaxdiagramme, reguläre Ausdrücke, deterministische Automaten
@@ -28,6 +28,8 @@
   - [ ] alter Kurztest
 - [ ] I/O und File-I/O
 - [X] Ziele, Konzepte, Geschichte, ...
+- [ ] Grundlegende C++-Konstrukte 1
+- [ ] Grundlegende C++-Konstrukte 2
 
 ## MAT
 

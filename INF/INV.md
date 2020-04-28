@@ -20,7 +20,7 @@
 - zu sehr großen Teil von der zugrundeliegenden Maschine unabhängig
 - definierter Kern: Wesen der Sprachen überall gleich
 - eventuell maschinen-/plattformspezifische Erweiterungen
-- sog. Quellprogramme werden mit Übersetzyngswerkzeugen in Maschinensprache des Rechners übersetzt
+- sog. Quellprogramme werden mit Übersetzungswerkzeugen in Maschinensprache des Rechners übersetzt
 
 ##### Imperative Programmiersprachen
 
@@ -74,12 +74,50 @@
 - indirekte Adressierung: Adressteil gibt Adresse der Speicherzelle an, in der sich die Adresse des Operanden befindet
 - symbolische Adressierung: Zuordnung einer Speicherzelle zu frei wählbarem Namen (wird während des Linkens durch absolute Adresse ersetzt)
 - indizierte Adressierung: Summe des Adressteils und dem Wert eines Indexregisters gibt die Adresse des Operanden an
-- relative Adressierung: ählich indizierte Adressierung, Basisregister statt Indexregister
+- relative Adressierung: ähnlich indizierte Adressierung, Basisregister statt Indexregister
 - PC-relative Adressierung: Berechnung der nächsten Adresse relativ zur aktuell bearbeiteten Adresse (Sonderform der relativen Addressierung)
 - virtuelle Adressierung: Ansprechen von Speicherbereichen außerhalb des Hauptspeichers (Ein-/Auslagern der Daten)
 
 ## Sprachen
 
-### Syntax einer Sprache
+### Syntax einer Programmiersprache
+
+- Die Syntax einer Sprache bezeichnet die durch die Zeichen und Regeln einer Sprache entstehenden Konstrukte
+- Für eine Überprüfung auf Korrektheit der Syntax muss diese durch Automaten oder Grammatiken formal beschrieben werden
+- Bei der Programmierung wird diese Überprüfung durch den Compiler durchgeführt
+- Sollte der Programmcode nicht der Syntax (den Regeln der Programmiersprache) entsprechen, kann dieser nicht compiliert werden
 
 #### Grundlegende Begriffe
+
+- **Alphabet:** nicht leere, eventuell unendliche Menge von unterscheidbaren Zeichen ($A = {a_1,a_2,\dots,a_n}$)
+- **Buchstaben:** Zeichen eines Alphabets; innerhalb des Alphabet besteht zwischen den Zeichen eine Ordnungsrelation ($a_1<a_2<\dots<a_n$)
+	- liegt keine Ordnungsrelation vor, spricht man von einem Zeichenvorrat
+- **Wort:** Aneinanderreihung von Zeichen eines Alphabets
+	- Ein Wort das aus keinem Zeichen besteht wird als leeres Wort bezeichnet und als $\epsilon$ dargestellt
+	- $A*$ bezeichnet die Menge aller Worte, die mit einem Alphabet $A$ gebildet werden können
+	- Die Länge eines Wortes $w$ (Anzahl der Zeichen) wird als $\left|w\right|$ dargestellt
+- **Sprache**
+	- Unterteilung in natürliche und künstliche Sprachen
+	- Natürliche Sprachen dienen der Kommunikation zwischen Menschen
+		- bestehen aus einer Menge von Worten (Wortschatz) und Regeln (Grammatik)
+		- Worte werden zu Sätzen zusammengefügt, welche eine bestimmte Bedeutung (Semantik) besitzen
+		- Wortschatz, Grammatik und Semantik unterliegen ständiger Veränderung -> für maschinelle Verarbeitung unbrauchbar
+	- Künstliche Sprachen streben eine möglichst einheitliche, klare und eindeutige Beschreibung an (meist fachspezifisch)
+		- Beispiel: Programmiersprachen -> Kommunikation zwischen Maschinensprache und problemorientierter Fachsprache, die einer natürlichen Sprache deutlich näher kommt
+		- fester, begrenzter Wortschatz und feste, endliche Grammatik (eindeutige, vollständige Beschreibung der Sprachen)
+
+### Darstellungsmöglichkeiten zur Sprachbeschreibung
+
+#### Grammatiken
+
+- Regelwerk, das festlegt, welche Zeichen und Zeichenreihen zu einer Sprache gehören.
+- Definierung von Programmiersprachen erfolgt über präzise Grammatiken
+
+**Bestandteile einer Grammatik**
+
+$$G = {T,V,S,P}$$
+
+- Menge $T$ von **Terminalsymbolen**: unveränderliche und unteilbare Bestandteile der Sprache
+- Menge $V$ von **Nichtterminalsymbolen**: Zeichen und Zeichenfolgen, die nach den Regeln der Grammatik gebildet werden können
+- Menge $P$ von **Grammatikregeln**: Regeln, die festlegen wie aus Terminalsymbolen und/oder Nichtterminalsymbolen neue Konstrukte (Nichtterminalsymbole) gebildet werden können
+- Das **Startsymbol** $S$: Nichtterminalsymbol, aus dem alle Worte der Sprache abgeleitet werden
