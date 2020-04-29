@@ -3,4 +3,5 @@
 
 # Un-ignore some files
 !**.md
+!**.JPG
 !.gitignore

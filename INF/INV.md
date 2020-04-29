@@ -146,4 +146,4 @@ $$G = {T,V,S,P}$$
 - Nichtterminalsymbole werden in Rechtecke eingeschlossen
 - Ersetzungswege werde durch Pfeile dargestellt
 
-![Beispiel eines BNF-Diagramms](/IMG/BNF-Diagramm.JPG?raw=true)
+![Beispiel eines BNF-Diagramms](https://steve2955.github.io/dhge-pi19-sem2/INF/IMG/BNF-Diagramm.JPG)
