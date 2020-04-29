@@ -33,7 +33,7 @@
 
 ## MAT - Analysis
 
-- [ ] Zahlenfolgen, Grenzwerte von Zahlenfolgen
+- [X] Zahlenfolgen, Grenzwerte von Zahlenfolgen
 - [ ] Reihen, Grenzwerte von Reihen
 - [ ] Konvergenzkriterien fur Reihen
 - [ ] Stetigkeit von Funktionen
