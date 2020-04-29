@@ -1,6 +1,6 @@
 # DHGE Praktische Informatik Matrikel 19 Semester 2
 
-## INF
+## INV - Einführung in die Informatik
 
 - [X] Programmierparadigmen / Adressierungsarten
 - [X] Sprachen und Grammatiken
@@ -20,7 +20,7 @@
 - [ ] Ableitung einer Grammatik
 - [ ] Chomsky-Hierarchie, Kellerautomaten
 
-## SWE
+## SWE - Objektorientierte Programmierung (+ Vertiefung)
 
 - [X] Organisatorisches
 - [X] Unterschiede C/C++
@@ -31,7 +31,7 @@
 - [ ] Grundlegende C++-Konstrukte 1
 - [ ] Grundlegende C++-Konstrukte 2
 
-## MAT
+## MAT - Analysis
 
 - [ ] Zahlenfolgen, Grenzwerte von Zahlenfolgen
 - [ ] Reihen, Grenzwerte von Reihen
@@ -47,3 +47,51 @@
 - [ ] Gewöhnliche Differentialgleichungen
 - [ ] Fourier-Reihen
 - [ ] Integraltransformationen (Fourier-Transformation, Laplace-Transformation)
+
+## RES - Betriebssysteme
+
+- [ ] Grundlagen
+- [ ] Architekturen
+- [ ] Strukturen
+- [ ] Schnittstellen
+- [ ] Prozesse
+	- [ ] Prozesse 1
+	- [ ] Prozesse 2
+	- [ ] Prozesse 3
+- [ ] Deadlocks
+- [ ] Ein- und Ausgaben
+- [ ] Speicherverwaltung
+	- [ ] Speicherverwaltung 1
+	- [ ] Speicherverwaltung 2
+- [ ] Dateisysteme
+- [ ] Sicherheit
+
+## ALGO - Algorithmen und Datenstrukturen
+
+- [ ] Listen
+- [ ] Graphen
+	- [ ] Graphen 1
+	- [ ] Graphen 2
+	- [ ] Graphen 3
+- [ ] Bäume
+	- [ ] Bäume 1
+	- [ ] Bäume 2
+- [ ] Sortieren
+	- [ ] Sortieren 1
+	- [ ] Sortieren 2
+- [ ] Suchen
+	- [ ] Suchen 1
+	- [ ] Suchen 2
+- [ ] Automaten
+- [ ] Sprachen
+- [ ] Maschinenmodelle
+
+## ELE - Elektrotechnik/Elektronik
+
+- [ ] Aufgabenblatt Übungsaufgaben E-Technik
+- [ ] Übungsaufgabe Nr. 2: Leistung im Stromkreis
+- [ ] Einfache Wechselstromkreise: siehe Arbeitsblätter
+	- [ ] 4.7.1 Grundschaltelemente R, L, C
+	- [ ] 4.7.2 R-L-Reihenschaltung
+	- [ ] 4.7.3 R-C-Parallelschaltung
+	- [ ] 4.7.4 Ersatzzweipolschaltung mit Zahlenbeispiel
