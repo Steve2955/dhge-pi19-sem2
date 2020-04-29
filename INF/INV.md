@@ -147,3 +147,21 @@ $$G = {T,V,S,P}$$
 - Ersetzungswege werde durch Pfeile dargestellt
 
 ![Beispiel eines BNF-Diagramms](https://steve2955.github.io/dhge-pi19-sem2/INF/IMG/BNF-Diagramm.JPG)
+
+#### Übung BNF
+
+Grammatik für die Definition eines Funktionsprototypen (ähnlich der Definition von Funktionsprototypen)
+
+<S> ::= <Datentyp> <Bezeichner>(<Parameterliste>);
+
+<Datentyp> ::= int | float | char
+
+<Bezeichner> ::= <Buchstabe> | _ <Zeichenfolge> | <Buchstabe><Zeichenfolge>
+<Zeichenfolge> ::= <Zeichen> | <Zeichen><Zeichenfolge>
+<Zeichen> ::= <Buchstabe> | <Ziffer> | <Sonderzeichen>
+<Buchstabe> ::= a..Z
+<Ziffer> ::= 0..9
+<Sonderzeichen> ::= $ | _ | ? | #
+
+<Parameterliste> ::= ∊ | <Parameterfolge>
+<Parameterfolge> ::= <Datentyp> | <Datentyp>,<Parameterfolge>

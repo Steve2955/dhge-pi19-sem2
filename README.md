@@ -5,7 +5,7 @@
 - [X] Programmierparadigmen / Adressierungsarten
 - [X] Sprachen und Grammatiken
 - [X] BNF
-- [ ] Übungsaufgabe BNF Prototypvereinbarung
+- [X] Übungsaufgabe BNF Prototypvereinbarung
 - [ ] Syntaxdiagramme, reguläre Ausdrücke, deterministische Automaten
 - [ ] Einfache Registermaschinen
 - [ ] Registermaschinen, RAM
