@@ -49,6 +49,67 @@ bool delete(int key, double &val);
 ```
 	- Der Wert auf der rechten Seite der Zuweisung wird in jenes Objekt gespeichert, auf das die Referenz zeigt, die als Returnwert von der Funktion zurückkommt
 
+## I/O und File-I/O
+
+### Ein-/Ausgabe auf die Konsole
+
+```C++
+#include <iostream> //statt <stdio.h>
+using namespace std;
+// ===== Ausgabe =====
+// Einfach Ausgabe von Rechnungen/Variablen/Text
+cout << 2+5; cout << "Hello World";
+// Ausgabe mehrerer Variablen (Typ wird automatisch erkannt; kein automatisches Leerzeichen)
+cout << 21*2 << "= " << 84/2;
+// Zeilenvorschub mit endl:
+cout << "..." << endl;
+
+// ===== Eingabe =====
+cin >> variable;
+// Der Typ der Variabe wird erkannt und die Umwandlung erfolgt automatisch
+// Leerziechen und Leerzeilen werden übersprungen, es wird genau ein Wort gelesen
+// Zeichenweises Lesen ebenfalls ohne Whitespace
+```
+
+### Lesen und Schreiben von Dateien
+
+- relevante Klassen: ```ifstream``` (Lesen), ```ofstream``` (Schreiben), ```fstream``` (Beides)
+
+```C++
+#include <iostream>
+using namespace std;
+
+ifstream inFile(argv[1]);
+ofstream outFile(argv[2]);
+
+if (!inFile); // Fehlerüberprüfung
+
+// ===== Lesen =====
+inFile.get(c); // Zeichenweise Lesen
+inFile >> input; // "wortweises" lesen (ohne whitspace)
+// Zeileinweises Lesen (ohne newline!!!)
+char zeile[81];
+inFile.getline(zeile, 81);
+string zeile;
+getline(inFile, zeile);
+
+// ===== Schreiben =====
+outFile.put(c); // Zeichenweises Schreiben
+outFile << zeile; // Zeilenweise Schreiben
+
+// ===== Fehlerbehandlung =====
+inFile.eof(); // Fileende wurde erreicht
+inFile.fail(); // Konvertierungsfehler o. weiteres Lesen trotz EOF
+inFile.bad(); // echter I/O-Fehler
+inFile.good(); // kein Fehler
+
+// ===== Beispiele =====
+
+while (inFile) {}
+while (inFile.getline(zeile, 81)) {}
+while (inFile >> txt) {}
+```
+
 ## Objektorientierte Software-Entwicklung
 
 - Bisher (C): Ablauforientiert = Schritt für Schritt = am Code orientiert

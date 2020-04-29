@@ -26,7 +26,7 @@
 - [X] Unterschiede C/C++
 - [X] Funktions-Features
   - [ ] alter Kurztest
-- [ ] I/O und File-I/O
+- [X] I/O und File-I/O
 - [X] Ziele, Konzepte, Geschichte, ...
 - [ ] Grundlegende C++-Konstrukte 1
 - [ ] Grundlegende C++-Konstrukte 2
