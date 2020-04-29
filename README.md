@@ -68,7 +68,7 @@
 
 ## ALGO - Algorithmen und Datenstrukturen
 
-- [ ] Listen
+- [X] Listen
 - [ ] Graphen
 	- [ ] Graphen 1
 	- [ ] Graphen 2
