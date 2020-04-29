@@ -4,7 +4,7 @@
 
 - [X] Programmierparadigmen / Adressierungsarten
 - [X] Sprachen und Grammatiken
-- [ ] BNF
+- [X] BNF
 - [ ] Übungsaufgabe BNF Prototypvereinbarung
 - [ ] Syntaxdiagramme, reguläre Ausdrücke, deterministische Automaten
 - [ ] Einfache Registermaschinen

@@ -121,3 +121,29 @@ $$G = {T,V,S,P}$$
 - Menge $V$ von **Nichtterminalsymbolen**: Zeichen und Zeichenfolgen, die nach den Regeln der Grammatik gebildet werden können
 - Menge $P$ von **Grammatikregeln**: Regeln, die festlegen wie aus Terminalsymbolen und/oder Nichtterminalsymbolen neue Konstrukte (Nichtterminalsymbole) gebildet werden können
 - Das **Startsymbol** $S$: Nichtterminalsymbol, aus dem alle Worte der Sprache abgeleitet werden
+
+#### Backus-Naur-Form
+
+- Metasprache zur Beschreibung der Syntax einer Programmiersprache
+- Eine Grammatikregel in der Backus-Naur-Form besitzt eine linke und eine rechte Seite
+	- Linke Seite: Nichtterminalsymbol, das durch die Regel definiert werden soll (Nichtterminalsymbole werden durch ```<...>``` dargestellt)
+	- Rechte Seite: Regel zur Bildung des Nichtterminalsymbols (Alternative Bildungen werden durch ```|``` getrennt)
+- Trennung der beiden Seiten erfolgt durch ```::=```
+- Terminalsymbole sind nicht durch Regeln erzeugbar
+- Beispiel:
+```
+<Zeichen> ::= <Buchstabe> | <Sonderzeichen> | <Ziffer>
+<Buchstabe> ::= A | B | C | ... | Z
+```
+- Erweiterungen:
+	- Optionale Symbole oder Symbolfolge in eckigen Klammern (```<Zeichenkette> ::= <Zeichen> [<Zeichenkette>]```)
+	- Darstellung von Alternative in geschweiften Klammern (```<Ausdruck> ::= <Operand> {+|-|*|/} <Operand>```)
+
+#### Einfache Syntaxdiagramme
+
+- die BNF kann leicht in Diagramme übertragen werden
+- Terminalsymbole werden in Kreise eingeschlossen
+- Nichtterminalsymbole werden in Rechtecke eingeschlossen
+- Ersetzungswege werde durch Pfeile dargestellt
+
+![Beispiel eines BNF-Diagramms](/IMG/BNF-Diagramm.JPG?raw=true)
