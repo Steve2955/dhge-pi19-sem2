@@ -6,7 +6,7 @@
 - [X] Sprachen und Grammatiken
 - [X] BNF
 - [X] Übungsaufgabe BNF Prototypvereinbarung
-- [ ] Syntaxdiagramme, reguläre Ausdrücke, deterministische Automaten
+- [X] Syntaxdiagramme, reguläre Ausdrücke, deterministische Automaten
 - [ ] Einfache Registermaschinen
 - [ ] Registermaschinen, RAM
 - [ ] Turing-Maschinen

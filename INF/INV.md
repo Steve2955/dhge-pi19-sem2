@@ -165,3 +165,42 @@ Grammatik für die Definition eines Funktionsprototypen (ähnlich der Definition
 
 <Parameterliste> ::= ∊ | <Parameterfolge>
 <Parameterfolge> ::= <Datentyp> | <Datentyp>,<Parameterfolge>
+
+#### Sprachbeschreibung mittels Regulärer Ausdrücke
+
+- Reguläre Ausdrücke können reguläre Mengen beschrieben
+
+**Definition einer regulären Menge**
+
+- $\emptyset \in R$; die leere Menge ist regulär
+- $\left{\epsilon\right}\in R$; die Menge, die das leere Wort enthält ist regulär
+- $\left{ a \right}\in R \forall a \in A$
+- Vereinigungen und Konkatenation von regulären Mengen sind ebenfalls regulär
+- Eine Menge ist genau dann regulär, wenn sie in endlich vielen Schritten aus diesen Regeln gewonnen werden kann
+
+**Konkatenation**
+- $(p)^*$****: Konkatenation von $p$ mit sich selbst
+- $(pq)$: Konkatenation von $P$ und %Q%
+
+**Vereinigung**
+- $p \lor q$: Vereinigungsmenge von $P$ und $Q$
+
+**Beispiel**
+Alphabet $A=\left{a,b\right}$, dessen Worte weder **aa** noch **bb** enthalten
+
+$$L \subset A^*=(ab)^*\lor(ba)^*\lor a(ba)^* \lor b(ab)^*$$****
+
+#### Sprachbeschreibung mittels deterministischer Automaten
+
+- Beschreibung von Sprachen mittels deterministischer Automaten ist sehr aufwendig
+- Bestandteile:
+	- I,O: Ein- und Ausgabealphabet
+	- Q: endliche Menge an Zuständen, in denen sich der Automat befinden kann
+	- $\partial$: Überführungsfunktion, die in Abhängigkeit von einem gelesenen Zeichen und dem aktuellen Zustand in einem anderen Zustand überführt
+	- $q_0 \in Q$: Startzustand des Automaten
+	- $F \subset Q$: Teilmenge aller Endzustände, bei deren Erreichen der Automat eine erfolgreich abgearbeitete Aufgabe anzeigt
+
+**Beispiel**
+Automat, der nur dessen Worte akzeptiert, die weder **aa** noch **bb** enthalten
+
+![Beispiel eines Deterministischen Automaten](https://steve2955.github.io/dhge-pi19-sem2/INF/IMG/Deterministischer-Automat.JPG)
