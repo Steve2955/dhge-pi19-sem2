@@ -52,7 +52,7 @@
 ## RES - Betriebssysteme
 
 - [X] Grundlagen
-- [ ] Architekturen
+- [X] Architekturen
 - [ ] Strukturen
 - [ ] Schnittstellen
 - [ ] Prozesse

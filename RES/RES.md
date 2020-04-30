@@ -115,5 +115,125 @@
 
 - **Bit:** kleinstmögliche Speichereinheit
 - **Byte:** 8 Bits
-- **Si-Präfixe:** 10er- Potenz als Basis (kb, MB, GB, TB, PB, ... -> $=10^x$ Byte) 
+- **Si-Präfixe:** 10er- Potenz als Basis (kb, MB, GB, TB, PB, ... -> $=10^x$ Byte)
 - **IEC-Präfixe:** 2er- Potenz als Basis (KiB, MiB, GiB, TiB, PiB, ... -> $=2^x$ Byte)
+
+## Grundlegende Strukturen
+
+### Aufgaben
+
+**Bedienschnittstelle (UI)**
+
+- Betriebssysteme und alle Programme müssen mit Nutzer kommunizieren und nach dessen Wünschen verfahren (CLI/UI)
+
+**Programmierschnittstelle (API)**
+
+- Bereitstellung einfacher Schnittstellen zur HW (Prinzip der virtuellen (abstrakten) Maschine)
+- Schutz der HW vor direktem Zugriff (Stabilität)
+
+**Verwalten von Ressourcen**
+
+- quasiparallele Ausführung mehrere Prozesse; Zugang mehrere Benutzer
+- sichere Trennung von einzelnen Nutzern oder Prozessen (Adressraum, Rechenzeit, Speicherzugriff, Zuteilung E/A-Geräte)
+- keine allgemeine perfekte Strategie
+	- Zerlegung der Zugriffe in kurze Zeitscheiben
+	- Effiziente Verwaltung von Datenpuffern (langsame Zugriffe)
+	- korrekte Zuteilung (z.B. E/A-Geräte)
+	- Spooling (für Geräte mit langsamer Verarbeitung)
+
+**Dienste von Betriebssystemen**
+
+- Bereitstellung von Diensten
+	- Prozessmanagement
+	- Speichermanagement
+	- Dateiverwaltung
+	- Steuerung und Abstraktion der HW, Geräteverwaltung, E/A-Steuerung
+	- Bereitstellung der Benutzeroberfläche
+- Kommunikation mit Diensten über APIs
+
+**Privilegiensystem**
+
+- Verhinderung von negativen Auswirkungen auf das OS bei Programmfehlfunktionen (insbesondere bei Multitask/-user Anwendungen/Systemen)
+- Ermöglichen unterschiedlicher Betriebsarten
+	- **Kern-Modus**: alle Rechte für Betriebssystem-Code
+	- **Benutzer-Modus**: eingeschränkte Rechte für Anwendungs-Code
+
+|                                 | Benutzer-Modus      | Kern-Modus      |
+|---------------------------------|---------------------|-----------------|
+| Ausführbare Maschinenbefehle    | begrenzte Auswahl   | alle            |
+| HW-Zugriff                      | Nein (nur durch OS) | Ja, Vollzugriff |
+| Zugriff auf System-Code/Dateien | keiner/read-only    | exklusiv        |
+
+- Schnittstelle zwischen Usermode und Kernel = Traps (Einstiegspunkte; vgl. Software-Interrupt)
+
+### Klassifizierung von Betriebssystemen
+
+**Nach Betriebsart**
+- Netzwerk-Betriebssysteme
+	- Einbindung von Computern in Netze, Teilen von Ressourcen
+	- Client-Server-Betrieb oder Peer2Peer-Netze
+- Realzeit-Betriebssysteme
+	- Verarbeitungszeit als wichtigster Faktor
+- Universelle Betriebssysteme
+	- erfüllen mehrere der zuvor genannten Kriterien
+
+**Nach Anzahl der gleichzeitig laufenden Programme**
+
+- Einzelprogrammbetrieb (singletasking)
+	- Zu jedem Zeitpunkt nur ein Programm ausgeführt, Ausführung mehrerer nacheinander
+- Mehrprogrammbetrieb (multitasking)
+	- gleichzeitige Ausführung mehrere Programme (mehrere CPUs) oder zeitlich verschachtelt (quasi-parallel)
+
+**Nach Anzahl der gleichzeitigen Nutzer**
+
+- Einzelbenutzerbetrieb (singleuser mode)
+- Mehrbenutzerbetrieb (multiuser mode): Ressourcen werden aufgeteilt
+
+**Nach Anzahl der Verwalteten Prozessoren bzw. Rechner**
+
+- Ein-Prozessor-Betriebssystem
+	- Von-Neumann-Architektur besitzt meist nur einen Universalprozessor
+- Mehr-Prozessor-Betriebssystem
+	- jedem Prozessor wird eine Aufgabe zugeteilt (Aufgabenverarbeitung abhängig von Prozessorzahl -> Koordinationsprobleme) oder
+	- Aufgaben werden auf alle Prozessoren verteilt (aber sind nicht an die Beendigung einer Aufgabe gebunden -> quasiparallele Verarbeitung mehrerer Aufgaben durch einen Prozessor)
+- Die Verteilung des OS auf mehrere Prozessoren ist möglich (verteilte Betriebssysteme)
+
+### Programmausführung und Hardware
+
+#### Grundmodell eines Rechners
+
+- Ausführung von Programmen = Aufgabe von Prozessorhardware + OS
+- Basis meister Rechner: Von-Neumann-Architektur
+
+**Steuerwerk**
+
+Laden der Steuerbefehle aus dem Speicher -> Interpretation -> Steuerung der Instruktionsausführung (Steueralgorithmen wie z.B. Rechenoperationen, logische Operationen, ...)
+
+**Rechenwerk**
+
+Laden der Operanden aus dem Speicher -> Verarbeitung (logische/arithmetische Operationen) -> Ablage des Ergebnis im Speicher
+
+**Speicher**
+
+Enthält Maschinenbefehle und Daten in gemeinsamen Adressraum
+
+**Ein-/Ausgabe**
+
+Verbindung von Peripheriegeräten (Tastatur, Monitor, ...) mit Rechenwerk (Schnittstelle zur Umwelt)
+
+#### Von-Neumann-Rechner
+
+- Rechenwerk und Steuerwerk häufig als CPU zusammengefasst
+- Verbindung einzelner Komponenten über BUS-System
+- Prozessor-Speicher-Anbindung = "Von-Neumann-Flaschenhals" (Daten und Befehle über gemeinsamen BUS)
+
+#### Befehlsausführung
+
+Pipeline:
+
+- Befehl holen (FETCH)
+- Befehl dekodieren (DECODE)
+- Befehl ausführen (EXECUTE)
+- Speicher-/Registerwerte einlesen und zurückschreiben
+
+Durchsatzerhöhung durch "Prefetching" (während Anweisung n ausgeführt wird, wird n+1 dekodiert und n+2 geholt) -> Latenzzeit (5 Takte), Durchsatz (ein Befehl/Takt)
