@@ -131,3 +131,136 @@ while (inFile >> txt) {}
 
 **Member-Variable**
 - Einer Klasse zugehöriges Datenelement (Primitives oder andere Objekte)
+
+## Klassen und Objekte in C++
+
+### Deklaration einer Klasse
+```C++
+class Color{
+	public: // Öffentliche Schnittstelle der Klasse -> Zugriff von außen (immer zuerst -> Lesbarkeit)
+		// Konstruktor
+     Color(int r = 0, int g = 0, int b = 0){
+       mR = r; mG = g; mB = b;
+     }
+		 // Methode
+     int getR() const { return mR; }   // ist dasselbe wie { return this->mR; }
+
+   private:   // Kein Zugriff von klassenfremdem Code auf mR, mG, mB
+     int mR, mG, mB;
+}
+```
+
+### Objekte deklarieren/anlegen
+
+- Klassenname ist zugleich Typ (vgl. ```struct``` mit ```typedef```)
+- Initialisierung mit Standard-Konstruktor, Copy-Konstuktor (Kopie eines vorhandenen Objektes) oder Typumwandlungs-Konstruktor
+- Zur Übergabe von Argumenten kann der Standard-Konstruktor überschrieben werden
+- temporäre, anonyme Objekte: ```myFunc(myClass(x, 42), ...);```
+- dynamisches anlegen mit ```new``` statt ```malloc```
+
+### Definition des Codes von Methoden
+
+- entweder direkt in der Klasse (nur kurze Methoden) oder danach (dann mit Klassennamen ```double myClass::myMeth(double *data, int size) { ...```)
+- auch Definition von Konstruktoren außerhalb der Klasse möglich
+
+### Konstruktoren
+
+- Name der Klasse, kein Returntyp
+- Mehrere Konstruktoren möglich (Überladen)
+- Automatischer Aufruf bei:
+	- Betreten des Blockes für lokale Objekt-Variablen
+	- Aufruf einer Funktion mit __by value__ Objekt-Parametern
+	- Start das Programmes (vor ```main()```) für statische und globale Objekte
+	- Anlegen von dynamischen Objekten mit ```new```
+	- Aufruf des Konstruktors eines übergeordneten Objektes (vor übergeordnetem Konstruktor)
+	- explizitem Aufruf (temporäres/anonymes Objekt)
+	- **Nicht** beim Anlegen eines Pointers
+- Konstruktoren dienen der Initialisierung (Objekte sollten gleich mit gültigem Inhalt "geboren" werden)
+
+### Arten von Konstruktoren
+
+- Standart-Konstruktor: Ohne Parameter, tut nichts (nur angelegt, wenn kein expliziter Konstruktor vorhanden)
+- Copy-Konstruktor: erhält const-Referenz auf das Original, legt standardmäßig eine bitweise Kopie an (kann überschrieben werden)
+- Typumwandlungs-Konstruktor: Parameter eines anderen Typs (meist const, Objektparameter als const Referenz)
+	- wird ein Typumwandlungs-Konstuktor als ```explicit``` deklariert, wird er nicht für implizite Typumwandlungen verwendet
+
+### "Verhinderte" Konstruktoren
+
+- man kann Konstruktoren als ```private``` oder ```protected``` definieren (verhindert Zugriff von außerhalb der Klasse -> z.B. für Singelton-Klassen)
+- Bei ausschließlicher Deklarierung von Konstruktoren (ohne Code) wird der Aufruf verhindert (Fehler beim Linken)
+	- Ab C++-11: mit ```= delete```
+- Häufige Anwendung: Copy-Konstruktor verhindern (z.B. statische Klassen -> Konstantensammlung)
+
+### Destruktoren
+
+- Metodenname mit Tilde: ```~myClass```; kein Paramter, kein Return (nur einer pro Klasse)
+- Aufruf bei:
+	- Verlassen des Blockes (lokale Objekte)
+	- Ende des Programmes
+	- Aufruf von ```delete```
+	- Destruktor des Übergeordneten Objektes
+- Pointer werden nicht automatisch freigegeben!
+
+### Initialisierungsliste
+
+
+```C++
+Point(const Color &color, int x, int y) : mRGB(color), mX(x), mY(y) { ... }
+```
+- in der Reihenfolge der Deklaration
+- Werte können beliebige Ausdrücke, Konstanten, globale Variablen oder Parameter des Konstruktors sein
+- Notwendig für ```const```-Member und Member, die Objekte sind (damit explizit ein Konstruktor aufgerufen werden kann) und später bei Vererbung
+
+### this
+
+- Zeiger auf das eigene Objekt
+- Verwendung innerhalb von Methoden
+
+### Zugriff auf Member
+
+- bei eigenen Membern: wie normale Variablen
+- In der Namenssuch-Reihenfolge zwischen lokalen und globalen Variablen
+- Member fremder Objekte: ```obj.member``` oder ```obPtr->member```
+- ```private``` gilt auf Klassenebene -> Objekte gleicher Klasse können gegenseitig auf ```private```-Member zugreifen
+
+### const-Methoden
+
+- nach den Parametern steht const: ```(...)const```
+- ändert ```this```: keine Zuweisung auf Member-Variablen, ruft intern nur const-Methoden auf
+- Objekte, die als const deklariert sind, dürfen nur const-Methoden beinhalten
+
+### Übliche Methoden get... und set...
+
+Üblicherweise Member-Variablen nicht public -> Zugriff über Getter/Setter-Funktionen
+
+### Aufruf von Methoden
+
+- eigenes Objekt: wie normale Funktion oder ```this->meth()```
+- fremdes Objekt: ```obj.meth()``` oder ```objPrt->meth()```
+
+### Statische Member und Methoden
+
+- einmal pro Klasse existent: Alle Objekte der Klasse greifen auf gleichen Wert zu
+- Speicher wird bei Programmstart agelegt
+- Müssen in der Klasse nicht nur deklariert, sondern auch definiert werden:
+```C++
+static int myCounter = 1; // in der Klasse
+static int myClass::myCounter = 1; // außerhalb der Klasse
+```
+- Wenn statische Member public sind, kann auf diese auch ohne Objekt zugegriffen werden: ```myClass::myCounter = -1;```
+- in statischen Methoden ist ```this``` nicht definiert
+
+### const-Member
+
+- normale const-Member-Variablen: existieren ein mal pro Objekt, Initialisierung durch Initialisierungsliste
+- echte Konstanten: belegen keinen Speicher (nur Primitives)
+- echte konstante Klassenvariablen: einmal im Speicher angelegt, bei Programmstart initialisiert (Initialisierung muss separat von der Deklaration stehen)
+
+### Pointer auf Methoden
+
+- dürfen nicht auf ```void*``` konvertiert werden
+- Static Methoden sind normale Funktionspointer, keine Methoden-Pointer
+
+### Objekte als Parameter und Returnwert
+
+- wie bei Strukturen: Übergabe __by value__ möglich, normalerweise aber stets __by reference__

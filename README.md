@@ -28,8 +28,9 @@
   - [ ] alter Kurztest
 - [X] I/O und File-I/O
 - [X] Ziele, Konzepte, Geschichte, ...
-- [ ] Grundlegende C++-Konstrukte 1
+- [X] Grundlegende C++-Konstrukte 1
 - [ ] Grundlegende C++-Konstrukte 2
+- [ ] Vererbung
 
 ## MAT - Analysis
 
