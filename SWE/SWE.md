@@ -153,7 +153,7 @@ class Color{
 ### Objekte deklarieren/anlegen
 
 - Klassenname ist zugleich Typ (vgl. ```struct``` mit ```typedef```)
-- Initialisierung mit Standard-Konstruktor, Copy-Konstuktor (Kopie eines vorhandenen Objektes) oder Typumwandlungs-Konstruktor
+- Initialisierung mit Standard-Konstruktor, Copy-Konstruktor (Kopie eines vorhandenen Objektes) oder Typumwandlungs-Konstruktor
 - Zur Übergabe von Argumenten kann der Standard-Konstruktor überschrieben werden
 - temporäre, anonyme Objekte: ```myFunc(myClass(x, 42), ...);```
 - dynamisches anlegen mit ```new``` statt ```malloc```
@@ -182,7 +182,7 @@ class Color{
 - Standart-Konstruktor: Ohne Parameter, tut nichts (nur angelegt, wenn kein expliziter Konstruktor vorhanden)
 - Copy-Konstruktor: erhält const-Referenz auf das Original, legt standardmäßig eine bitweise Kopie an (kann überschrieben werden)
 - Typumwandlungs-Konstruktor: Parameter eines anderen Typs (meist const, Objektparameter als const Referenz)
-	- wird ein Typumwandlungs-Konstuktor als ```explicit``` deklariert, wird er nicht für implizite Typumwandlungen verwendet
+	- wird ein Typumwandlungs-Konstruktor als ```explicit``` deklariert, wird er nicht für implizite Typumwandlungen verwendet
 
 ### "Verhinderte" Konstruktoren
 
@@ -264,3 +264,63 @@ static int myClass::myCounter = 1; // außerhalb der Klasse
 ### Objekte als Parameter und Returnwert
 
 - wie bei Strukturen: Übergabe __by value__ möglich, normalerweise aber stets __by reference__
+
+### Friend
+
+- ```friend``` teilt den Zugriff auf alle Member und Methoden der eigenen Klasse
+- Häufig eingesetzt bei eigenen Ausgabe-Operatoren
+
+```C++
+friend class xxx;
+friend prototyp;
+```
+
+### Aufteilung in Dateien
+
+- Ein .h-File und ein .cpp-File pro Klasse
+- weitere .cpp/.h-Files für nicht-Klassen-Code (z.B. main)
+
+Idee:
+
+- Alles, was alle von der Klasse wissen bzw. verwenden sollen gehört in den .h-File (öffentliche Schnittstelle)
+- Die Implementierung (Methoden, Deklarationen, ...) gehören in den .cpp-File
+
+Technisch:
+
+- .h-File darf nur Deklarationen enthalten, die weder Code erzeugen, noch globalen/statischen Speicher anlegen (sonst Namenskollisionen)
+- Inline-Code wird nur im Kontext der aufrufenden Funktion erzeugt (wird somit mehrfach kompiliert -> keine Namenskollisionen)
+
+Includes:
+
+- Jeder File (.cpp + .h) inkludiert alle Header jener Klassen, die er direkt verwendet
+- Jeder .cpp-File inkludiert den .h-File der eigenen Klasse
+- Fehler bei mehrfachen Includes vermeiden: ```#ifndef /
+#define / #endif```
+
+### Enumeration innerhalb einer class
+
+- werden innerhalb einer Klasse Enumerations-Typen nicht als ```public``` deklariert, kann dieser nur innerhalb der Klasse verwendet werden
+- Zugriff auf ```public```-Enums: ```myClass::myEnumType; myClass::myEnumVal1```
+
+### Dynamische Speicherverwaltung: new und delete
+
+- `new` legt dynamischen Speicher an (vgl. ```malloc```), ruft den Konstruktor auf und liefert einen Pointer auf das Objekt/Array
+- Primitives sind mit Standard-Konstruktor uninitialisiert (zufällige Bits)
+- früher: gibt im Fehlerfall ```NULL```-Pointer zurück
+	- altes mit neuem Standard: ```new (nothrow) myClass[10];``` (sonst wird Exception geworfen)
+
+```C++
+int *p = new int; // legt einen int dynamisch an
+myClass *p = new myClass; // legt ein myClass-Objekt dynamisch an (Standardkonstruktor)
+myClass *p = new myClass[size]; // legt ein Array der Größe size von myClass-Objekten an (nicht mit explizitem Konstruktor möglich)
+// kein new für variable, mehrdimensionale Arrays (nur erste Dimension darf variabel sein)
+myClass *p = new myClass(10, 30); // legt ein myClass-Objekt mit den übergebenen Argumenten an
+double **data = new double * [size]; // zusammengesetzte Typen möglich
+```
+
+- `delete` ruft den Destruktor auf und gibt den Speicher frei (vgl. ```free```)
+- darf auch mit ```NULL```-Pointer aufgerufen werden (keine Auswirkung)
+```C++
+delete p; // Gibt ein Objekt frei (p = Pointer auf Objekt)
+delete [] p;  // Gibt ein Array von Objekten frei (p = Pointer auf Array)
+```

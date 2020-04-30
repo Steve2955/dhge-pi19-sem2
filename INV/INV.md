@@ -152,6 +152,7 @@ $$G = {T,V,S,P}$$
 
 Grammatik für die Definition eines Funktionsprototypen (ähnlich der Definition von Funktionsprototypen)
 
+```
 <S> ::= <Datentyp> <Bezeichner>(<Parameterliste>);
 
 <Datentyp> ::= int | float | char
@@ -165,6 +166,7 @@ Grammatik für die Definition eines Funktionsprototypen (ähnlich der Definition
 
 <Parameterliste> ::= ∊ | <Parameterfolge>
 <Parameterfolge> ::= <Datentyp> | <Datentyp>,<Parameterfolge>
+```
 
 #### Sprachbeschreibung mittels Regulärer Ausdrücke
 
@@ -173,8 +175,8 @@ Grammatik für die Definition eines Funktionsprototypen (ähnlich der Definition
 **Definition einer regulären Menge**
 
 - $\emptyset \in R$; die leere Menge ist regulär
-- $\left{\epsilon\right}\in R$; die Menge, die das leere Wort enthält ist regulär
-- $\left{ a \right}\in R \forall a \in A$
+- $\{\epsilon\}\in R$; die Menge, die das leere Wort enthält ist regulär
+- $\{a\}\in R \forall a \in A$
 - Vereinigungen und Konkatenation von regulären Mengen sind ebenfalls regulär
 - Eine Menge ist genau dann regulär, wenn sie in endlich vielen Schritten aus diesen Regeln gewonnen werden kann
 
@@ -186,7 +188,7 @@ Grammatik für die Definition eines Funktionsprototypen (ähnlich der Definition
 - $p \lor q$: Vereinigungsmenge von $P$ und $Q$
 
 **Beispiel**
-Alphabet $A=\left{a,b\right}$, dessen Worte weder **aa** noch **bb** enthalten
+Alphabet $A=\{a,b\}$, dessen Worte weder **aa** noch **bb** enthalten
 
 $$L \subset A^*=(ab)^*\lor(ba)^*\lor a(ba)^* \lor b(ab)^*$$****
 

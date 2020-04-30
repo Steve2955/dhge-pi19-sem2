@@ -29,7 +29,7 @@
 - [X] I/O und File-I/O
 - [X] Ziele, Konzepte, Geschichte, ...
 - [X] Grundlegende C++-Konstrukte 1
-- [ ] Grundlegende C++-Konstrukte 2
+- [X] Grundlegende C++-Konstrukte 2
 - [ ] Vererbung
 
 ## MAT - Analysis
