@@ -70,10 +70,10 @@
 ## ALGO - Algorithmen und Datenstrukturen
 
 - [X] Listen
-- [ ] Graphen
+- [X] Graphen
 	- [X] Graphen 1
 	- [X] Graphen 2
-	- [ ] Graphen 3
+	- [X] Graphen 3
 - [ ] Bäume
 	- [ ] Bäume 1
 	- [ ] Bäume 2

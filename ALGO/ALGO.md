@@ -176,3 +176,90 @@ Gesucht wird ein Teilgraph, der ein Baum ist und alle Knoten des Graphen enthäl
 
 - zu jedem Zeitpunkt wird die Wahl getroffen, die das beste Ergebnis verspricht (minimales Kantengewicht)
 - schnelle, oft aber keine optimale Lösung
+
+#### Fluss in einem Netzwerk
+
+##### Definition
+
+- Ein **Netzwerk** ist ein zusammenhängender Graph, indem jede Kante $[i,j]$ mit einem Gewicht $w_{ij}$ (**Kapazität**) versehen ist und in dem es zwei (verschiedene) ausgezeichnete Knoten gibt: Die Quelle $q$ und die Senke $s$
+- $f_{ij}$ wird **Fluss** genannt, falls der Fluss $f_{ij}$ entlang der Kante $[i,j]$ eine nichtnegative Zahl ist und die Kapazität der Kante nicht überschritten wird ($0 \leq f_{ij} \leq w_{ij}$)
+- Kirchhoff'sches Gesetz: An jedem Knoten (außer Senke, Quelle) gilt: Fluss in den Knoten = Fluss aus dem Knoten
+- Das zu transportierende Gut fließt von der Quelle über das Leitungsnetz zur Senke
+- Jede Kante stellt einen Abschnitt dar; Knoten = Verbindung zwischen Abschnitten; Gewicht einer Kante = Kapazität/Zeiteinheit
+- **innerer Knoten:** Knoten der weder Senke noch Quelle ist
+- Aus der Quelle fließt netto ein Fluss $f$; innere Knoten können sich betragsmäßig nicht ändern; $f$ ist der **(Gesamt-)Fluss** durch das Netzwerk
+- Neben einem Gewicht, besitzt jede Kante einen Fluss (An einem Knoten ist die Summe der Flüsse gleich)
+- Ziel: Maximierung des Flusses durch das Netzwerk (Frage: Entspricht die Kapazität im Netzwerk der Kapazität an der Quelle/Senke?)
+- **Ungerichteter Weg:** Weg bei dem Kanten in ihrer Richtung (**Vorwärtskante**) oder entgegengesetzt durchlaufen werden (**Rückwärtskante**)
+- **Zunehmender Weg:** ungerichteter Weg von der Quelle zur Senke, bei dem keine Vorwärtskante ausgelastet ist ($f_{iv} < c_{ij}$) und durch alle Rückwärtskanten ein Fluss existiert ($f_{iv} > 0$)
+
+#### Vergrößerung des Flusses
+
+- zur Maximierung des Flusses gilt es einen (ungerichteten) Weg zu finde, dessen sämtliche Kanten nicht ausgelastet sind (nur durch diese kann der Durchsatz erhöht werden)
+- Der Fluss entlang eines zunehmenden Weges kann um $\Delta$ Einheiten vergrößert werden indem:
+	- der Fluss entlang einer Vorwärtskante um $\Delta$ vergrößert und
+	- entlang einer Rückwärtskante um $\Delta$ verkleinert wird
+- Größtmögliche Zunahme ist das Minimum folgender Zahlen für alle Kanten $[i,j]$ eines Weges:
+
+$$\Delta_{ij} = \begin{cases} c_{ij}-f_{ij}, & \text{Vorwärtskante}\\f_{ij}, & \text{Rückwärtskante}\end{cases}$$
+
+- Der maximale Fluss ist genau dann erreicht wenn es keinen zunehmenden Weg von der Quelle zur Senke gibt
+
+##### Ford-Fulkerson-Algorithmus
+
+- Zuordnung eines Anfangsfluss $f_{ij} = 0$ für alle Kanten, Berechnung des Gesamtfluss $f$ des Netz
+- Markieren der Quelle $q$ (alle anderen Knoten unmarkiert)
+- Wähle einen Knoten $i$ mit der ältesten Markierung der noch nicht betrachtet wurde:
+	- Wenn die Kante eine unausgelastete Vorwärtskante ist ($f_{ij} < c_{ij}$), berechne die mögliche Flusszunahme entlang der Kante $\Delta_{ij} = c_{ij} - f_{ij}$ und berechne damit: $$\Delta_j = \begin{cases} \Delta_{ij}, & \text{falls}\ i=q \\ \text{min}(\Delta_i,\Delta_{ij}), & \text{ansonsten}\end{cases}$$ und markiere den Knoten $j$ mit einem "Vorwärtslabel" ($i^+,\Delta_j$)
+	- Wenn die Kante eine Rückwärtskante ist und $f_{ij}>0$, so berechne $$\Delta_j=\text{min}(\Delta_i,f_{ij})$$ und markiere den Knoten $j$ mit einem "Rückwärtslabel" ($i^-,\Delta_j$)
+	- Wenn es keinen solche zu $i$ benachbarten Knoten $j$ gibt, dann kann der Durchlauf abgebrochen werden ($f$ ist der maximale Fluss)
+- Wiederhole den vorherigen Schritt, bis die Senke s erreicht und $\Delta_s$ berechnet ist (zunehmender Weg von der Quelle zur Senke). Wird die Senke nicht erreicht, kann der Durchlauf abgebrochen werden ($f$ ist der maximale Fluss)
+- Backtracking: Rekonstruiere den zunehmenden Weg mit Hilfe der Knotenmarkierungen ausgehend von der Senke; Vergrößere den Fluss entlang des zunehmenden Weges um $\Delta_s$ (neuer Gesamtfluss $f+=\Delta_s$); Wiederhole das Vorgehen ausgehend von der Quelle
+
+#### Systeme mit mehreren Quellen/Senken
+
+- Darstellung eines neuen "fiktiven" Knoten $q_2$, der durch eine Kante mit unendlicher Kapazität mit $q_1$ verbunden ist ($q$ bleibt einzige richtige Quelle)
+- Analoges Vorgehen bei mehreren Senken
+
+#### Kapazitätseinschränkung eines inneren Knoten
+
+- Wenn der Knoten $x$ höchstens $c$ Einheiten weiterleiten kann, ersetzt man ihn durch zwei Knoten $x,x'$, die durch eine Kante der Kapazität $c$ verbunden sind
+- In $x$ hineinführende Kanten werden weiterhin mit $x$ verbunden, herausführende mit $x'$
+
+#### Kapazitätseinschränkung von Quelle/Senke
+
+- Wenn die Quelle $q$ höchstens einen Fluss $c$ in das System einbringen kann, fügt man einen "fiktiven" Knoten $q'$ hinzu, der durch eine Kante der Kapazität $c$ mit $q$ verbunden sind
+- Analoges Vorgehen wenn die Senke nur eine bestimmte Kapazität aufnehmen kann
+
+### Travelling-Salesman-Problem
+
+- Besuchen aller Knoten mit minimalem Weg und Rückkehr zum ursprünglichen Knoten (Hamiltonkreis)
+- Es gibt $(n-1)!$ mögliche Rundwege -> zu viele Möglichkeiten für brute-force Ansatz (Komplexität $O(n^3)$)
+- TSP ist NP-vollständig: lässt sich nichtdeterministisch in Polynomialzeit lösen -> wahrscheinlich kein Algorithmus mit $O(N^k)$ möglich (polynomielle Komplexität)
+- Folgender Ansatz: Minimum-Spanning-Tree-Verfahren ($O(n^2 log(n))$)
+
+#### Metrisches TSP
+
+- Spezialfall des TSP (Kantengewichte in metrischen Größen): Annäherungsverfahren möglich, dessen Strecke höchstens doppelt so lang ist, wie optimal
+- Eigenschaften einer metrischen Kantengewichtung $w$:
+$$\begin{matrix}
+w(i,j)=0 \leftrightarrow i=j \\
+w(i,j)= w(j,i) \\
+w(i,j)+w(j,k) \geq w(i,k)\\
+\end{matrix}$$
+- Alle Kantengewichte sind positiv und der Graph ist ungerichtet
+
+#### Minimum-Spanning-Tree
+
+- Idee: optimale Tour = Hamilton-Kreis; durch Weglassen einer Kante wird ein Baum aufgespannt
+
+**Verfahren**
+
+- minimalen Spannbaum $M$ konstruieren
+- Verdoppeln aller Kanten in $M$, finden eines Euler-Zuges
+- Konstruieren eines Hamilton-Kreises: Entlanggehen am Euler-Zug (bereits durchlaufen Kanten überspringen)
+
+**Praktische Grenzen der Berechenbarkeit**
+
+- exakte Lösung nur durch Betrachtung aller Möglichkeiten
+- Aufwand der Berechnung wächst exponentiell mit der Anzahl der Knoten(18 Knoten = 17 Billionen Möglichkeiten)
