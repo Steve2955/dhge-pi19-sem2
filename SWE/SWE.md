@@ -179,7 +179,7 @@ class Color{
 
 ### Arten von Konstruktoren
 
-- Standart-Konstruktor: Ohne Parameter, tut nichts (nur angelegt, wenn kein expliziter Konstruktor vorhanden)
+- Standard-Konstruktor: Ohne Parameter, tut nichts (nur angelegt, wenn kein expliziter Konstruktor vorhanden)
 - Copy-Konstruktor: erhält const-Referenz auf das Original, legt standardmäßig eine bitweise Kopie an (kann überschrieben werden)
 - Typumwandlungs-Konstruktor: Parameter eines anderen Typs (meist const, Objektparameter als const Referenz)
 	- wird ein Typumwandlungs-Konstruktor als ```explicit``` deklariert, wird er nicht für implizite Typumwandlungen verwendet
