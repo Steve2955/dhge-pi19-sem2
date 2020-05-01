@@ -134,3 +134,45 @@ Rekursion kann durch Verwendung eines Stapels beseitigt werden
 - Betrachtung jeder Kante $v,w$ mit der Überprüfung, ob $w$ schon besucht wurde
 - Speicherung alles nicht besuchten Knoten $w$ in einer Warteschlange
 - Rekursiver Aufruf mit erstem Knoten aus der Warteschlange
+
+#### Zusammenhangskomponenten
+
+Eine Tiefensuche kann in einem nicht zusammenhängenden Graph nur die Knoten markieren, die vom Startknoten aus erreichbar sind. Diese Knoten bilden eine Zusammenhangskomponente des Graphen. Damit die nächste Zusammenhangskomponente gefunden werden kann, muss aus den restlichen Knoten ein neuer Startknoten gewählt und das Verfahren wiederholt werden.
+
+**Algorithmus zur Nummerierung der Knoten einer Zusammenhangskomponente**
+
+- markiere alle Knoten mit $0$
+- setze $c=0$
+- durchlaufe alle Knoten $v$, wenn $v$ mit $0$ markiert ist, setze $c=c+1$ und führe eine Tiefensuche beginnend bei $v$ durch
+
+#### Transitive Hülle
+
+Die transitive Hülle einer (zweistelligen) Relation ist eine Erweiterung dieser Relation, die zusätzliche alle indirekt erreichbaren Paare enthält. Sie kann mit dem Warshall-Algorithmus berechnet werden.
+
+**Warshall-Algorithmus**
+
+Für alle Knoten $k = \{0,\dots,n-1\}$ des Graphen $G$ mit $V = \{0,\dots,n-1\}$ und alle Paare von Knoten $[i,j]$ erzeuge eine neue Kante $[i,j]$, wenn $[i,k]$ und $[k,j]$ Kanten sind.
+
+#### Alle kürzesten Pfade
+
+**Floyd-Algorithmus**
+
+Für alle Knoten $k = \{0,\dots,n-1\}$ des Graphen $G$ mit $V = \{0,\dots,n-1\}$ und alle Paare von Knoten $[i,j]$ setzte die Entfernung zwischen auf die kleinere Entfernung aus [i,j] oder der Summe der Pfade $[i,k]$ und $[k,j]$.
+
+#### Minimaler Spannbaum
+
+Gesucht wird ein Teilgraph, der ein Baum ist und alle Knoten des Graphen enthält. Ein Spannbaum ist minimal, wenn das Gewicht der in ihm enthaltenen Kanten minimal ist.
+
+**Algorithmus von Prim**
+
+- Schrittweise Aufbau eines Baumes ausgehen von einem beliebigem Startknoten $S$
+- Zu jedem Zeitpunkt bestehen drei disjunktive Mengen
+	- Menge, der bereits zum Baum gehörenden Knoten
+	- Menge, der benachbarten Knoten, die nicht zum Baum gehören
+	- Menge, der Knoten, die nicht benachbart sind und kein Teil des Baum sind
+- Bei jedem Schritt wird ein benachbarter Knoten $v$ gesucht, der durch eine minimales Gewicht mit dem Baum verbunden werden kann -> Hinzufügen zum Baum, Wiederholung des Schrittes
+
+**Greedy-Strategie**
+
+- zu jedem Zeitpunkt wird die Wahl getroffen, die das beste Ergebnis verspricht (minimales Kantengewicht)
+- schnelle, oft aber keine optimale Lösung

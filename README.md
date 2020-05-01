@@ -72,7 +72,7 @@
 - [X] Listen
 - [ ] Graphen
 	- [X] Graphen 1
-	- [ ] Graphen 2
+	- [X] Graphen 2
 	- [ ] Graphen 3
 - [ ] Bäume
 	- [ ] Bäume 1
