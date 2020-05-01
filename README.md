@@ -7,7 +7,7 @@
 - [X] BNF
 - [X] Übungsaufgabe BNF Prototypvereinbarung
 - [X] Syntaxdiagramme, reguläre Ausdrücke, deterministische Automaten
-- [ ] Einfache Registermaschinen
+- [X] Einfache Registermaschinen
 - [ ] Registermaschinen, RAM
 - [ ] Turing-Maschinen
 - [ ] Turing-Maschinen, Übung Inkrementmaschine

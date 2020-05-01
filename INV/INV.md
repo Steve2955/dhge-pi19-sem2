@@ -206,3 +206,97 @@ $$L \subset A^*=(ab)^*\lor(ba)^*\lor a(ba)^* \lor b(ab)^*$$****
 Automat, der nur dessen Worte akzeptiert, die weder **aa** noch **bb** enthalten
 
 ![Beispiel eines Deterministischen Automaten](https://steve2955.github.io/dhge-pi19-sem2/INV/IMG/Deterministischer-Automat.JPG)
+
+## Automaten
+
+### Allgemeines
+
+- keine technischen Geräte in der Informatik -> mathematische Modelle zur Umformung von Eingaben
+- erkennende Automaten (Akzeptoren): Beschreibung von Sprachen
+- Übersetzende Automaten (Tranduktoren): Umwandlung von Ein- in Ausgaben
+- Automatentheorie definiert Lösbarkeit von Problemen mit Rechnern (Registermaschine/Turingmaschine)
+
+### Funktionen
+
+- Abbildung von Elementen einer Menge $A$ in eine Menge $B$ ($f: A\rightarrow B$)
+- $A$ = Urbildbereich (Nicht jedem Element von A muss ein Element in B zugeordnet werden -> Definitionslücke)
+- $B$ = Bildbereich
+- Eine Funktion ist __injektiv__, wenn zwei unterschiedliche Werte aus A auch zwei unterschiedlichen Werte aus B zugeordnet werden
+- Wenn jedes $b$ auch als Bild vorkommt, bezeichnet man die Funktion als __surjektiv__
+- Ist eine Funktion sowohl __injektiv__ als auch __surjektiv__, so ist sie eindeutig umkehrbar und wird als __bijektiv__ bezeichnet
+
+### Registermaschinen
+
+- Registermaschine = Modell eines Automaten
+- vereinfachtes Modell realer Rechner (Vorbild: Von-Neumann-Architektur)
+- beinhaltet Befehlszähler, Akkumulator, Programm und endliche Anzahl von Registern
+- jedes Register kann eine beliebig große natürliche Zahl aufnehmen und unterstützt folgende Operationen:
+	- Inkrement: Erhöhen des Wertes um 1
+	- Dekrement: Vermindern des Wertes um 1
+	- Test des Wertes im Register auf 0
+- eine Registermaschine besitzt $m$ Register und berechnet die Funktionen $f:N^r_0 \rightarrow N^s_0 \text{mit} r,s \leq m$
+- Eingabe in den ersten Registern $r$, Ausgabe beginnend im ersten Register $s$
+
+#### Programm
+
+- einzelne Befehle des Programmes sind nummeriert
+- Programm verarbeitet natürliche Zahlen aus den Eingaberegistern in natürliche Zahlen in den Ausgaberegistern
+- Eingabe wird in den Erste $r$ Registern gespeichert (restliche Register mit 0 belegt)
+- Programm beginnt bei der mit 0 gekennzeichneten Anweisung, stoppt, wenn zu einer Marke verzweigt werden soll, die nicht im Programm enthalten ist
+
+```Javascript
+i:DO f ; GOTO j // Ausführung einer Registeroperation und Sprung nach j
+i:IF t THEN GOTO j ELSE GOTO k // Test, ob der Registerinhalt 0 ist, wenn ja Sprung nach j, sonst nach k
+```
+
+- Tupelschreibweise: $(i,f,j)$ und $(i,t,j,k)$
+
+#### Definition einer Registermaschine
+
+$$R_m=(F,T,P,\delta)$$
+
+- Menge der Inkrement/Dekrement-Operationen $F$
+
+$$\begin{matrix}
+F= \{A_1,\dots,A_m,S_1,\dots,S_m\} \\
+i \in \{1,\dots,m\}
+A_i: N^m_0 \rightarrow N^m_0 \qquad Ai(x_1,\dots,x_m)=x_1,\dots,x_{i-1},x_i\ +1,x_{i+1},\dots,x_m) \text{und} \\
+S_i: N^m_0 \rightarrow N^m_0 \qquad Si(x_1,\dots,x_m)=x_1,\dots,x_{i-1},x_i\ -1,x_{i+1},\dots,x_m) \text{mit} \\
+x-1 = \begin{cases} x-1 & \text{falls} x \geq 0 \\0 & \text{sonst.}\end{cases}
+\end{matrix}$$
+
+- Menge der Booleschen Funktionen $T$: Testen ob der Wert eines Registers 0 ist
+
+$$\begin{matrix}
+T= \{T_1,\dots,T_m\} \\
+i \in \{1,\dots,m\}\\
+T_i: N^m_0 \rightarrow \{true,false\};\\
+T_i(x_1,\dots,x_m) = \begin{cases} true & \text{falls}\ x_i = 0 \\false & \text{sonst.}\end{cases}
+\end{matrix}$$
+
+- Menge der Anweisungen $P$: Programm
+
+$$\begin{matrix}
+P \subset & N_0 \times F \times N_0 & \cup & N_0 \times F \times N_0\\
+& (i,f,j) & & (i,t,j,k)
+\end{matrix}$$
+
+- Überführungsfunktion $\delta$: Beschreibt die Arbeit der Registermaschine (Steuerwerk)
+
+$$\delta: N_0 \times N^m_0 \rightarrow N_0 \times N^m_0$$
+
+**Beispiel**
+
+Programm, dass zwei Zahlen subtrahiert:
+
+```Javascript
+0: IF T2 THEN GOTO 3 ELSE GOTO 1
+1: DO S1 ; GOTO 2
+2: DO S2 ; GOTO 0
+```
+
+#### Technische Umsetzung
+
+- bisher: Jedes Register implementiert alle Rechenoperationen (-> sehr aufwendig)
+- Einführung von speziellen Registern für bestimmte Registeroperationen: Akkumulatoren
+- Für das Ausführen einer Operation wird der Wert eines Register zunächst in einen Akkumulator geladen und Anschließen wieder zurückgespeichert
