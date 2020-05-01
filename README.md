@@ -75,7 +75,7 @@
 	- [X] Graphen 2
 	- [X] Graphen 3
 - [ ] Bäume
-	- [ ] Bäume 1
+	- [X] Bäume 1
 	- [ ] Bäume 2
 - [ ] Sortieren
 	- [ ] Sortieren 1

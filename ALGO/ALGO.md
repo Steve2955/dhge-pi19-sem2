@@ -263,3 +263,90 @@ w(i,j)+w(j,k) \geq w(i,k)\\
 
 - exakte Lösung nur durch Betrachtung aller Möglichkeiten
 - Aufwand der Berechnung wächst exponentiell mit der Anzahl der Knoten(18 Knoten = 17 Billionen Möglichkeiten)
+
+## Bäume
+
+Bäume dienen der Beschreibung von Hierarchien
+
+Beispiele:
+- Stammbaum
+- Verzeichnisstruktur
+- Organigramm
+- Inhaltsverzeichnisse
+
+### Terminologie
+
+- **Baum:** hierarchische Datenstruktur bestehend aus Kanten und Knoten
+- **Kante:** Verbindung zweier Knoten
+- **Knoten:** eingeteilt in innere und äußere Knoten
+- **Innere Knoten:** Knoten mit Nachfolgerknoten, eventuell Vorgänger
+- **Wurzel:** innerer Knoten ohne Vorgänger
+- **Äußerer Knoten:** Knoten ohne Nachfolger (auch Blatt)
+- **Pfad:** Kantenanzahl oder Knotenanzahl zwischen zwei Knoten (Richtung Blatt oder Wurzel)
+- **(Baum-)Ebene:** Knoten einer Ebene besitzen die gleiche Pfadlänge zur Wurzel
+- **Tiefe eines Knoten:** Pfadlänge zur Wurzel (oder Ebenen-Nummer)
+- **Arboreszenz:** Kanten des Baum gerichtet -> Wurzel eindeutig identifizierbar (bei ungerichtetem Baum: jeder Knoten mögliche Wurzel)
+- **Vorgänger:** benachbarter Knoten einer oberen Ebene
+- **Nachfolger:**  benachbarter Knoten einer unteren Ebene
+- **Geschwister:** Knoten der gleichen Ebene mit gemeinsamem Vorgänger
+- **Relation:** __direkt__ über eine Kante oder __indirekt__ durch Verbindung mit Vorgängern
+- **Grad/Ordnung/Rang eines Knoten:** Anzahl der Nachfolger
+- **Grad/Ordnung/Rang eines Baumes:** maximaler Grad im Baum (auch Verzweigungsgrad)
+- **geordneter Baum:** feste Reihenfolge unter den Nachfolgern eines Knoten (linker, rechter Teilbaum)
+- **Binärer Baum:** Baumgrad entspricht 2
+- **Allgemeiner Baum:** Baumgrad > 2
+- **Teilbaum:** alle Nachfahren eines Vaterknoten (direkt und indirekt)
+- **Baumarten:**
+	- **Statisch:** unveränderlicher Baum
+	- **Dynamisch:** veränderlicher Baum
+	- __Aussehen:__
+		- **schief, degeneriert**
+		- **voll/vollständig**
+	- **Natürlich:** Baum mit beliebiger Schlüsselreihenfolge
+- **voller Binärbaum:** Binärbaum, der alle möglichen Knoten besitzt
+- **vollständiger Binärbaum:** Binärbaum, der bis zur vorletzten Ebene voll ist und dessen unterste Ebene auf einer Seite lückenlos mit Knoten besetzt ist (je nach Seite auch links-/rechtsvollständig)
+
+### Definition
+
+Ein Baum ist eine Menge von Knoten, von denen einer die Wurzel ist und die restlichen Knoten, aufgeteilt in $n \geq 0$ disjunkte Mengen, wobei jede dieser Mengen ein Teilbaum ist.
+
+Ein Binärer Suchbaum hat entweder keine Knoten (leerer Binärbaum) oder besteht aus einem Tripel (linker binärer Teilbaum, Wurzeln, rechter binärer Teilbaum)
+
+Schlüssel können innerhalb eines Baumes in inneren Knoten (Suchbaum), in Blättern (Blattsuchbaum) oder beidem gespeichert werden.
+
+### Binäre Bäume
+
+- Ein binärer Suchbaum ist geordnet
+- Suche beginnt in der Wurzel: Betrag entscheidet, ob die Suche im linken oder rechten Teilbaum weitergeführt werden muss (erfolglose Suche endet in Blatt)
+
+**Implementierungsmöglichkeiten**
+
+- Reihung und Verbund (nicht für Suchbaum)
+	- Baum: Knoten ebenenweise numeriert -> Index
+	- Knoten in Reihung lückenlos gespeichert $$\begin{matrix}\text{Vorgänger von} i: i \text{DIV} 2 \\ \text{Nachfolger von}: 2*i, 2*i+1\end{matrix}$$
+- Zeiger und Verbund
+	- innerer Knoten als Verbund
+	- Kante als Zeiger (Blatt mit NULL-Pointer)
+
+### Baum durchlaufen (traversieren)
+
+- systematische Betrachtung jedes Knoten eines Baumes (Ausgeben, Vergleichen, ...)
+- Tiefendurchläufe (rekursiv oder iterativ)
+	- Hauptreihenfolge (preorder - WLR)
+	- Nebenreihenfolge (postorder - LRW)
+	- Symmetrischer Reihenfolge (inorder - LWR -> sortiert)
+- Breitendurchläufe: ebenenweise
+
+**Euler-Tour** (Nichtrekursiver Tiefendurchlauf)
+
+ Umlaufe Baum, halte Baum mit linker Hand, steige links ab
+
+- Hauptreihenfolge: Merken eines Knoten bei erstem Besuch
+- Nebenreihenfolge: Merken eines Knoten bei drittem Besuch
+- Symmetrische Reihenfolge: Merken eines Knoten bei zweiten Besuch
+
+### Arithmetische Ausdrücke als Baum
+
+- Innere Knoten enthalten Operationen
+- Blätter enthalten Operanden
+- Übersetzungsprogramm erzeugt Baum und durchläuft diesen in NR bei Code-Erzeugung (Keller-Automat kann mit NR sofort rechnen)
