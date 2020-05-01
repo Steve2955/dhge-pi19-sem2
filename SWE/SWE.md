@@ -324,3 +324,118 @@ double **data = new double * [size]; // zusammengesetzte Typen möglich
 delete p; // Gibt ein Objekt frei (p = Pointer auf Objekt)
 delete [] p;  // Gibt ein Array von Objekten frei (p = Pointer auf Array)
 ```
+
+## Vererbung
+
+- Eine Klasse kann als Erweiterung einer bestehenden Klasse deklariert werden (sie "erbt" **alle** Member und Methoden dieser Klasse)
+	- Member werden unverändert übernommen, können nicht geändert werden
+	- Methoden werden unverändert übernommen, können aber überschrieben werden (gleicher Prototyp, anderer Code)
+	- Konstruktoren und Destruktoren existieren für jede Klasse separat
+	- Neue Member und Methoden können die bestehende Klasse nach Belieben erweitern
+```C++
+// Button "erbt" alle Member und Methoden von DialogElement
+class Button: public DialogElement {...};
+// durch public werden die Rechte der Basis-Klasse unverändert übernommen (meist üblich)
+```
+
+### protected
+
+- ```protected``` ist eine Mischung aus ```public``` und ```private```
+- von außen sind ```protected```-Member unsichtbar (```private```)
+- innerhalb der Klasse verhält sich ```protected``` wie ```public```
+
+### Design-Hilfe
+
+- __"X ist (auch) ein Y"__: X wird wahrscheinlich von Y abgeleitet
+- __"X hat (auch) ein Y"__: Y ist wahrscheinlich ein Member von X
+
+### Erben und Überschreiben von Methoden
+
+- Überschreiben von Code einer Funktion, die bereits in der Vaterklasse deklariert ist
+- Beim Aufruf wird stets der "zutreffenste" Code einer Methode ausgeführt (erst eigene, dann Vaterklasse)
+
+### Virtuelle Methoden
+
+- Ein Pointer der auf ein Objekt der Klasse x zeigt, kann entweder auf ein Objekt der Klasse x oder auf ein Objekt einer davon direkt oder indirekt abgeleiteten Klasse zeigen
+- Man darf somit einen Pointer der Klasse X auch auf ein Objekt einer davon abgeleiteten Klasse zuweisen (__nicht umgekehrt__)
+
+```C++
+myBaseClass *p;
+p = new mySubClass(...);
+```
+
+- Der Pointer kann nur jene Methoden und Member aufrufen, die bereits in der Vaterklasse deklariert sind
+- Ob der Pointer eine Methode der Vaterklasse oder eine überschriebene Methode aufruft, hängt davon ab, ob diese als ```virtual``` deklariert ist
+- die Methode muss bereits in der Vaterklasse als ```virtual``` deklariert sein
+
+```C++
+virtual void myFunc(); // Funktion der abgeleiteten Klasse wird aufgerufen
+void myFunc(); // Funktion der Vaterklasse wird aufgerufen
+```
+
+### Typumwandlungen zwischen abgeleiteten Klassen
+
+- Wie kann man feststellen, ob ein Pointer auf eine Vaterklasse oder abgeleitete Klasse zeigt?
+	- Deklaration eines Members in der Vaterklasse, der diese Information beinhaltet
+	- Deklaration einer Funktion, die den Typ angibt und von abgeleiteten Klassen überschrieben wird
+- Wie kann auf Member und Methoden der abgeleiteten Klasse zugegriffen werden?
+	- ```static_cast``` auf eine abgeleitete Klasse möglich (aber unsicher, __nur umgekehrt verwenden__)
+	- ```dynamic_cast``` für den speziellen Fall deklarieren (Sicher durch Laufzeitüberprüfung -> bei falscher Klasse ```NULL```-Pointer; funktioniert nur wenn mindestens eine virtuelle Methode deklariert ist)
+
+### Konstruktoren und Destruktoren in abgeleiteten Klassen
+
+**Reihenfolge**
+
+- Beim Anlegen eines Objektes werden automatisch die Konstruktoren aller seiner Klassen aufgerufen (in Ableitungsreihenfolge)
+- Der Aufruf der Destruktoren erfolgt in umgekehrter Reihenfolge
+
+**Welcher Konstruktor der Basisklasse wir aufgerufen?**
+
+- Normalerweise Standard-Konstruktor
+- Besitzt die Vaterklasse keinen Standard-Konstruktor oder soll ein anderer Konstruktor aufgerufen werden, muss dies an die erste Stelle der Initialisierungsliste geschrieben werden
+- Bei automatischen Copy-Konstruktoren, wird der der Basisklasse verwendet
+- Ein expliziter Copy-Konstruktor ruft den Standard-Konstruktor der Basisklasse (Member der Basisklasse werden nicht automatisch deklariert -> uninitialisiert)
+	- Sollen Member der Basisklasse kopiert werden, muss in der Initialisierungsliste der abgeleiteten Klasse als erstes explizit der Copy-Konstruktor der Basisklasse aufgerufen werden
+
+**virtual**
+
+- Konstruktoren können nicht virtuell sein
+- Destruktoren können als virtuell deklariert werden (z.B. wenn es eine übergeordnete Klasse mit Pointer o.ä. auf die Basisklasse hat)
+	- wird ein Destruktor nicht als ```virtual``` deklariert, wird nur der Destruktor der abgeleiteten Klasse aufgerufen
+	- Faustregel: **Immer wenn eine Klasse eine virtuelle Methode enthält, muss man den Destruktor virtuell machen**
+
+**Virtuelle Aufrufe**
+
+Im Code von Konstruktoren und Destruktoren ist der Aufruf virtueller Methoden nicht möglich, es wird immer die Methode unmittelbar aus der Klasse des Konstruktor aufgerufen.
+
+### Aufruf der Methode einer Vaterklasse
+
+Um explizit die Methode einer Vaterklasse aufzurufen, muss der Scope-Operator verwendet werden.
+
+```C++
+myBaseClass::myFunc(...); // Aufruf für das eigene Objekt
+someObj.myBaseClass::myFunc(...); // Für andere Objekte
+ptr->myBaseClass::myFunc(...); // ^^
+```
+
+### Rein virtuelle Methoden, abstrakte Klassen
+
+- Häufig soll eine Methoden in einer Basisklasse deklariert (Prototyp), aber nicht Implementiert werden (Code)
+- = rein virtuelle Methoden
+- Basisklassen von denen keine Objekte direkt angelegt werden sollen, heißen "abstrakte" Klassen (werden eigens gekennzeichnet, ist automatisch ab einer rein virtuellen Methode abstrakt -> diese Eigenschaft wird vererbt)
+
+```C++
+virtual void draw() = 0; // Rein virtuelle Methode
+```
+
+- rein virtuelle Destruktoren werden durch ```{}``` markiert
+
+### Mehrfachvererbung
+
+```C++
+class myClass : public Base1, public Base2 { ... };
+```
+
+- bei identischen Member/Methoden-Bezeichnungen muss der Scope-Operator verwendet werden (```Base1::xyz```)
+- Besitzen die Vaterklassen indirekt selbst eine geteilte Vaterklasse, so werden zwei Instanzen dieser Großvaterklasse erzeugt (Großvaterklasse muss in Vaterklasse als ```virtual``` geerbt werden)
+- solche Konstrukte sollten vermieden werden

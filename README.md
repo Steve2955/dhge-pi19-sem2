@@ -30,7 +30,7 @@
 - [X] Ziele, Konzepte, Geschichte, ...
 - [X] Grundlegende C++-Konstrukte 1
 - [X] Grundlegende C++-Konstrukte 2
-- [ ] Vererbung
+- [X] Vererbung
 
 ## MAT - Analysis
 
