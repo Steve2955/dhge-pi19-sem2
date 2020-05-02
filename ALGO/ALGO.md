@@ -350,3 +350,129 @@ Schlüssel können innerhalb eines Baumes in inneren Knoten (Suchbaum), in Blät
 - Innere Knoten enthalten Operationen
 - Blätter enthalten Operanden
 - Übersetzungsprogramm erzeugt Baum und durchläuft diesen in NR bei Code-Erzeugung (Keller-Automat kann mit NR sofort rechnen)
+
+### Analytische Betrachtung
+
+#### Vollständige Binärbaume
+
+Ein Binärbaum heißt voll, wenn seine Höhe und sein kürzester Pfad (zwischen Wurzel und Blatt) gleich sind. Die Anzahl von Knoten auf einer Ebene ist $2^i,i \geq 0$, auf vorletzter Ebene $2∗2^{k−1}=2^k$ Kanten aus, an denen Knoten hängen.
+
+
+| Höhe                  |             | h  | $h$               |
+|-----------------------|-------------|----|-------------------|
+| Blattzahl             | $2^h$       | ba | $h=log_2(ba)$     |
+| Anzahl innerer Knoten | $2^h-1$     | ik | $h=log_2(ik+1)$   |
+| Gesamtknotenzahl      | $2^{h+1}-1$ | gk | $h=log_2(gk+1)-1$ |
+
+- Knotenanzahlen $gk, ik, ba$ lassen sich ineinander umrechnen
+- Maximale Höhe eines Binärbaumes (wenn zur "Liste" entartet: $h=ik$
+- Binärbaum minimaler Höhe muss ein vollständiger Binärbaum sein:  $h=\lceil ld(gk+1)\rceil −1$
+
+#### Interne Pfadlänge (Binärer Suchbaum)
+
+- wie viele Vergleiche sind nötig, um jeden Schlüssel einmal zu finden: **Interne Pfadlänge**
+
+$$ipl(b)=$\sum_i k_E(i) * (i+1)$$
+
+- $k_E(i)$ - Anzahl der inneren Knoten einer Ebene
+
+#### Interne Pfadlänge (Binärer Suchbaum)
+
+Durchschnittliche Suchpfadlänge $dpl$ misst, wieviel Knoten bei erfolgreicher Suche besucht worden sind
+
+$$dpl(b)=\frac{ipl(b)}{ik(b)}$$
+
+#### Maximale Anzahl von Suchschritten
+
+Wie viele Vergleiche sind im ungünstigsten Fall notwendig um einen Schlüssel zu finden (Annahme: ausbalancierter Suchbaum)
+
+$$S_{max}(n) = \lfloor ld n \rfloor +1$$
+
+Suchaufwand: $O(log(n))$
+
+### Ausgeglichene Binärbäume
+
+- Zweck: Suchen, Einfügen und Entfernen in einem zufällig erzeugten binärem Suchbaum mit $n$ Schlüsseln stets in $O(log(n))$ Schritten ausführbar
+- Zusätzliche Bedingung an die Struktur des Baums: Verhinderung von Degenerieren bei Einfügen/Entfernen
+
+**AVL-Baum**
+
+- Ein binärer Suchbaum heißt AVL-ausgeglichen (höhenbalanciert), wenn für jeden Knoten gilt, dass sich die Höhen seiner Teilbäume um 1 unterscheidet
+- Balancierungsfaktor: $bal(k) = \text{Höhe des rechten TB} - \text{Höhe des linken TB}; bal(k)\in \{-1,0,1\}$
+
+#### Rebalancierungsoperationen
+
+- Rebalancierungsoperationen werden notwendig, wenn durch Einfügen/Entfernen die Rebalancierungsbedingung verletzt wird
+- Rebalancieren = Umhängen von Teilbäumen (Suchbaum bleibt erhalten)
+	- (Einfach)Rotation: Ein Teilbaum muss "umgehangen" werden
+	- Doppelrotation: Zwei Teilbäume muss "umgehangen" werden (an neuen inneren Knoten)
+
+### Bruder-Baum
+
+- **Bruder-Baum:** Binärbaum, bei dem unäre Knoten zugelassen sind
+- **Unäre Knoten:** Innerer Knoten mit nur einem Nachfolger
+- Ziel: Alle Blätter auf einer Ebene (zu viele unäre Knoten entarten Baum -> Einführung weiterer Bedingungen)
+
+### Rot-Schwarz-Baum
+
+Ein Binärbaum heißt **Rot-Schwarz-Baum**, wen für alle Knoten gilt:
+
+- jeder Knoten ist schwarz oder weiß
+- Wurzel und Blätter sind schwarz
+- Ist ein Knoten rot, sind seine Nachfolger schwarz
+- der Pfad eines Knoten zu jedem seiner Blattknoten enthält die gleiche Anzahl schwarzer Knoten (Schwarzhöhe/-tiefe)
+
+### Vielwegsuchbaum
+
+- Suchaufwand abhängig von Baumhöhe -> Suchbäume sollten möglichst flach sein
+- Erreichbar, indem Grad > 2 (Bäume wachsen in die Breite)
+- Vielwegsuchbaum verallgemeinert das Konstruktionsprinzip des binären Suchbaums: Invariante des Baumes
+
+**B-Baum**
+
+- spezielle Form des Vielwegsuchbaumes (auch ausgeglichener Mehrweg-Suchbaum)
+- Problem: große Bäume können nicht komplett in den Hauptspeicher abgelegt werden (Ziel: Reduktion der Zugriffe auf Festspeicher)
+- Definition:
+	- Alle Blätter besitzen gleiche Tiefe
+	- Jeder Knoten (außer Wurzel, Blätter) hat wenigstens $\lceil m/2 \rceil$ Nachfolger
+	- Wurzel hat wenigstens 2 Nachfolger
+	- Jeder Knoten hat höchstens $m$ Nachfolger
+	- Jeder Knoten mit $i$ Nachfolgern besitzt $i-1$ Schlüssel
+
+	$$sa = ba-1 \qquad sa \text{ - Schlüsselanzahl}; ba \text{ - Blattanzahl}$$
+
+Minimale/Maximale Blätterzahl eines B-Baum der Ordnung $h$
+
+	$$N_{min}=2\left\lceil\frac{m}{2}\right\rceil^{h-1} \qquad N_{max}=m^h$$
+
+-> Bei Überlauf muss Knoten geteilt werden
+
+
+**Variationen**
+
+- B-Baum der Ordnung $k$: Jeder Knoten hat höchstens $2k+1$ Nachfolger, jeder innere Knoten(außer Wurzeln) hat mindestens $k+1$ Nachfolger
+- $B*$-Baum: Jeder Knoten (außer Wurzel) hat mindestens $(2m-1)/3$ Nachfolger
+
+- $B^+$-Baum: Jeder innere Knoten besteht aus $m$ Suchschlüsseln und $m+1$ Pointern (zusätzlich auf Nachbarknoten)
+
+**Zusammenfassung**
+
+- Suchpfade kurz, aber sequentielle Suche in Knoten (trotzdem Nutzung Plattenspeicher)
+- Linux nutzt $B^+$-Baum für ```btrfs```
+	- direkt zugreifbarer Block wird Knoten (Innere Knoten = Index)
+	- Blattknoten enthalten Dateien
+
+### Breitendurchlauf
+
+**Mit Hilfe einer Schlange**
+- Teilbäume stellen sich an (beginnend bei Wurzel):
+- Noch nicht besuchte Nachfolger stellen sich in der Schlange an
+- Besuch des ersten Knoten aus der Schlange (entfernen aus dieser) + wiederholen
+- Nach Durchlauf des gesamten Baumes ist die Schlange leer
+
+### Blattsuchbäume
+
+- innere Knoten enthalten "Wegweiser"
+	- größter Schlüssel des linken Teilbaum oder
+	- kleinster Schlüssel des rechen Teilbaum
+- Suche analog zu Binärbäumen
