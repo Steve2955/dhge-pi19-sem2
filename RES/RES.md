@@ -237,3 +237,129 @@ Pipeline:
 - Speicher-/Registerwerte einlesen und zurückschreiben
 
 Durchsatzerhöhung durch "Prefetching" (während Anweisung n ausgeführt wird, wird n+1 dekodiert und n+2 geholt) -> Latenzzeit (5 Takte), Durchsatz (ein Befehl/Takt)
+
+### Strukturen
+
+#### Monolithischer Kern
+
+- Betriebssystem als Menge von Programmen (können sich gegenseitig aufrufen)
+- meist evolutionär gewachsen (Anfangs keine deutliche Abgrenzung von Teilfunktionen über Schnittstellen)
+- Struktur: keine/unklar (z.B. MS-DOS, UNIX, ...)
+	- Linux gilt trotz modularisierten Kernel als monolithisch (alle Module laufen im Kernel-Modus)
+- Privilegierter Zugriff aller Komponenten auf die Hardware im Kernel-Modus
+- für kleine, statische Betriebssysteme geeignet
+
+**Vorteile:**
+
+- Minimaler Zeitaufwand beim Wechsel zwischen Kernel- und Benutzer-Modus
+- Zuverlässigkeit wichtiger Betriebssystemfunktionen nicht direkt vom Verhalten der User-Programme abhängig
+- Aufwändige Kommunikation zwischen Teilen des Betriebssystems entfällt
+
+**Nachteile:**
+
+- mangelnde Robustheit: Fehler können nicht abgefangen werden
+- mangelnde Modularität: schwere Instandhaltung
+- mangelnde Flexibilität(keine abstrakten Schnittstellen): Erweiterungen an Implementierungsdetails gebunden, keine austauschbaren Komponenten (Treiber nicht zur Laufzeit ladbar)
+
+#### Mikrokern
+
+- Nur zentralster Funktionen in einem Kernteil zusammengefasst
+- Weitere Funktionen durch Serverdienste realisiert (z.B. Datei- o. Verzeichnisdienste)
+- Basisdienste:
+	- Nachrichtenübermittlung (message passing)
+	- Speicherverwaltung (virtual memory)
+	- Prozessorverwaltung (scheduling)
+- Optimal für verteilte Betriebssysteme (z.B. Amoeba, L4Linux)
+
+**Vorteile:**
+
+- Modulare Struktur: klare Schnittstellen, separierte Komponenten (beliebig austauschbar)
+- Gerätetreiber zusammen mit Anwendungsprogramm im Benutzer-Modus
+- kleiner sicherheitskritischer Teil des Systems (Kern)
+
+**Nachteile:**
+
+- hoher Kommunikationsaufwand zwischen Prozessen mit eng begrenzten Aufgaben
+- Synchronisation vieler Nutzer-Prozesse schwer optimierbar
+- Betriebssystemaufrufe (physischer I/O-Zugriff) ohne Kernel-Modus schwer zu realisieren: Aufweichen des Konzeptes
+
+#### Makrokern
+
+- Kompromiss zwischen Monolith und Mikrokern
+- üblicherweise modulare Architektur (keine Standardstruktur)
+- Nutzung von Diensten erfolgt von oben nach unter
+- Module höherer Schichten nutzen Funktionen niederer Schichten (nicht umgekehrt)
+- Änderungen innerhalb von Schichten problemlos möglich (bei unveränderter Schnittstelle)
+- Schichtänderungen haben auf benachbarte Schichten große Auswirkungen (schwer nachverfolgbar)
+- Z.B. MAC OS X, Solaris, Win 10
+
+**Moderne Lösung**
+
+- stark modularisiert (alle Module mit sauberen Schnittstellen)
+- Module werden am Anfang und zur Laufzeit dynamisch geladen
+- einen zentralen Kern (core kernel) und verschiedene ladbare Module
+- Zentraler Kern kann mit allen Modulen effizient kommunizieren (ohne Nachrichten)
+- Höhere Schichten können Klassen tieferer Schichten erweitern (objektorientierter Ansatz)
+
+
+#### Virtuelle Maschine
+
+- Umstellung auf Client-Server-Architektur -> extrem steigende Zahl von Servern
+- Konsolidierung der Serverlandschaften mittels Virtualisierungskonzepten
+- ausführen mehrerer logischer Betriebssysteme auf gemeinsamer Hardware
+- Virtualisierung auf Hardware-Ebene oder durch Virtualisierungssoftware
+
+**Virtualisierung durch Hardware**
+
+- Ressourcen über Firmware des Rechners verwaltet
+- Gastbetriebssystem werden nur Teilbereiche der physischen Hardware als virtuelle Hardware zur Verfügung gestellt
+- jede virtuelle Maschine besitzt eigenen Hardware-Satz
+
+**Virtualisierung durch Software**
+
+- Kern ist Monitor (Hypervisor, VMM) der Mehrprogrammbetrieb für mehrere Betriebssysteme ermöglicht
+- Monitor vermeidet Zugriffsüberschreitungen von nebenläufigen Programmen
+- Alle virtuellen Maschinen haben exakte Kopien der Hardware (gleiche Eigenschaften der realen Maschine)
+
+**Vorteile**
+
+- Konsolidierung der Serverlandschaften
+- Kostenreduzierung
+- Geringerer administrativer Aufwand
+- Bessere Skalierbarkeit und hohe Verfügbarkeit
+
+**Nachteile**
+
+- nicht jede Hardware ansprechbar oder emulierbar
+- Host-Ausfall: Ausfall mehrerer virtueller Server (Ausfallkonzepte und Redundanzen)
+- Virtualisierung ist komplex
+- Leistungsverluste (5-10%)
+
+### Entwurf von Betriebssystemen
+
+- Aufwändiger Schnittstellenentwurf: Austausch von Informationen zwischen vielen Programmen
+- Prinzip Einfachheit: Perfektion ist nicht einfach -> KISS: Keep It Simple, Stupid.
+- Prinzip Vollständigkeit: alle benötigten Programme sollten verfügbar sein, keines darüber hinaus
+- Ausführungsparadigma: algorithmisches Paradigma vs. ereignisbasierte Paradigma
+- Prinzip Effizienz: steigende Effizienz = sinkende Komplexität (Effizienz und Lesbarkeit als Kompromiss)
+- Datenparadigmen: Band (FORTAN), Datei (UNIX) oder Objekt (Windows)
+- Minimum an Mechanismen: Nur notwendige Implementationen
+
+
+### Beispiel: UNIX
+
+- Enstand aus der Notwendigkeit für die Programmerstellung ein Rechnerbetriebssystem zu entwickeln
+- Portierbarkeit von UNIX beruht auf der Entwicklung der Programmiersprache C
+- Kompaktheit und strukturelle Einfachheit des Systems (ermuntert Nutzer zu eigener Aktivität und Weiterentwicklung)
+- heute: hoher Reifegrad und vielfache UNIX-Derivate
+- Kernel um die Hardware aufgebaut (verwaltet Ressourcen)
+- Über Kernel werden alle Interrupts und I/O-Operationen abgewickelt
+- Kommunikationsschnittstelle mit dem Benutzer: Shell
+- Aufgaben des Kernel:
+	- Prozess-Scheduling
+	- Prozess-Umschaltung
+	- Prozess-Kommunikation
+	- Dateisystem verwalten
+	- Ein-/Ausgabesteuerung
+	- Gerätesteuerung
+	- Zugangskontrolle und Abrechnung

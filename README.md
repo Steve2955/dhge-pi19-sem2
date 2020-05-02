@@ -53,7 +53,7 @@
 
 - [X] Grundlagen
 - [X] Architekturen
-- [ ] Strukturen
+- [X] Strukturen
 - [ ] Schnittstellen
 - [ ] Prozesse
 	- [ ] Prozesse 1
