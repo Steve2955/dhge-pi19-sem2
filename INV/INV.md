@@ -1,8 +1,9 @@
-# Informationsverarbeitung
+Informationsverarbeitung
+========================
 
-## Grundlagen der Programmierung
+# Grundlagen der Programmierung
 
-### Einteilung der Programmiersprachen
+## Einteilung der Programmiersprachen
 
 - Sprachen zur Beschreibung von Daten und zur Formulierung von Verarbeitungsvorschriften
 - Schnittstelle zwischen Benutzer und Maschine
@@ -15,46 +16,46 @@
 | - Assembler-Programmierung = Vereinfachung durch mnemonische Ersetzungen        | - plattformunabhängige Entwicklung durch Verwendung von Compilern       |
 | - hohe Effizienz                                                                | - einfachere Programmierung                                             |
 
-#### Problemorientierte Programmiersprachen
+### Problemorientierte Programmiersprachen
 
 - zu sehr großen Teil von der zugrundeliegenden Maschine unabhängig
 - definierter Kern: Wesen der Sprachen überall gleich
 - eventuell maschinen-/plattformspezifische Erweiterungen
 - sog. Quellprogramme werden mit Übersetzungswerkzeugen in Maschinensprache des Rechners übersetzt
 
-##### Imperative Programmiersprachen
+#### Imperative Programmiersprachen
 
 - Folge von Anweisungen
 - Weg der Verarbeitung im Vordergrund
 - Bsp.: C, Pascal, Fortan, Cobol, Basic
 
-##### Funktionale Programmiersprachen
+#### Funktionale Programmiersprachen
 
 - Funktionen die Eingabegrößen in Ausgabegrößen abbilden
 - Funktionen bestehen aus Audrücken, die sich aus Operationen zusammen setzen
 - Bsp.: Lisp
 
-##### Deskriptive Programmiersprachen
+#### Deskriptive Programmiersprachen
 
 - Ergebnis selbst im Vordergrund -> Sprache beschreibt Eigenschaften des gewünschten Ergebnis
 - Programm liefert alle Eingabewerte, die diese Bedingungen erfüllen
 - keine Manipulation der Eingabegrößen
 - oft Abfragesprachen für Datenbanken -> Bsp.: SQL
 
-##### Prädikative Programmiersprachen
+#### Prädikative Programmiersprachen
 
 - Beweis in einem System aus Tatsachen und Regeln im Vordergrund (= Wissensbasis)
 - Benutzer formuliert Anfrage an das System, die dieses versucht mit "richtig" oder "falsch" zu beantworten
 - Bsp.: Prolog
 
-##### Objektorientierte Programmiersprachen
+#### Objektorientierte Programmiersprachen
 
 - Zusammenfassen der zur Lösung von Teilproblemen notwendigen Daten und Operationen zu Objekten
 - Objekte kommunizieren über Signale und Botschaften miteinander
 - Einige imperative Vertretter sind durch objektorientierte Programmierung erweitert wurden
 - Bsp.: C++, Java, Smalltalk
 
-#### Maschinenorientierte Programmiersprachen
+### Maschinenorientierte Programmiersprachen
 
 - Orientierung an der vorliegenden Hardware (Befehlssatz des Zentralprozessors)
 - Typische Vertretter: Assemblersprachen
@@ -67,7 +68,7 @@
 - nicht weiter zerlegbare Anweisung = elementare Answeisung
 - Befehl = Operationsteil + Adressteil
 
-##### Adressierungsarten
+#### Adressierungsarten
 
 - unmittelbare Adressierung: Operand direkt im Adressteil des Befehls (kein Speicherzugriff nötig)
 - absolute/direkte Adressierung: die im Adressteil angegebene Adresse gibt den Aufenthaltsort de Operanden an
@@ -78,16 +79,16 @@
 - PC-relative Adressierung: Berechnung der nächsten Adresse relativ zur aktuell bearbeiteten Adresse (Sonderform der relativen Addressierung)
 - virtuelle Adressierung: Ansprechen von Speicherbereichen außerhalb des Hauptspeichers (Ein-/Auslagern der Daten)
 
-## Sprachen
+# Sprachen
 
-### Syntax einer Programmiersprache
+## Syntax einer Programmiersprache
 
 - Die Syntax einer Sprache bezeichnet die durch die Zeichen und Regeln einer Sprache entstehenden Konstrukte
 - Für eine Überprüfung auf Korrektheit der Syntax muss diese durch Automaten oder Grammatiken formal beschrieben werden
 - Bei der Programmierung wird diese Überprüfung durch den Compiler durchgeführt
 - Sollte der Programmcode nicht der Syntax (den Regeln der Programmiersprache) entsprechen, kann dieser nicht compiliert werden
 
-#### Grundlegende Begriffe
+### Grundlegende Begriffe
 
 - **Alphabet:** nicht leere, eventuell unendliche Menge von unterscheidbaren Zeichen ($A = {a_1,a_2,\dots,a_n}$)
 - **Buchstaben:** Zeichen eines Alphabets; innerhalb des Alphabet besteht zwischen den Zeichen eine Ordnungsrelation ($a_1<a_2<\dots<a_n$)
@@ -106,9 +107,9 @@
 		- Beispiel: Programmiersprachen -> Kommunikation zwischen Maschinensprache und problemorientierter Fachsprache, die einer natürlichen Sprache deutlich näher kommt
 		- fester, begrenzter Wortschatz und feste, endliche Grammatik (eindeutige, vollständige Beschreibung der Sprachen)
 
-### Darstellungsmöglichkeiten zur Sprachbeschreibung
+## Darstellungsmöglichkeiten zur Sprachbeschreibung
 
-#### Grammatiken
+### Grammatiken
 
 - Regelwerk, das festlegt, welche Zeichen und Zeichenreihen zu einer Sprache gehören.
 - Definierung von Programmiersprachen erfolgt über präzise Grammatiken
@@ -122,7 +123,7 @@ $$G = {T,V,S,P}$$
 - Menge $P$ von **Grammatikregeln**: Regeln, die festlegen wie aus Terminalsymbolen und/oder Nichtterminalsymbolen neue Konstrukte (Nichtterminalsymbole) gebildet werden können
 - Das **Startsymbol** $S$: Nichtterminalsymbol, aus dem alle Worte der Sprache abgeleitet werden
 
-#### Backus-Naur-Form
+### Backus-Naur-Form
 
 - Metasprache zur Beschreibung der Syntax einer Programmiersprache
 - Eine Grammatikregel in der Backus-Naur-Form besitzt eine linke und eine rechte Seite
@@ -139,7 +140,7 @@ $$G = {T,V,S,P}$$
 	- Optionale Symbole oder Symbolfolge in eckigen Klammern (```<Zeichenkette> ::= <Zeichen> [<Zeichenkette>]```)
 	- Darstellung von Alternative in geschweiften Klammern (```<Ausdruck> ::= <Operand> {+|-|*|/} <Operand>```)
 
-#### Einfache Syntaxdiagramme
+### Einfache Syntaxdiagramme
 
 - die BNF kann leicht in Diagramme übertragen werden
 - Terminalsymbole werden in Kreise eingeschlossen
@@ -148,7 +149,7 @@ $$G = {T,V,S,P}$$
 
 ![Beispiel eines BNF-Diagramms](https://steve2955.github.io/dhge-pi19-sem2/INV/IMG/BNF-Diagramm.JPG)
 
-#### Übung BNF
+### Übung BNF
 
 Grammatik für die Definition eines Funktionsprototypen (ähnlich der Definition von Funktionsprototypen)
 
@@ -168,7 +169,7 @@ Grammatik für die Definition eines Funktionsprototypen (ähnlich der Definition
 <Parameterfolge> ::= <Datentyp> | <Datentyp>,<Parameterfolge>
 ```
 
-#### Sprachbeschreibung mittels Regulärer Ausdrücke
+### Sprachbeschreibung mittels Regulärer Ausdrücke
 
 - Reguläre Ausdrücke können reguläre Mengen beschrieben
 
@@ -181,8 +182,8 @@ Grammatik für die Definition eines Funktionsprototypen (ähnlich der Definition
 - Eine Menge ist genau dann regulär, wenn sie in endlich vielen Schritten aus diesen Regeln gewonnen werden kann
 
 **Konkatenation**
-- $(p)^*$****: Konkatenation von $p$ mit sich selbst
-- $(pq)$: Konkatenation von $P$ und %Q%
+- $(p)^{\ast}$: Konkatenation von $p$ mit sich selbst
+- $(pq)$: Konkatenation von $P$ und $Q$
 
 **Vereinigung**
 - $p \lor q$: Vereinigungsmenge von $P$ und $Q$
@@ -190,9 +191,9 @@ Grammatik für die Definition eines Funktionsprototypen (ähnlich der Definition
 **Beispiel**
 Alphabet $A=\{a,b\}$, dessen Worte weder **aa** noch **bb** enthalten
 
-$$L \subset A^*=(ab)^*\lor(ba)^*\lor a(ba)^* \lor b(ab)^*$$****
+$$L \subset A^{\ast}=(ab)^{\ast}\lor(ba)^{\ast}\lor a(ba)^{\ast} \lor b(ab)^{\ast}$$
 
-#### Sprachbeschreibung mittels deterministischer Automaten
+### Sprachbeschreibung mittels deterministischer Automaten
 
 - Beschreibung von Sprachen mittels deterministischer Automaten ist sehr aufwendig
 - Bestandteile:
@@ -207,16 +208,16 @@ Automat, der nur dessen Worte akzeptiert, die weder **aa** noch **bb** enthalten
 
 ![Beispiel eines Deterministischen Automaten](https://steve2955.github.io/dhge-pi19-sem2/INV/IMG/Deterministischer-Automat.JPG)
 
-## Automaten
+# Automaten
 
-### Allgemeines
+## Allgemeines
 
 - keine technischen Geräte in der Informatik -> mathematische Modelle zur Umformung von Eingaben
 - erkennende Automaten (Akzeptoren): Beschreibung von Sprachen
 - Übersetzende Automaten (Tranduktoren): Umwandlung von Ein- in Ausgaben
 - Automatentheorie definiert Lösbarkeit von Problemen mit Rechnern (Registermaschine/Turingmaschine)
 
-### Funktionen
+## Funktionen
 
 - Abbildung von Elementen einer Menge $A$ in eine Menge $B$ ($f: A\rightarrow B$)
 - $A$ = Urbildbereich (Nicht jedem Element von A muss ein Element in B zugeordnet werden -> Definitionslücke)
@@ -225,7 +226,7 @@ Automat, der nur dessen Worte akzeptiert, die weder **aa** noch **bb** enthalten
 - Wenn jedes $b$ auch als Bild vorkommt, bezeichnet man die Funktion als __surjektiv__
 - Ist eine Funktion sowohl __injektiv__ als auch __surjektiv__, so ist sie eindeutig umkehrbar und wird als __bijektiv__ bezeichnet
 
-### Registermaschinen
+## Registermaschinen
 
 - Registermaschine = Modell eines Automaten
 - vereinfachtes Modell realer Rechner (Vorbild: Von-Neumann-Architektur)
@@ -237,7 +238,7 @@ Automat, der nur dessen Worte akzeptiert, die weder **aa** noch **bb** enthalten
 - eine Registermaschine besitzt $m$ Register und berechnet die Funktionen $f:N^r_0 \rightarrow N^s_0 \text{mit} r,s \leq m$
 - Eingabe in den ersten Registern $r$, Ausgabe beginnend im ersten Register $s$
 
-#### Programm
+### Programm
 
 - einzelne Befehle des Programmes sind nummeriert
 - Programm verarbeitet natürliche Zahlen aus den Eingaberegistern in natürliche Zahlen in den Ausgaberegistern
@@ -246,12 +247,13 @@ Automat, der nur dessen Worte akzeptiert, die weder **aa** noch **bb** enthalten
 
 ```Javascript
 i:DO f ; GOTO j // Ausführung einer Registeroperation und Sprung nach j
-i:IF t THEN GOTO j ELSE GOTO k // Test, ob der Registerinhalt 0 ist, wenn ja Sprung nach j, sonst nach k
+i:IF t THEN GOTO j ELSE GOTO k // Test, ob der Registerinhalt 0 ist,
+															// wenn ja Sprung nach j, sonst nach k
 ```
 
 - Tupelschreibweise: $(i,f,j)$ und $(i,t,j,k)$
 
-#### Definition einer Registermaschine
+### Definition einer Registermaschine
 
 $$R_m=(F,T,P,\delta)$$
 
@@ -295,8 +297,22 @@ Programm, dass zwei Zahlen subtrahiert:
 2: DO S2 ; GOTO 0
 ```
 
-#### Technische Umsetzung
+### Technische Umsetzung
 
 - bisher: Jedes Register implementiert alle Rechenoperationen (-> sehr aufwendig)
-- Einführung von speziellen Registern für bestimmte Registeroperationen: Akkumulatoren
+- Einführung von speziellen Registern für bestimmte Registeroperationen: Akkumulatoren (+ Befehlszähler)
 - Für das Ausführen einer Operation wird der Wert eines Register zunächst in einen Akkumulator geladen und Anschließen wieder zurückgespeichert
+- Register, Befehlszähler und Akkumulator können jeweils beliebig große natürliche Zahl aufnehmen
+- Programm = endliche Folge von Befehlen einer festgelegten Befehlsliste
+- Solche Erweiterung einer Registermaschine mit wahlfreiem Zugriff auf Speicherzellen = Random Access Machine (RAM)
+
+**Beispielbefehle:**
+
+- Operationen mit Registern/Konstanten/indirekt adressierten Operanden
+- Sprungbefehl
+- Halt-Befehl
+
+
+- Befehlssatz ähnelt einem abstrakten Assembler
+- Unterschiedliche Programme und Algorithmen realisierbar
+- Zeichen nach einer bestimmten Vorschrift als Zahlen codiert werden -> RAMs können auch Alphabete verarbeiten
