@@ -1,8 +1,9 @@
-# Betriebssysteme
+Betriebssysteme
+===============
 
-## Grundlagen
+# Grundlagen
 
-### Prinzipieller Aufbau eines Rechnensystems
+## Prinzipieller Aufbau eines Rechnensystems
 
 - Anwendersoftware
 - Compiler, Datenbanken, Dienstprogramme
@@ -11,14 +12,14 @@
 - Mikroarchitektur/Gerätetreiber/Hardware-Software Interface (HSI)
 - Physische Geräte
 
-### Systemsoftware
+## Systemsoftware
 
 - Betriebssystem und seine Hilfsprogramme
 - Unterteilung in:
 	- Systemsprogramme/Betriebssystem (Steuerprogramme, Übersetzer, Dienstprogramme, ...)
 	- Anwendersoftware (eigene Programme, Bibliotheken, Softwarepakete, ...)
 
-### Betriebssystem als erweiterte Maschine
+## Betriebssystem als erweiterte Maschine
 
 - Betriebssystem macht die Nutzung eines Computers möglich
 - Betriebssystem = Software $\neq$ Betriebssystem
@@ -31,7 +32,7 @@
 
 **Das Betriebssystem ist eine virtuelle Maschine, die von der Hardware abstrahiert**
 
-### Betriebssystem als Ressourcenmanager
+## Betriebssystem als Ressourcenmanager
 
 - aktive Ressourcen (Prozessor [Tastatur, Monitor, Netwerk]) verarbeiten passive Ressourcen (Hauptspeicher [Platte, Bänder, CD])
 - Alle Ressourcen eines Computersystems (CPU, RAM, Festspeicher) = Betriebsmittel
@@ -42,11 +43,11 @@
 	- Wiederverwendbarkeit: einmalig nutzbar (z.B. Interrupt) oder mehrfach (z.B. CPU, Speicher)
 	- Hardware/Software: physikalisches/logisches Betriebsmittel
 
-### Das Betriebssystem in der Definition
+## Das Betriebssystem in der Definition
 
 **DIN 44300:** __Die Programme__ eines digitalen Rechnersystems __, die zusammen__ mit den Eigenschaften dieser Rechenanlage die Basis der möglichen Betriebsarten des digitalen Rechnersystems bilden und die insbesondere __die Abwicklung von Programmen steuern und überwachen__
 
-### Betriebssystem als Schalen-/Schichtenmodell
+## Betriebssystem als Schalen-/Schichtenmodell
 
 **Schichtenmodell**
 - Benutzer -> Programm -> Betriebssystem -> Hardware
@@ -60,7 +61,7 @@
 | - Reduzierte Komplexität (nur Betrachtung der Schnittstellen) | - erhöhte Komplexität der vertikalen Kommunikation (nur durch einzelne Schichten möglich)|
 | - Austausch einzelner Schichten durch definierte Schnittstellen möglich (Gesamtsystem bleibt erhalten)| - Effizienz-, Reibungsverluste und lange Pfade |
 
-### Aufgaben eines Betriebssystems
+## Aufgaben eines Betriebssystems
 
 - Verstecken technischer Details/Automatisierung von Vorgängen
 	- Abstraktion der HW
@@ -74,7 +75,7 @@
 	- Über APIs realisiert
 	- Privilegiensystem zum Schutz der Anwendungen untereinander (inkl. OS)
 
-### Arten von Betriebssystemen
+## Arten von Betriebssystemen
 
 **Mainframe-Betriebssysteme**
 
@@ -111,16 +112,16 @@
 - Smart Cards besitzen eigenen Prozessor (nur einzelne Funktionen)
 - Applikationen stark unterschiedlich (bei mehreren Ressourcenverwaltung und Schutzmechanismen sehr wichtig)
 
-### Bits und Bytes
+## Bits und Bytes
 
 - **Bit:** kleinstmögliche Speichereinheit
 - **Byte:** 8 Bits
 - **Si-Präfixe:** 10er- Potenz als Basis (kb, MB, GB, TB, PB, ... -> $=10^x$ Byte)
 - **IEC-Präfixe:** 2er- Potenz als Basis (KiB, MiB, GiB, TiB, PiB, ... -> $=2^x$ Byte)
 
-## Grundlegende Strukturen
+# Grundlegende Strukturen
 
-### Aufgaben
+## Aufgaben
 
 **Bedienschnittstelle (UI)**
 
@@ -166,7 +167,7 @@
 
 - Schnittstelle zwischen Usermode und Kernel = Traps (Einstiegspunkte; vgl. Software-Interrupt)
 
-### Klassifizierung von Betriebssystemen
+## Klassifizierung von Betriebssystemen
 
 **Nach Betriebsart**
 - Netzwerk-Betriebssysteme
@@ -198,9 +199,9 @@
 	- Aufgaben werden auf alle Prozessoren verteilt (aber sind nicht an die Beendigung einer Aufgabe gebunden -> quasiparallele Verarbeitung mehrerer Aufgaben durch einen Prozessor)
 - Die Verteilung des OS auf mehrere Prozessoren ist möglich (verteilte Betriebssysteme)
 
-### Programmausführung und Hardware
+## Programmausführung und Hardware
 
-#### Grundmodell eines Rechners
+### Grundmodell eines Rechners
 
 - Ausführung von Programmen = Aufgabe von Prozessorhardware + OS
 - Basis meister Rechner: Von-Neumann-Architektur
@@ -221,13 +222,13 @@ Enthält Maschinenbefehle und Daten in gemeinsamen Adressraum
 
 Verbindung von Peripheriegeräten (Tastatur, Monitor, ...) mit Rechenwerk (Schnittstelle zur Umwelt)
 
-#### Von-Neumann-Rechner
+### Von-Neumann-Rechner
 
 - Rechenwerk und Steuerwerk häufig als CPU zusammengefasst
 - Verbindung einzelner Komponenten über BUS-System
 - Prozessor-Speicher-Anbindung = "Von-Neumann-Flaschenhals" (Daten und Befehle über gemeinsamen BUS)
 
-#### Befehlsausführung
+### Befehlsausführung
 
 Pipeline:
 
@@ -238,9 +239,9 @@ Pipeline:
 
 Durchsatzerhöhung durch "Prefetching" (während Anweisung n ausgeführt wird, wird n+1 dekodiert und n+2 geholt) -> Latenzzeit (5 Takte), Durchsatz (ein Befehl/Takt)
 
-### Strukturen
+## Strukturen
 
-#### Monolithischer Kern
+### Monolithischer Kern
 
 - Betriebssystem als Menge von Programmen (können sich gegenseitig aufrufen)
 - meist evolutionär gewachsen (Anfangs keine deutliche Abgrenzung von Teilfunktionen über Schnittstellen)
@@ -261,7 +262,7 @@ Durchsatzerhöhung durch "Prefetching" (während Anweisung n ausgeführt wird, w
 - mangelnde Modularität: schwere Instandhaltung
 - mangelnde Flexibilität(keine abstrakten Schnittstellen): Erweiterungen an Implementierungsdetails gebunden, keine austauschbaren Komponenten (Treiber nicht zur Laufzeit ladbar)
 
-#### Mikrokern
+### Mikrokern
 
 - Nur zentralster Funktionen in einem Kernteil zusammengefasst
 - Weitere Funktionen durch Serverdienste realisiert (z.B. Datei- o. Verzeichnisdienste)
@@ -283,7 +284,7 @@ Durchsatzerhöhung durch "Prefetching" (während Anweisung n ausgeführt wird, w
 - Synchronisation vieler Nutzer-Prozesse schwer optimierbar
 - Betriebssystemaufrufe (physischer I/O-Zugriff) ohne Kernel-Modus schwer zu realisieren: Aufweichen des Konzeptes
 
-#### Makrokern
+### Makrokern
 
 - Kompromiss zwischen Monolith und Mikrokern
 - üblicherweise modulare Architektur (keine Standardstruktur)
@@ -302,7 +303,7 @@ Durchsatzerhöhung durch "Prefetching" (während Anweisung n ausgeführt wird, w
 - Höhere Schichten können Klassen tieferer Schichten erweitern (objektorientierter Ansatz)
 
 
-#### Virtuelle Maschine
+### Virtuelle Maschine
 
 - Umstellung auf Client-Server-Architektur -> extrem steigende Zahl von Servern
 - Konsolidierung der Serverlandschaften mittels Virtualisierungskonzepten
@@ -335,7 +336,7 @@ Durchsatzerhöhung durch "Prefetching" (während Anweisung n ausgeführt wird, w
 - Virtualisierung ist komplex
 - Leistungsverluste (5-10%)
 
-### Entwurf von Betriebssystemen
+## Entwurf von Betriebssystemen
 
 - Aufwändiger Schnittstellenentwurf: Austausch von Informationen zwischen vielen Programmen
 - Prinzip Einfachheit: Perfektion ist nicht einfach -> KISS: Keep It Simple, Stupid.
@@ -346,7 +347,7 @@ Durchsatzerhöhung durch "Prefetching" (während Anweisung n ausgeführt wird, w
 - Minimum an Mechanismen: Nur notwendige Implementationen
 
 
-### Beispiel: UNIX
+## Beispiel: UNIX
 
 - Enstand aus der Notwendigkeit für die Programmerstellung ein Rechnerbetriebssystem zu entwickeln
 - Portierbarkeit von UNIX beruht auf der Entwicklung der Programmiersprache C
@@ -363,3 +364,143 @@ Durchsatzerhöhung durch "Prefetching" (während Anweisung n ausgeführt wird, w
 	- Ein-/Ausgabesteuerung
 	- Gerätesteuerung
 	- Zugangskontrolle und Abrechnung
+
+# Schnittstellen
+
+## Computergestützte Benutzerschnittstellen
+
+- Benutzer kann nicht sehen, was sich im Rechner abspielt: Ein-/Ausgabe wichtig
+- Benutzeroberfläche: Art und Weise der Gestaltung der Aktion zwischen Rechner und Benutzer
+- Erste Benutzerschnittstellen: Lochkarten und -streifen (Ein- und Ausgabemedium, nicht interaktiv)
+- Terminal: Tastatur als Eingabe, Bildschirm als Ausgabe (Terminal mit alphanumerischen Zeichen)
+- heute: Grafische Benutzeroberflächen
+
+**Arten**
+
+- Kommandozeilen: Eingabe von Befehlen per Tastatur
+- Zeichenorientierte Schnittstellen: Menüs, die durch Tastatur oder Maus bedient werden
+- Grafische Benutzeroberflächen: komplexe Oberflächen mit Maus bedient
+- Sprachbasierte Schnittstellen: Kommunikation mit gesprochenem Wort
+- Anfassbare Schnittstellen: Systemfunktionalität wird durch angepasste Eingabegeräte verkörpert (z.B. Handy)
+
+### Kommandozeile
+
+- auch Konsole/Terminal
+- Kommandozeile = Eingabebereich für Steuerung einer Software
+- Eingabe von Kommandos/Befehlen als Worte (Steuerung durch zusätzliche Parameter)
+
+**Shell**
+
+- ein Kommandozeileninterpreter (Shell) ist ein Programm, welches eine Zeile Text in der Kommandozeile einließt, interpretiert und ausführt
+- eventuelle Ausgaben werden direkt auf den Bildschirm ausgegeben
+- Vertreter: bash, sh, PowerShell, cmd
+
+**Vorteile**
+
+- schnelle, direkte Kontrolle und Erreichbarkeit aller Funktionen für erfahrene Nutzer
+- Automatisierung durch Makros, Stapeldateien oder Skripte möglich
+
+**Probleme**
+
+- Länderspezifische Textdarstellung und Eingabe (viele Zeichensätze)
+- Datenaustausch erfordert Nutzung der ursprünglichen Zeichenkodierung (Standardisierungsansatz: Unicode)
+
+### Grafikschnittstelle
+
+- Lösten ab ca. 1980 die Bedienung per Kommandozeile ab
+- Durch Entwicklung der Computermaus ermöglicht: grafischer Mauszeiger auf Bildschirm
+- Eine GUI macht eine Software mittels grafischer Elemente bedienbar
+- Gesamtbild wird aus einer Vielzahl aus Bildpunkten erzeugt (erhebliche Datenmengen)
+- **Fokus:** GUI-Element, das für die nächste Benutzer-Aktion relevant ist besitzt den Fokus
+
+**Anforderungen**
+
+- Benutzer soll Aufgabe direkt zeigen können (Maus)
+- Anwendung soll Auswahlloste an Kommandos als Menü anbieten (Hierarchie)
+- Zuordnung von Universalkommandos zu Funktionstasten
+- Aussehen der Dokumente soll realem Ausdruck entsprechen (WYSIWYG)
+- **Benutzerkontrolle:** Benutzer muss immer Kontrolle über den Rechner haben
+- **Rückkopplung:** Reaktion auf Benutzereingabe (Vermeidung von Frustration)
+- **Visualisierung:** Verwendung von Metaphern für bestimmte Programmfunktionen (z.B. Papierkorb)
+- **Konsistenz:** Benutzeroberflächen sollen ähnlich sein (bekannte Situation darstellen)
+- **Einfachheit:** Kompromiss zwischen zu viel und zu wenig Informationen
+- **Ästhetik:** Gestaltung der Oberfläche nicht nur nach funktionalen Erfordernissen (Aufmerksamkeit auf wichtige Funktionen lenken)
+
+#### Funktionale Struktur
+
+- Nicht jedes Programm besitzt eigene individuelle GUI -> Betriebssystem stellt einheitliche GUI zur Verfügung (einheitliche Funktionen)
+
+**Rastergrafik**
+
+- Problem: großer Speicherbedarf bei 24 Bit Farbe pro Pixel
+- Lösung: Color Lookup Table (3 Bit Farbindex pro Pixel, je Farbe 8 Bit Farbinfo)
+- schnelle Übertragung großer Datenmengen
+- Speicherungen von Texturen geometrischer Körper
+
+|          | Pixelgrafik               | Vektorgrafik                                           |
+|----------|---------------------------|--------------------------------------------------------|
+| Vorteil  | Zeichnen, Input einfacher | beliebige Größe und Formstauchung, stark komprimierbar |
+| Nachteil | nicht skalierbar          | Zeichnen dauert mit jedem Vektor länger                |
+
+- Vektorgrafik als internes Format
+- Pixelgrafik extern für Bildschirm/Drucker
+
+#### Fenstersysteme
+
+- **Fenster:** rechteckiger Bildschirmausschnitt zum Anzeigen aller Daten eines Programmes
+- Ausgabe eines Prozesses auf einen bestimmten Teil des Bildschirms
+- Früher: ASCII Ein-/Ausgabe, Grafikbibliothek beim Programm
+- Heute: Grafikbibliothek beim OS -> Fenstermanager (Virtuelle Fenster, Menüs, Clipboard)
+
+**Vorteile**
+
+- Zentral einheitliches Fenstermanagement
+- Gemeinsame parallele Darstellung unabhängiger Ereignisse (parallele Präsentation mehrerer Programme)
+- Dezentrale Grafik zentral zusammenfassen
+- Ereignisbearbeitung auf Subsystem verlagern -> Entlastung des Prozessors für Anwendung
+
+**Nachteile**
+
+- kein Multi-User-System (kein Displayserver)
+- fest im Betriebssystem integriert
+
+**Alternative: X Window System (X11)**
+
+- netzwerkfähiges Fenstersystem (Client-Server-Prinzip)
+- einheitlicher Desktop durch Toolkits (Windowmanger, KDE, ...)
+
+__Stärken__
+
+- konzipiert für effizienten Netzwerkbetrieb
+- Server-Client-Kommunikation über Standardisiertes Protokoll
+- kein Betriebssystembestandteil
+
+__Schwächen__
+
+- Verschiedene Toolkits mit verschiedenen Eigenschaften -> unterschiedliches Verhalten
+- hohe Übertragungsrate und geringe Latenz als Voraussetzung
+
+
+### API
+
+- Systemfunktionen werden durch APIs von Betriebssystemen für Anwendungen bereitgestellt
+- Programmiersprache der API ist im allgemeinen die Implementierungssprache des OS
+- Bereitstellung weiterer APIs durch Zusatzbibliotheken (zwingend erforderlich für andere Programmiersprachen)
+
+**Standard APIs**
+
+- in Programmiersprachen: Standard-Bibliothek
+- implementieren Funktionen unabhängig von Hardware und Betriebssystem:
+	- Ein-/Ausgabe
+	- Dateizugriffe
+	- dynamische Speicherverwaltung
+	- mathematische Berechnungen
+- Standartisierung der API trägt zur Portabilität von Programmen bei (Kompilierung auf neuer Hardware genügt)
+
+**Proprietär APIs**
+
+- stellen Funktionsumfang über die Standartbibliothek hinaus bereit (grafische Bedienoberfläche, Multi-Threading, ...)
+- Programm, das Funktionen aus solchen speziellen APIs verwendet ist nicht mehr beliebig portabel
+	- Abhängigkeit vom Compiler, Betriebssystem oder Zusatzbibliothek
+	- Ständige Veränderung von Bibliotheken: Kompatibilitätsprobleme
+- Beispiel: POSIX (Ziel: Kompatibilität der UNIX-Derivate)
