@@ -31,12 +31,16 @@
 - [X] Grundlegende C++-Konstrukte 1
 - [X] Grundlegende C++-Konstrukte 2
 - [X] Vererbung
+- [ ] clone
+- [ ] Operationen 1
+- [ ] Operationen 2
+- [ ] Strings und Stringstreams
 
 ## MAT - Analysis
 
 - [X] Zahlenfolgen, Grenzwerte von Zahlenfolgen
-- [ ] Reihen, Grenzwerte von Reihen
-- [ ] Konvergenzkriterien fur Reihen
+- [X] Reihen, Grenzwerte von Reihen
+- [ ] Konvergenzkriterien für Reihen
 - [ ] Stetigkeit von Funktionen
 - [ ] Funktionen, Grenzwerte von Funktionen
 - [ ] Differentiation von Funktionen
