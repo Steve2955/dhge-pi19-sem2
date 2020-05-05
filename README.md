@@ -31,7 +31,7 @@
 - [X] Grundlegende C++-Konstrukte 1
 - [X] Grundlegende C++-Konstrukte 2
 - [X] Vererbung
-- [ ] clone
+- [X] clone
 - [ ] Operationen 1
 - [ ] Operationen 2
 - [ ] Strings und Stringstreams

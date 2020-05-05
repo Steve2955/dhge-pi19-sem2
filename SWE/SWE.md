@@ -439,3 +439,20 @@ class myClass : public Base1, public Base2 { ... };
 - bei identischen Member/Methoden-Bezeichnungen muss der Scope-Operator verwendet werden (```Base1::xyz```)
 - Besitzen die Vaterklassen indirekt selbst eine geteilte Vaterklasse, so werden zwei Instanzen dieser Großvaterklasse erzeugt (Großvaterklasse muss in Vaterklasse als ```virtual``` geerbt werden)
 - solche Konstrukte sollten vermieden werden
+
+### ```clone```-Trick
+
+- Pointer auf Objekt der Basisklasse kann entweder auf Basisklasse oder auf abgeleitete Klassen zeigen
+- Copy-Konstruktor reicht der Basisklasse nicht, um die Member der abgeleiteten Klasse zu kopieren
+
+```C++
+// Deklaration von clone() in der Basisklasse, kann auch definiert werden
+virtual Base* clone() const;
+
+// Implementierung von clone() in der abgeleiteten Klasse
+virtual Child* clone() const {
+ return new Child(*this);
+}
+// Korrekte Klasse wird nun automatisch Kopiert (mit allen Membern)
+copyPtr = origPtr->clone();
+```
