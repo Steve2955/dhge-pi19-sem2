@@ -316,3 +316,84 @@ Programm, dass zwei Zahlen subtrahiert:
 - Befehlssatz ähnelt einem abstrakten Assembler
 - Unterschiedliche Programme und Algorithmen realisierbar
 - Zeichen nach einer bestimmten Vorschrift als Zahlen codiert werden -> RAMs können auch Alphabete verarbeiten
+
+# Turing-Maschinen
+
+## Deterministische Turing-Maschinen
+
+- Turingmaschine = universelles Automatenmodell
+- Bestandteile:
+	- unendliches Band (= Speicher): einzelne Zellen enthalten Symbole aus einem endlichen Bandalphabet **B**
+	- Lese/Schreibkopf: Liest/Schreibt den Inhalt einer Speicherzelle
+	- Befehlszähler: endliche Menge von Zuständen **Q**
+	- Programm: Zustandsüberführungsfunktion
+
+$$T=(I,B,Q,\delta,q_0,F)$$
+
+- Eingabealphabet: $I \subset B$
+- Bandalphabet: $B$
+- endliche Menge an Zuständen: $Q$
+- Startzustand: $q_0$
+- Menge der möglichen Endzustände: $F \subset Q$
+- Zustandsüberführungsfunktion: $\delta$
+
+Turing-Maschinen können entweder Funktionen berechnen oder entscheiden, ob bestimmte Eingabeworte als Worte einer Sprache akzeptiert werden. Dabei gelten die folgenden Definitionen:
+
+- Funktion $f:I^*\rightarrow I^*$ heißt total rekursiv (berechenbar), wenn eine Turing-Maschine existiert, die aus einer Eingabe $x$ den Funktionswert $f(x)$ berechnet
+
+- Funktion $f:N^k\rightarrow N$ heißt total rekursiv, wenn eine Turing-Maschine existiert, die für Eingaben vom Typ $bin(i_1), bin(i_2), \dots, #bin(i_k)$ mit einem Ergebnis $bin(m)$ stoppt, wenn $m = ƒ( i_1, \dots , i_k)$
+
+- Eine Sprache $L \subset I^*$ heißt rekursiv (entscheidbar), wenn eine Turing-Maschine existiert, die für alle Eingaben stoppt und das Eingabewort $w$ akzeptiert, wenn $w \in L$
+
+- Eine Sprache $L \subset I^*$ heißt rekursiv aufzählbar (semientscheidbar), wenn eine Turing-Maschine existiert, die genau die Eingaben $w$ akzeptiert, die aus $L$ sind
+
+Für rekursiv aufzählbare Sprachen muss die Turing-Maschine nicht in jedem Fall stoppen (sie darf aber keine fehlerhaften Worte der Sprache zuordnen)
+
+Die Überprüfung der Funktionsweise einer Turing-Maschine kann durch Konfigurationen erfolgen. Eine Konfiguration ist die Momentaufnahme der Arbeit einer Turing-Maschine.
+
+Bsp.: ```#q0abbaba# |-- #aq0bbaba# |-- #abq1baba# |-- #abbq2aba# ...```
+
+```|--*``` steht für endlich viele Rechenschritte
+
+### Beispiel
+
+Turing-Maschine, die nur Worte akzeptiert, bei denen maximal zwei aufeinanderfolgende b vorkommen dürfen
+
+$$T=(I,B,Q,\delta,q_0,F)$$
+$$I=\{a,b\}; B=\{a,b,#\}$$
+$$Q=\{q_0,q_1,q_2,q_3\}; F=\{q_3\}$$
+$\delta:$
+| $q$    | $a$     | $\delta(q,a)$ |
+|--------|---------|---------------|
+| $q_0$  | $a$     | $q_0,R$       |
+| $q_0$  | $b$     | $q_1,R$       |
+| $q_0$  | $#$     | $q_3,N$       |
+| $q_1$  | $a$     | $q_0,R$       |
+| $q_1$  | $b$     | $q_2,R$       |
+| $q_1$  | $#$     | $q_3,N$       |
+| $q_2$  | $a$     | $q_0,R$       |
+| $q_2$  | $b$     | $q_2,N$       |
+| $q_2$  | $#$     | $q_3,N$       |
+| $q_3$  | $a,b,#$ | $q_3,N$       |
+
+![Beispiel der Turing-Maschine](https://steve2955.github.io/dhge-pi19-sem2/INV/IMG/Turing-Beispiel.JPG)
+
+### Mehrspurmaschine
+
+- Erweiterung der Turing-Maschinen: Ersetzung von $B$ durch $I \cup B^k$ ($k$ = Anzahl der Spuren)
+- Verwendung für mehrere Operanden (z.B. Addition: Spur für jeden Summanden, für die Summe, eventuell für Zwischenrechnungen)
+
+## Nichtdeterministische Turing-Maschinen
+
+- formelle Definition identisch zu deterministischen Turingmaschinen
+- können ausgehend von einem Zustand und einem Zeichen in mehrere Zustände übergehen (Auswahl willkürlich)
+- __"Orakel"__ sorgt für Wahl des kürzesten Weges
+- Ein Wort $w$ wird von einer nicht deterministischen Turing-Maschine akzeptiert, wenn es mindestens einen akzeptierten Rechenweg gibt
+- Universelle nicht deterministische Turing-Maschinen nicht realisierbar (kein "allgemeines Orakel")
+
+## Churchesche-These
+
+__Die durch formale Definition der Turing-Berechenbarkeit erfasste Klasse von Funktionen stimmt mit der Klasse der intuitiv berechenbaren Funktionen überein.__
+
+Jede berechenbare Funktion kann als Turing-Maschine abgebildet werden. Die These ist derzeit nicht beweisbar (könnte höchstens widerlegt werden).
+Es gibt kein automatisches Verfahren für die Überprüfung der Korrektheit beliebiger Programme (Halte-Problem)

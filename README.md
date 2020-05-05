@@ -9,7 +9,7 @@
 - [X] Syntaxdiagramme, reguläre Ausdrücke, deterministische Automaten
 - [X] Einfache Registermaschinen
 - [X] Registermaschinen, RAM
-- [ ] Turing-Maschinen
+- [X] Turing-Maschinen
 - [ ] Turing-Maschinen, Übung Inkrementmaschine
 - [ ] Endliche deterministische Automaten
 - [ ] Endliche deterministische Automaten, Übung 1
