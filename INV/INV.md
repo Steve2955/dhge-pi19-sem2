@@ -397,3 +397,18 @@ __Die durch formale Definition der Turing-Berechenbarkeit erfasste Klasse von Fu
 
 Jede berechenbare Funktion kann als Turing-Maschine abgebildet werden. Die These ist derzeit nicht beweisbar (könnte höchstens widerlegt werden).
 Es gibt kein automatisches Verfahren für die Überprüfung der Korrektheit beliebiger Programme (Halte-Problem)
+
+## Übung: Inkrementmaschine
+
+|                       | q      | 0/1 | $\delta(q,0/1,a)$ |
+|-----------------------|--------|-----|-------------------|
+| Nach rechts "wandern" | $q_0$  | $0$ | $q_0,0,R$         |
+|                       | $q_0$  | $1$ | $q_0,1,R$         |
+|                       | $q_0$  | $#$ | $q_1,#,L$         |
+| Addition              | $q_1$  | $0$ | $q_2,1,L$         |
+|                       | $q_1$  | $1$ | $q_1,0,L$         |
+|                       | $q_1$  | $#$ | $q_3,1,N$         |
+| Nach links "wandern"  | $q_2$  | $0$ | $q_2,0,L$         |
+|                       | $q_2$  | $1$ | $q_2,1,L$         |
+|                       | $q_2$  | $#$ | $q_3,#,R$         |
+| Fertig                | $q_3$  | $*$ | $q_3,*,N$         |

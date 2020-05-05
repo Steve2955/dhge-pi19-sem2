@@ -10,7 +10,7 @@
 - [X] Einfache Registermaschinen
 - [X] Registermaschinen, RAM
 - [X] Turing-Maschinen
-- [ ] Turing-Maschinen, Übung Inkrementmaschine
+- [X] Turing-Maschinen, Übung Inkrementmaschine
 - [ ] Endliche deterministische Automaten
 - [ ] Endliche deterministische Automaten, Übung 1
 - [ ] Endliche nichtdeterministische Automaten
