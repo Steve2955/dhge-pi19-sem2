@@ -1,6 +1,7 @@
-# Algorithmen und Datenstrukturen
+Algorithmen und Datenstrukturen
+==================================
 
-## Listen
+# Listen
 
 - Liste = Datentyp bestehend aus Elementen und Operationen
 - Eigenschaften einer Liste unterscheiden sich je nach Sprache -> Typsystem
@@ -17,7 +18,7 @@
 	- die besteht aus einem (Kopf-) Element und einer (Rest-) Liste
 - Denkbare Operationen: Liste erzeugen, durchlaufen, sortieren, verketten, umkehren; Element hinzufügen, entfernen
 
-### Implementierung von Listen
+## Implementierung von Listen
 
 - Um Listen zu Implementieren wird ein Element mit seinen entsprechenden Daten und einem Pointer (Verkettung) auf ein nächstes und oder vorheriges Element deklariert
 	- einfach Verkettete Liste: jedes Element besitzt einen Pointer auf seinen Nachfolger
@@ -25,14 +26,14 @@
 - Pointer auf den Beginn der Liste zeigt auf des Erste Element
 - Ende der Liste ist durch NULL-Pointer markiert (bei ringförmigen Listen Pointer auf erstes Element)
 
-### Organisationsformen von Listen
+## Organisationsformen von Listen
 - Pointer auf erstes Element; letztes Element durch NULL markiert
 - Pointer auf erstes und letztes Element; letztes Element zusätzlich durch NULL markiert
 - Pointer auf Dummy am Anfang und am Ende der Liste (letzter Dummy durch NULL markiert)
 - Pointer auf Dummy am Anfang und am Ende der Liste (letzter Dummy zeigt auf letztes richtiges Element)
 - Ringförmige Verkettung: Pointer auf Erstes Element; Letztes Element zeigt auf Erstes
 
-### Keller (Stack) und Stapel (Queue)
+## Keller (Stack) und Stapel (Queue)
 
 - Keller: nur am Ende der Liste wird ein- und ausgespeichert (LIFO)
 	- push/pop zum Ein-/Auspeichern
@@ -41,29 +42,31 @@
 	- enqueue zum Anstellen
 	- dequeue zum Drankommen
 
-## Graphen
+# Graphen
 
-### Definition
+## Definition
 
 Ein **Graph** G ist ein Tupel $(V,E)$, wobei $V$ eine endliche Menge von **Knoten**(vertices) und $E$ eine Menge von **Kanten**(edges) bezeichnet. Eine Kate $\{a,b\}$ verbindet die zwei benachbarten Knoten $a,b$. Man sagt auch $a$ und $b$ sind adjazent. Diese Knoten heißen **Endkoten** der Kante. Als Vereinfachte Schreibweise wird oft lediglich $ab$ verwendet. Ein **Teilgraph** entsteht, wenn Knoten oder Kanten eines gegebenen Graphen entfernt werden. Es gibt keine spezielle geometrische Anordnung der Knoten und Kanten.
 
-### Grundbegriffe
+## Grundbegriffe
 
-#### Knoten und Kanten**
+### Knoten und Kanten
+
 Ein Graph kann zwischen $0$ und $V(V-1)/2$ Kanten haben. Er heißt **vollständig**, wenn alle Knoten untereinander mit Kanten verbunden sind. Fehlen wenige der möglichen Kanten, so wird er als **dicht** bezeichnet und sind nur wenige Kanten ($< V log V$) vorhanden, wird er **licht** genannt.
 
 Ein Knoten $v$ und eine Kante $e$ heißen **inzident**, wenn $e$ den Knoten $v$ mit einem anderen Knoten verbindet. Der **Grad** eines Knoten entspricht der Anzahl der Kanten, die inzident mit dem Knoten sind. Ein Knoten heißt **isoliert**, wenn sein Grad gleich Null ist. In jedem Graphen ist die Anzahl der Knoten mit ungeradem Grad gerade. Die Summe über alle Grade der Knoten ist gleich 2-mal die Anzahl der Kanten.
 
-#### Äquivalente Graphen
+### Äquivalente Graphen
 
 Zwei Graphen $G_1=(V_1,E_1)$ und $G_2=(V_2,E_2)$ heißen **äquivalent**, falls sie bis auf Benennung der Knoten gleich sind. Es gibt eine bijektive Abbildung $F: G_1 \rightarrow G_2$, sodass $a,b \in E_1$, genau dann, wenn $f(a),f(b) \in E_2$
 
 **Reihenfolge zur Bestimmung der Äquivalenz zweier Graphen**
+
 - Anzahl der Knoten und Kanten vergleichen
 - Anzahl der Knoten mit entsprechendem Grad vergleichen
 - bijektive Abbildung finden
 
-#### Wege und Kreise
+### Wege und Kreise
 
 - **Kantenzug:** Folge von inzidenten Kanten
 - **Weg/Pfad:** Kantenzug, bei dem alle vorkommenden Knoten unterschiedliche sind
@@ -74,43 +77,43 @@ Zwei Graphen $G_1=(V_1,E_1)$ und $G_2=(V_2,E_2)$ heißen **äquivalent**, falls 
 - **Wald:** Gruppe nicht zusammenhängender Bäume
 - **Spannbaum:** Teilgraph eines Graphen, der alle Knoten enthält, aber die Kanten so reduziert, dass ein Baum entsteht
 
-#### Zusammenhängende Graphen
+### Zusammenhängende Graphen
 
 - **zusammenhängender Graph:** jeder Knoten kann durch ein Weg mit jedem verbunden werden
 - ein ungerichteter Graphe ist zusammenhängend, wenn er einen Spannbaum enthält
 - ein Graph mit mehr als $\frac{(n-1)(n-2)}{2}$ Kanten ist zusammenhängend
 - ein Graph, der nicht zusammenhängend ist, setzt sich aus zusammenhängenden Komponenten zusammen
 
-#### Gerichtete Graphen
+### Gerichtete Graphen
 
 - **gerichteter Graph**: Tupel $(V,E)$ (auch Digraph), wobei $V$ eine endliche Menge von __Knoten__ und $E$ die Menge von __Kanten__
 
-$G=(V,E)|E=\{a,b\}$ mit $a,b \in V$
+$$G=(V,E); E=\{a,b\} \text{mit} a,b \in V$$
 
 - bei gerichteten Graphen gilt $ab \neq ba$ (eignen sich daher besonders zur Darstellung zweiseitiger Relationen)
 
-#### Gewichtete Graphen
+### Gewichtete Graphen
 
-- **gewichteter Graph:** Tripel $(V,E,w)$, wobei $w$ eine Gewichtsfunktion  der Form $w:E\rightarrow R \quad w:V\rightarrow R$ darstellt
+- **gewichteter Graph:** Tripel $(V,E,w)$, wobei $w$ eine Gewichtsfunktion der Form $w:E\rightarrow R \quad w:V\rightarrow R$ darstellt
 - **Kantengewicht:** Gewicht einer Kante $e \in E$, dass mit $w(e)$ oder $w_e$ bezeichnet wird
 - **Knotengewicht:** Gewicht eines Knoten $v \in V$, dass mit $w(v)$ oder $w_v$ bezeichnet wird
 
-### Computerdarstellung
+## Computerdarstellung
 
 - Mengen sind keine geeigneten Datenstrukturen zur Darstellung von Graphen
 - Geeignete Strukturen: Adjazenzmatrizen für dichte, vollständige Graphen oder Adjazenzlisten für lichte Graphen
 
-#### Adjazenzmatrix
+### Adjazenzmatrix
 
 Die Adjazenzmatrix für den Graphen $G=(V,E)$ mit $V=\{v_1,\dots,v_n\}$ ist eine $n \times n$ Matrix, die an der Stelle $[i,j]$ eine $1$ enthält, wenn die Knoten $v_i$ und $v_j$ adjazent sind. Die Adjazenzmatrix eines ungerichteten Graphen ist stets symmetrisch.
 
-#### Adjazenzliste
+### Adjazenzliste
 
 Die Adjazenzliste für den Graphen $G= (V,E)$ ordnet jedem Knoten $v$ die List der zu ihm adjazenten Knoten zu. (z.B. Knotenindiziertes Array mit dynamischen Listen)
 
-### Elementare Algorithmen
+## Elementare Algorithmen
 
-#### Tiefensuche
+### Tiefensuche
 
 - depth first search: DFS
 - bietet sich oft für Zusammenhangsprobleme an
@@ -123,7 +126,7 @@ Die Adjazenzliste für den Graphen $G= (V,E)$ ordnet jedem Knoten $v$ die List d
 
 Rekursion kann durch Verwendung eines Stapels beseitigt werden
 
-#### Breitensuche
+### Breitensuche
 
 - breadth ﬁrst search: BFS
 - gut geeignet für Distanzprobleme
@@ -135,7 +138,7 @@ Rekursion kann durch Verwendung eines Stapels beseitigt werden
 - Speicherung alles nicht besuchten Knoten $w$ in einer Warteschlange
 - Rekursiver Aufruf mit erstem Knoten aus der Warteschlange
 
-#### Zusammenhangskomponenten
+### Zusammenhangskomponenten
 
 Eine Tiefensuche kann in einem nicht zusammenhängenden Graph nur die Knoten markieren, die vom Startknoten aus erreichbar sind. Diese Knoten bilden eine Zusammenhangskomponente des Graphen. Damit die nächste Zusammenhangskomponente gefunden werden kann, muss aus den restlichen Knoten ein neuer Startknoten gewählt und das Verfahren wiederholt werden.
 
@@ -145,7 +148,7 @@ Eine Tiefensuche kann in einem nicht zusammenhängenden Graph nur die Knoten mar
 - setze $c=0$
 - durchlaufe alle Knoten $v$, wenn $v$ mit $0$ markiert ist, setze $c=c+1$ und führe eine Tiefensuche beginnend bei $v$ durch
 
-#### Transitive Hülle
+### Transitive Hülle
 
 Die transitive Hülle einer (zweistelligen) Relation ist eine Erweiterung dieser Relation, die zusätzliche alle indirekt erreichbaren Paare enthält. Sie kann mit dem Warshall-Algorithmus berechnet werden.
 
@@ -153,13 +156,13 @@ Die transitive Hülle einer (zweistelligen) Relation ist eine Erweiterung dieser
 
 Für alle Knoten $k = \{0,\dots,n-1\}$ des Graphen $G$ mit $V = \{0,\dots,n-1\}$ und alle Paare von Knoten $[i,j]$ erzeuge eine neue Kante $[i,j]$, wenn $[i,k]$ und $[k,j]$ Kanten sind.
 
-#### Alle kürzesten Pfade
+### Alle kürzesten Pfade
 
 **Floyd-Algorithmus**
 
 Für alle Knoten $k = \{0,\dots,n-1\}$ des Graphen $G$ mit $V = \{0,\dots,n-1\}$ und alle Paare von Knoten $[i,j]$ setzte die Entfernung zwischen auf die kleinere Entfernung aus [i,j] oder der Summe der Pfade $[i,k]$ und $[k,j]$.
 
-#### Minimaler Spannbaum
+### Minimaler Spannbaum
 
 Gesucht wird ein Teilgraph, der ein Baum ist und alle Knoten des Graphen enthält. Ein Spannbaum ist minimal, wenn das Gewicht der in ihm enthaltenen Kanten minimal ist.
 
@@ -177,9 +180,9 @@ Gesucht wird ein Teilgraph, der ein Baum ist und alle Knoten des Graphen enthäl
 - zu jedem Zeitpunkt wird die Wahl getroffen, die das beste Ergebnis verspricht (minimales Kantengewicht)
 - schnelle, oft aber keine optimale Lösung
 
-#### Fluss in einem Netzwerk
+### Fluss in einem Netzwerk
 
-##### Definition
+#### Definition
 
 - Ein **Netzwerk** ist ein zusammenhängender Graph, indem jede Kante $[i,j]$ mit einem Gewicht $w_{ij}$ (**Kapazität**) versehen ist und in dem es zwei (verschiedene) ausgezeichnete Knoten gibt: Die Quelle $q$ und die Senke $s$
 - $f_{ij}$ wird **Fluss** genannt, falls der Fluss $f_{ij}$ entlang der Kante $[i,j]$ eine nichtnegative Zahl ist und die Kapazität der Kante nicht überschritten wird ($0 \leq f_{ij} \leq w_{ij}$)
@@ -193,7 +196,7 @@ Gesucht wird ein Teilgraph, der ein Baum ist und alle Knoten des Graphen enthäl
 - **Ungerichteter Weg:** Weg bei dem Kanten in ihrer Richtung (**Vorwärtskante**) oder entgegengesetzt durchlaufen werden (**Rückwärtskante**)
 - **Zunehmender Weg:** ungerichteter Weg von der Quelle zur Senke, bei dem keine Vorwärtskante ausgelastet ist ($f_{iv} < c_{ij}$) und durch alle Rückwärtskanten ein Fluss existiert ($f_{iv} > 0$)
 
-#### Vergrößerung des Flusses
+### Vergrößerung des Flusses
 
 - zur Maximierung des Flusses gilt es einen (ungerichteten) Weg zu finde, dessen sämtliche Kanten nicht ausgelastet sind (nur durch diese kann der Durchsatz erhöht werden)
 - Der Fluss entlang eines zunehmenden Weges kann um $\Delta$ Einheiten vergrößert werden indem:
@@ -205,7 +208,7 @@ $$\Delta_{ij} = \begin{cases} c_{ij}-f_{ij}, & \text{Vorwärtskante}\\f_{ij}, & 
 
 - Der maximale Fluss ist genau dann erreicht wenn es keinen zunehmenden Weg von der Quelle zur Senke gibt
 
-##### Ford-Fulkerson-Algorithmus
+#### Ford-Fulkerson-Algorithmus
 
 - Zuordnung eines Anfangsfluss $f_{ij} = 0$ für alle Kanten, Berechnung des Gesamtfluss $f$ des Netz
 - Markieren der Quelle $q$ (alle anderen Knoten unmarkiert)
@@ -216,29 +219,29 @@ $$\Delta_{ij} = \begin{cases} c_{ij}-f_{ij}, & \text{Vorwärtskante}\\f_{ij}, & 
 - Wiederhole den vorherigen Schritt, bis die Senke s erreicht und $\Delta_s$ berechnet ist (zunehmender Weg von der Quelle zur Senke). Wird die Senke nicht erreicht, kann der Durchlauf abgebrochen werden ($f$ ist der maximale Fluss)
 - Backtracking: Rekonstruiere den zunehmenden Weg mit Hilfe der Knotenmarkierungen ausgehend von der Senke; Vergrößere den Fluss entlang des zunehmenden Weges um $\Delta_s$ (neuer Gesamtfluss $f+=\Delta_s$); Wiederhole das Vorgehen ausgehend von der Quelle
 
-#### Systeme mit mehreren Quellen/Senken
+### Systeme mit mehreren Quellen/Senken
 
 - Darstellung eines neuen "fiktiven" Knoten $q_2$, der durch eine Kante mit unendlicher Kapazität mit $q_1$ verbunden ist ($q$ bleibt einzige richtige Quelle)
 - Analoges Vorgehen bei mehreren Senken
 
-#### Kapazitätseinschränkung eines inneren Knoten
+### Kapazitätseinschränkung eines inneren Knoten
 
 - Wenn der Knoten $x$ höchstens $c$ Einheiten weiterleiten kann, ersetzt man ihn durch zwei Knoten $x,x'$, die durch eine Kante der Kapazität $c$ verbunden sind
 - In $x$ hineinführende Kanten werden weiterhin mit $x$ verbunden, herausführende mit $x'$
 
-#### Kapazitätseinschränkung von Quelle/Senke
+### Kapazitätseinschränkung von Quelle/Senke
 
 - Wenn die Quelle $q$ höchstens einen Fluss $c$ in das System einbringen kann, fügt man einen "fiktiven" Knoten $q'$ hinzu, der durch eine Kante der Kapazität $c$ mit $q$ verbunden sind
 - Analoges Vorgehen wenn die Senke nur eine bestimmte Kapazität aufnehmen kann
 
-### Travelling-Salesman-Problem
+## Travelling-Salesman-Problem
 
 - Besuchen aller Knoten mit minimalem Weg und Rückkehr zum ursprünglichen Knoten (Hamiltonkreis)
 - Es gibt $(n-1)!$ mögliche Rundwege -> zu viele Möglichkeiten für brute-force Ansatz (Komplexität $O(n^3)$)
 - TSP ist NP-vollständig: lässt sich nichtdeterministisch in Polynomialzeit lösen -> wahrscheinlich kein Algorithmus mit $O(N^k)$ möglich (polynomielle Komplexität)
 - Folgender Ansatz: Minimum-Spanning-Tree-Verfahren ($O(n^2 log(n))$)
 
-#### Metrisches TSP
+### Metrisches TSP
 
 - Spezialfall des TSP (Kantengewichte in metrischen Größen): Annäherungsverfahren möglich, dessen Strecke höchstens doppelt so lang ist, wie optimal
 - Eigenschaften einer metrischen Kantengewichtung $w$:
@@ -249,7 +252,7 @@ w(i,j)+w(j,k) \geq w(i,k)\\
 \end{matrix}$$
 - Alle Kantengewichte sind positiv und der Graph ist ungerichtet
 
-#### Minimum-Spanning-Tree
+### Minimum-Spanning-Tree
 
 - Idee: optimale Tour = Hamilton-Kreis; durch Weglassen einer Kante wird ein Baum aufgespannt
 
@@ -264,7 +267,7 @@ w(i,j)+w(j,k) \geq w(i,k)\\
 - exakte Lösung nur durch Betrachtung aller Möglichkeiten
 - Aufwand der Berechnung wächst exponentiell mit der Anzahl der Knoten(18 Knoten = 17 Billionen Möglichkeiten)
 
-## Bäume
+# Bäume
 
 Bäume dienen der Beschreibung von Hierarchien
 
@@ -274,7 +277,7 @@ Beispiele:
 - Organigramm
 - Inhaltsverzeichnisse
 
-### Terminologie
+## Terminologie
 
 - **Baum:** hierarchische Datenstruktur bestehend aus Kanten und Knoten
 - **Kante:** Verbindung zweier Knoten
@@ -287,7 +290,7 @@ Beispiele:
 - **Tiefe eines Knoten:** Pfadlänge zur Wurzel (oder Ebenen-Nummer)
 - **Arboreszenz:** Kanten des Baum gerichtet -> Wurzel eindeutig identifizierbar (bei ungerichtetem Baum: jeder Knoten mögliche Wurzel)
 - **Vorgänger:** benachbarter Knoten einer oberen Ebene
-- **Nachfolger:**  benachbarter Knoten einer unteren Ebene
+- **Nachfolger:** benachbarter Knoten einer unteren Ebene
 - **Geschwister:** Knoten der gleichen Ebene mit gemeinsamem Vorgänger
 - **Relation:** __direkt__ über eine Kante oder __indirekt__ durch Verbindung mit Vorgängern
 - **Grad/Ordnung/Rang eines Knoten:** Anzahl der Nachfolger
@@ -306,7 +309,7 @@ Beispiele:
 - **voller Binärbaum:** Binärbaum, der alle möglichen Knoten besitzt
 - **vollständiger Binärbaum:** Binärbaum, der bis zur vorletzten Ebene voll ist und dessen unterste Ebene auf einer Seite lückenlos mit Knoten besetzt ist (je nach Seite auch links-/rechtsvollständig)
 
-### Definition
+## Definition
 
 Ein Baum ist eine Menge von Knoten, von denen einer die Wurzel ist und die restlichen Knoten, aufgeteilt in $n \geq 0$ disjunkte Mengen, wobei jede dieser Mengen ein Teilbaum ist.
 
@@ -314,7 +317,7 @@ Ein Binärer Suchbaum hat entweder keine Knoten (leerer Binärbaum) oder besteht
 
 Schlüssel können innerhalb eines Baumes in inneren Knoten (Suchbaum), in Blättern (Blattsuchbaum) oder beidem gespeichert werden.
 
-### Binäre Bäume
+## Binäre Bäume
 
 - Ein binärer Suchbaum ist geordnet
 - Suche beginnt in der Wurzel: Betrag entscheidet, ob die Suche im linken oder rechten Teilbaum weitergeführt werden muss (erfolglose Suche endet in Blatt)
@@ -323,12 +326,12 @@ Schlüssel können innerhalb eines Baumes in inneren Knoten (Suchbaum), in Blät
 
 - Reihung und Verbund (nicht für Suchbaum)
 	- Baum: Knoten ebenenweise numeriert -> Index
-	- Knoten in Reihung lückenlos gespeichert $$\begin{matrix}\text{Vorgänger von} i: i \text{DIV} 2 \\ \text{Nachfolger von}: 2*i, 2*i+1\end{matrix}$$
+	- Knoten in Reihung lückenlos gespeichert $$\begin{matrix}\text{Vorgänger von i}: i \text{DIV} 2 \\ \text{Nachfolger von}: 2*i, 2*i+1\end{matrix}$$
 - Zeiger und Verbund
 	- innerer Knoten als Verbund
 	- Kante als Zeiger (Blatt mit NULL-Pointer)
 
-### Baum durchlaufen (traversieren)
+## Baum durchlaufen (traversieren)
 
 - systematische Betrachtung jedes Knoten eines Baumes (Ausgeben, Vergleichen, ...)
 - Tiefendurchläufe (rekursiv oder iterativ)
@@ -345,15 +348,15 @@ Schlüssel können innerhalb eines Baumes in inneren Knoten (Suchbaum), in Blät
 - Nebenreihenfolge: Merken eines Knoten bei drittem Besuch
 - Symmetrische Reihenfolge: Merken eines Knoten bei zweiten Besuch
 
-### Arithmetische Ausdrücke als Baum
+## Arithmetische Ausdrücke als Baum
 
 - Innere Knoten enthalten Operationen
 - Blätter enthalten Operanden
 - Übersetzungsprogramm erzeugt Baum und durchläuft diesen in NR bei Code-Erzeugung (Keller-Automat kann mit NR sofort rechnen)
 
-### Analytische Betrachtung
+## Analytische Betrachtung
 
-#### Vollständige Binärbaume
+### Vollständige Binärbaume
 
 Ein Binärbaum heißt voll, wenn seine Höhe und sein kürzester Pfad (zwischen Wurzel und Blatt) gleich sind. Die Anzahl von Knoten auf einer Ebene ist $2^i,i \geq 0$, auf vorletzter Ebene $2∗2^{k−1}=2^k$ Kanten aus, an denen Knoten hängen.
 
@@ -368,21 +371,21 @@ Ein Binärbaum heißt voll, wenn seine Höhe und sein kürzester Pfad (zwischen 
 - Maximale Höhe eines Binärbaumes (wenn zur "Liste" entartet: $h=ik$
 - Binärbaum minimaler Höhe muss ein vollständiger Binärbaum sein:  $h=\lceil ld(gk+1)\rceil −1$
 
-#### Interne Pfadlänge (Binärer Suchbaum)
+### Interne Pfadlänge (Binärer Suchbaum)
 
 - wie viele Vergleiche sind nötig, um jeden Schlüssel einmal zu finden: **Interne Pfadlänge**
 
-$$ipl(b)=$\sum_i k_E(i) * (i+1)$$
+$$ipl(b)=\sum_i k_E(i) * (i+1)$$
 
 - $k_E(i)$ - Anzahl der inneren Knoten einer Ebene
 
-#### Interne Pfadlänge (Binärer Suchbaum)
+### Interne Pfadlänge (Binärer Suchbaum)
 
 Durchschnittliche Suchpfadlänge $dpl$ misst, wieviel Knoten bei erfolgreicher Suche besucht worden sind
 
 $$dpl(b)=\frac{ipl(b)}{ik(b)}$$
 
-#### Maximale Anzahl von Suchschritten
+### Maximale Anzahl von Suchschritten
 
 Wie viele Vergleiche sind im ungünstigsten Fall notwendig um einen Schlüssel zu finden (Annahme: ausbalancierter Suchbaum)
 
@@ -390,7 +393,7 @@ $$S_{max}(n) = \lfloor ld n \rfloor +1$$
 
 Suchaufwand: $O(log(n))$
 
-### Ausgeglichene Binärbäume
+## Ausgeglichene Binärbäume
 
 - Zweck: Suchen, Einfügen und Entfernen in einem zufällig erzeugten binärem Suchbaum mit $n$ Schlüsseln stets in $O(log(n))$ Schritten ausführbar
 - Zusätzliche Bedingung an die Struktur des Baums: Verhinderung von Degenerieren bei Einfügen/Entfernen
@@ -400,20 +403,20 @@ Suchaufwand: $O(log(n))$
 - Ein binärer Suchbaum heißt AVL-ausgeglichen (höhenbalanciert), wenn für jeden Knoten gilt, dass sich die Höhen seiner Teilbäume um 1 unterscheidet
 - Balancierungsfaktor: $bal(k) = \text{Höhe des rechten TB} - \text{Höhe des linken TB}; bal(k)\in \{-1,0,1\}$
 
-#### Rebalancierungsoperationen
+### Rebalancierungsoperationen  
 
 - Rebalancierungsoperationen werden notwendig, wenn durch Einfügen/Entfernen die Rebalancierungsbedingung verletzt wird
 - Rebalancieren = Umhängen von Teilbäumen (Suchbaum bleibt erhalten)
 	- (Einfach)Rotation: Ein Teilbaum muss "umgehangen" werden
 	- Doppelrotation: Zwei Teilbäume muss "umgehangen" werden (an neuen inneren Knoten)
 
-### Bruder-Baum
+## Bruder-Baum
 
 - **Bruder-Baum:** Binärbaum, bei dem unäre Knoten zugelassen sind
 - **Unäre Knoten:** Innerer Knoten mit nur einem Nachfolger
 - Ziel: Alle Blätter auf einer Ebene (zu viele unäre Knoten entarten Baum -> Einführung weiterer Bedingungen)
 
-### Rot-Schwarz-Baum
+## Rot-Schwarz-Baum
 
 Ein Binärbaum heißt **Rot-Schwarz-Baum**, wen für alle Knoten gilt:
 
@@ -422,7 +425,7 @@ Ein Binärbaum heißt **Rot-Schwarz-Baum**, wen für alle Knoten gilt:
 - Ist ein Knoten rot, sind seine Nachfolger schwarz
 - der Pfad eines Knoten zu jedem seiner Blattknoten enthält die gleiche Anzahl schwarzer Knoten (Schwarzhöhe/-tiefe)
 
-### Vielwegsuchbaum
+## Vielwegsuchbaum
 
 - Suchaufwand abhängig von Baumhöhe -> Suchbäume sollten möglichst flach sein
 - Erreichbar, indem Grad > 2 (Bäume wachsen in die Breite)
@@ -443,7 +446,7 @@ Ein Binärbaum heißt **Rot-Schwarz-Baum**, wen für alle Knoten gilt:
 
 Minimale/Maximale Blätterzahl eines B-Baum der Ordnung $h$
 
-	$$N_{min}=2\left\lceil\frac{m}{2}\right\rceil^{h-1} \qquad N_{max}=m^h$$
+$$N_{min}=2\left\lceil\frac{m}{2}\right\rceil^{h-1} \qquad N_{max}=m^h$$
 
 -> Bei Überlauf muss Knoten geteilt werden
 
@@ -462,7 +465,7 @@ Minimale/Maximale Blätterzahl eines B-Baum der Ordnung $h$
 	- direkt zugreifbarer Block wird Knoten (Innere Knoten = Index)
 	- Blattknoten enthalten Dateien
 
-### Breitendurchlauf
+## Breitendurchlauf
 
 **Mit Hilfe einer Schlange**
 - Teilbäume stellen sich an (beginnend bei Wurzel):
@@ -470,9 +473,158 @@ Minimale/Maximale Blätterzahl eines B-Baum der Ordnung $h$
 - Besuch des ersten Knoten aus der Schlange (entfernen aus dieser) + wiederholen
 - Nach Durchlauf des gesamten Baumes ist die Schlange leer
 
-### Blattsuchbäume
+## Blattsuchbäume
 
 - innere Knoten enthalten "Wegweiser"
 	- größter Schlüssel des linken Teilbaum oder
 	- kleinster Schlüssel des rechen Teilbaum
 - Suche analog zu Binärbäumen
+
+# Sortieren
+
+- zentrales Problem der Computeranwendung (grundlegende Voraussetzung für effizientes Suchen)
+- Anwendung:
+	- statistische Auswertung großer Datenmengen
+	- Präsentation von Daten
+	- Datenbankanwendungen (erfordern effiziente Zugriffe)
+	- Teilschritt in anderen Algorithmen
+- **internes Sortieren:** Datensatz vollständig im Hauptspeicher
+- **externes Sortieren:** Datensatz zu groß für Hauptspeicher (Rückführung auf internes Sortieren -> Zerlegung in Teilschritte)
+- Reihenfolge der Sortierung: aufsteigend
+- Reihenfolge bei Mehrfachsortierung: Ergebnisse vorhergehender Sortierläufe bleiben erhalten (stabile Sortierung)
+- Aufwand der Sortierarbeit steigt mit der Anzahl $N
+ Elemente ($N$ = Problemgröße; Aufwand des Algorithmus steigt mit $N$)
+
+## Ressourcenverbrauch
+
+- Aufwandsabschätzung:
+	- **worst case:** maximaler Aufwand für schlechtesten Fall
+	- **best case:** minimaler Aufwand im günstigsten Fall
+	- **average case:** mittlerer Aufwand (meist schwer berechenbar)
+- Größenordnung des Aufwandes in Abhängigkeit von $N$ Schlüsseln
+
+$$O(fkt(N))=O(N^2)$$
+
+- Abstraktion durch konstanten Faktor: $O$-Kalkül
+
+**Erreichbarer Minimalaufwand**
+
+- Informationen über die Anordnung der Schlüssel werden allein aus Vergleichsoperationen bezogen
+- Die für die Sortierung notwendige Anzahl der Vergleiche $v(N)$ beträgt mindestens $O(N log N)$
+- Es gibt $N!$ mögliche Lösungen entsprechende der $N!$ Blätter eines Baumes bei $N$ Schlüsseln ($N!$ Permutationen)
+- Höhe des Baumes entspricht Anzahl der Vergleiche
+- Stirlingsche Formel für erreichbaren minimalen Aufwand:
+
+$$N! \approx \sqrt{2\N N}(\frac{N}{e})^N \rightarrow V(N) \approx N ld N \rightarrow O(N log N)$$
+
+- wichtige Operation für Zeiteffizienz: __Vergleiche__
+- bei Sortierung in Arrays: Austausche von Datensätzen (Listen: nur vertauschen der Referenzen)
+
+## Klassifizierungskriterien für Sortieralgorithmen
+
+**Abhängigkeit von der Größe des Arbeitsspeichers:** interne/externe Sortierung
+**Methodische Unterschiede:** Vertauschen/Einfügen/Auswählen/mit o. ohne Vorsortieren/Rekursion/...
+**nach Effizienz:** Laufzeitverhalten (O-Notation)/Speicherbedarf
+**Stabilität der Sortierverfahren:** stabil: gleichrangige Schlüssel werden nicht vertauscht
+
+## Problemspezifikation beim Sortieren von Datensätzen
+
+- Behälter $R$ enthält $n$ Elemente der Form $r=\text{key}+w$
+- Sortieren durch Ändern der Reihenfolge oder Angabe der Reihenfolge
+- Sortierfunktion: $\text{sort}: R \rightarrow R^'$
+- Menge $M = \{\text{key}_1,\dots,\text{key}_n\}$; Reihenfolge in $R^': r_i < r_j$
+
+
+## Einfache Sortierverfahren
+
+### Selection-Sort
+
+- Idee: entferne jeweils das kleinste Element aus der Ausgangsfolge und füge es am Ende der Ergebnisfolge ein
+- Selection-Sort ist terminiert (unsortierter Bereich verringert sich jeden Durchlauf)
+
+**Algorithmus**
+
+- setze $i = li$
+- solange $i < re$
+	- suche kleinsten key in [Ri.key ... Rre.key]; seine Position sei $i_{min}$
+	- vertausche Ri mit $R_{i_{min}}$
+	- erhöhe i um 1
+
+**Diskussion**
+
+- $N-1$ Durchläufe (in jedem Durchlauf $i$ $N-i$ Vergleiche)
+- $N-1$ Swaps
+- kein stabiles Verfahren ($3_1$ hinter $3_2$)
+- Aufwandsabschätzung: $T_{worst}(n)=T_{best}(N)\rightarrow O(N^2)$
+
+### Insertion-Sort
+
+- Idee: Entnimm der Ausgangsfolge ein beliebiges Element und sortiere es in die (bereits sortierte) Ergebnisfolge
+- Insertion-Sort ist terminiert (Ausgangsfolge wird bei jedem Durchlauf um ein Element verringert)
+
+**Algorithmus**
+
+- setze i = li + 1
+- solange i <= re
+	- speichere einzufügendes Element Ri in v
+	- suche die Einfügeposition für v.key und verschiebe alle dazwischenliegenden Elemente um eine Position nach rechts
+	- füge v an der frei geschobenen Position ein
+	- erhöhe i um 1
+
+**Diskussion**
+
+- $N-1$ Durchläufe (in jedem Durchlauf $i$ $N-i$ Vergleiche)
+- pro Durchlauf von Vorsortierung abhängige Anzahl von Vergleichen und Verschiebungen ($T_{worst}(n)\neq T_{best})
+- stabiles Verfahren
+- Aufwandsabschätzung: $T_{worst}(n)\rightarrowO(N^2); T_{best}(N)\rightarrowO(N); T_{avg}\rightarrow(N^2)$
+
+### Bubble-Sort
+
+- Idee: Vertausche benachbarte Schlüssel, wenn diese nicht in der gewünschten Reihenfolge sind
+- Bubble-Sort ist terminiert (Sortierter Bereich wird in jedem Durchlauf vergrößert)
+
+**Algorithmus**
+
+- solange swap durchgeführt wurde
+	- paarweises swap, wenn rechtes Element < linkes Element ist
+	- m merkt sich Index des letzten swap, damit nächster Durchlauf bei m-1 endet
+
+**Diskussion**
+
+- In jedem Durchlauf wandert das größte Element an die richtige Stelle
+- stabiles Suchverfahren, bei fast Vorsortierung trotzdem $n-1$ Durchläufe
+- Aufwandsabschätzung: $T_{worst}(n)\rightarrowO(N^2); T_{best}(N)\rightarrowO(N); T_{avg}\rightarrow(N^2)$
+
+### Vergleich
+
+| Selection-Sort                                       | Insertion-Sort                                            | Bubble-Sort                                              |
+|------------------------------------------------------|-----------------------------------------------------------|----------------------------------------------------------|
+| - $\frac{N^2}{2}$ Vergleiche, aber nur $O(N)$ swaps  | - $\frac{N^2}{4}$ Vergleiche, aber auch $O(N^2)$ swaps    | - $T_{worst}\approx T_{avg}\rightarrow \frac{N^2}{2}N^2$ |
+| - niedriger Austauschaufwand                         | - lineares Verfahren bei fast sortierten Dateien ($O(n)$) | - Vorsortierung sinnvoll                                 |
+| - Vorsortierung nie sinnvoll                         | - Vorsortierung wird am Besten honoriert                  |                                                          |
+
+
+## Sortierverfahren mit Vorsortierung
+
+- Insertion-Sort und Bubble-Sort belohnen Vorsortierung
+
+**Shell-Sort**
+
+- Basis: Insertion-Sort
+
+__Algorithmus__
+
+- setze h auf Anfangswert der Distanzfolge
+- repeat Schleife für aktuelles h
+	- berechne ein neues h der Distanzfolge
+	- while: damit k>=li bleibt, muss wegen k=k-h jetzt k>h sein
+	- füge v an der frei geschobenen Position ein
+	- erhöhe i um 1
+- verkleinere h bis h=1 abgearbeitet ist
+
+__Diskussion__
+
+- Werte der Distanzfolge bestimmen Güter der Vorsortierung
+- Laufzeitverhalten theoretisch schwer feststellbar (prinzipiell: $O(N^{1+e})$, experimentell: $O(N^{1.25})$)
+- Shell-Sort ist terminiert (vgl. Insertion-Sort)
+- kein stabiles Verfahren (swaps über weite Distanz)

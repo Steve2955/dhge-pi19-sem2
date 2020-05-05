@@ -82,7 +82,7 @@
 	- [X] Bäume 1
 	- [X] Bäume 2
 - [ ] Sortieren
-	- [ ] Sortieren 1
+	- [X] Sortieren 1
 	- [ ] Sortieren 2
 - [ ] Suchen
 	- [ ] Suchen 1
