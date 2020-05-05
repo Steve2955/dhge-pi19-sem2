@@ -1,6 +1,8 @@
-# Vertiefung Programmierung/Objektorientierte Programmierung
+Vertiefung Programmierung/Objektorientierte Programmierung
+==========================================================
 
-## Unterschiede C/C++
+
+# Unterschiede C/C++
 
 - Namen können explizit Namespaces zugeordnet werden (vermeidung von Namenskollisionen)
 	- identische Namen können in unterschiedlichen Namespaces existieren
@@ -21,7 +23,7 @@
 - Konstanten ```const``` sind echte Konstanten -> vgl. ```#define```, aber mit Typsicherheit (nicht mehr global deklariert -> für Sichtbarkeit von außen: ```extern const```)
 - ```extern "C"```: für korrekte Übersetzung der Funktionsnamen zwischen C und C++
 
-## Erweiterungen für Funktionen
+# Erweiterungen für Funktionen
 
 - Defaultwerte für Funktion
 	- Defaultwerte können Konstanten oder Globale Variablen sein
@@ -49,9 +51,9 @@ bool delete(int key, double &val);
 ```
 	- Der Wert auf der rechten Seite der Zuweisung wird in jenes Objekt gespeichert, auf das die Referenz zeigt, die als Returnwert von der Funktion zurückkommt
 
-## I/O und File-I/O
+# I/O und File-I/O
 
-### Ein-/Ausgabe auf die Konsole
+## Ein-/Ausgabe auf die Konsole
 
 ```C++
 #include <iostream> //statt <stdio.h>
@@ -71,7 +73,7 @@ cin >> variable;
 // Zeichenweises Lesen ebenfalls ohne Whitespace
 ```
 
-### Lesen und Schreiben von Dateien
+## Lesen und Schreiben von Dateien
 
 - relevante Klassen: ```ifstream``` (Lesen), ```ofstream``` (Schreiben), ```fstream``` (Beides)
 
@@ -110,14 +112,14 @@ while (inFile.getline(zeile, 81)) {}
 while (inFile >> txt) {}
 ```
 
-## Objektorientierte Software-Entwicklung
+# Objektorientierte Software-Entwicklung
 
 - Bisher (C): Ablauforientiert = Schritt für Schritt = am Code orientiert
 - Jetzt (C++): Datenorientiert -> Daten statt Algorithmus im Mittelpunkt
 - Aufspaltung von Code in Objekte mit Eigenschaften und Funktionalitäten
 	- Neue Denkweise: Daten sind aktiv, d.h. können Operationen auf sich selbst ausführen und werden für ein bestimmtes Objekt aufgerufen (in jeder Funktion gibt es einen "ich selbst"-wert)
 
-### Konzepte und Terminologien
+## Konzepte und Terminologien
 
 **Klasse**
 - vgl. ```struct```-Typ erweitert um Funktionen und einiges mehr
@@ -132,9 +134,9 @@ while (inFile >> txt) {}
 **Member-Variable**
 - Einer Klasse zugehöriges Datenelement (Primitives oder andere Objekte)
 
-## Klassen und Objekte in C++
+# Klassen und Objekte in C++
 
-### Deklaration einer Klasse
+## Deklaration einer Klasse
 ```C++
 class Color{
 	public: // Öffentliche Schnittstelle der Klasse -> Zugriff von außen (immer zuerst -> Lesbarkeit)
@@ -150,7 +152,7 @@ class Color{
 }
 ```
 
-### Objekte deklarieren/anlegen
+## Objekte deklarieren/anlegen
 
 - Klassenname ist zugleich Typ (vgl. ```struct``` mit ```typedef```)
 - Initialisierung mit Standard-Konstruktor, Copy-Konstruktor (Kopie eines vorhandenen Objektes) oder Typumwandlungs-Konstruktor
@@ -158,12 +160,12 @@ class Color{
 - temporäre, anonyme Objekte: ```myFunc(myClass(x, 42), ...);```
 - dynamisches anlegen mit ```new``` statt ```malloc```
 
-### Definition des Codes von Methoden
+## Definition des Codes von Methoden
 
 - entweder direkt in der Klasse (nur kurze Methoden) oder danach (dann mit Klassennamen ```double myClass::myMeth(double *data, int size) { ...```)
 - auch Definition von Konstruktoren außerhalb der Klasse möglich
 
-### Konstruktoren
+## Konstruktoren
 
 - Name der Klasse, kein Returntyp
 - Mehrere Konstruktoren möglich (Überladen)
@@ -177,21 +179,21 @@ class Color{
 	- **Nicht** beim Anlegen eines Pointers
 - Konstruktoren dienen der Initialisierung (Objekte sollten gleich mit gültigem Inhalt "geboren" werden)
 
-### Arten von Konstruktoren
+## Arten von Konstruktoren
 
 - Standard-Konstruktor: Ohne Parameter, tut nichts (nur angelegt, wenn kein expliziter Konstruktor vorhanden)
 - Copy-Konstruktor: erhält const-Referenz auf das Original, legt standardmäßig eine bitweise Kopie an (kann überschrieben werden)
 - Typumwandlungs-Konstruktor: Parameter eines anderen Typs (meist const, Objektparameter als const Referenz)
 	- wird ein Typumwandlungs-Konstruktor als ```explicit``` deklariert, wird er nicht für implizite Typumwandlungen verwendet
 
-### "Verhinderte" Konstruktoren
+## "Verhinderte" Konstruktoren
 
 - man kann Konstruktoren als ```private``` oder ```protected``` definieren (verhindert Zugriff von außerhalb der Klasse -> z.B. für Singelton-Klassen)
 - Bei ausschließlicher Deklarierung von Konstruktoren (ohne Code) wird der Aufruf verhindert (Fehler beim Linken)
 	- Ab C++-11: mit ```= delete```
 - Häufige Anwendung: Copy-Konstruktor verhindern (z.B. statische Klassen -> Konstantensammlung)
 
-### Destruktoren
+## Destruktoren
 
 - Metodenname mit Tilde: ```~myClass```; kein Paramter, kein Return (nur einer pro Klasse)
 - Aufruf bei:
@@ -201,7 +203,7 @@ class Color{
 	- Destruktor des Übergeordneten Objektes
 - Pointer werden nicht automatisch freigegeben!
 
-### Initialisierungsliste
+## Initialisierungsliste
 
 
 ```C++
@@ -211,34 +213,34 @@ Point(const Color &color, int x, int y) : mRGB(color), mX(x), mY(y) { ... }
 - Werte können beliebige Ausdrücke, Konstanten, globale Variablen oder Parameter des Konstruktors sein
 - Notwendig für ```const```-Member und Member, die Objekte sind (damit explizit ein Konstruktor aufgerufen werden kann) und später bei Vererbung
 
-### this
+## this
 
 - Zeiger auf das eigene Objekt
 - Verwendung innerhalb von Methoden
 
-### Zugriff auf Member
+## Zugriff auf Member
 
 - bei eigenen Membern: wie normale Variablen
 - In der Namenssuch-Reihenfolge zwischen lokalen und globalen Variablen
 - Member fremder Objekte: ```obj.member``` oder ```obPtr->member```
 - ```private``` gilt auf Klassenebene -> Objekte gleicher Klasse können gegenseitig auf ```private```-Member zugreifen
 
-### const-Methoden
+## const-Methoden
 
 - nach den Parametern steht const: ```(...)const```
 - ändert ```this```: keine Zuweisung auf Member-Variablen, ruft intern nur const-Methoden auf
 - Objekte, die als const deklariert sind, dürfen nur const-Methoden beinhalten
 
-### Übliche Methoden get... und set...
+## Übliche Methoden get... und set...
 
 Üblicherweise Member-Variablen nicht public -> Zugriff über Getter/Setter-Funktionen
 
-### Aufruf von Methoden
+## Aufruf von Methoden
 
 - eigenes Objekt: wie normale Funktion oder ```this->meth()```
 - fremdes Objekt: ```obj.meth()``` oder ```objPrt->meth()```
 
-### Statische Member und Methoden
+## Statische Member und Methoden
 
 - einmal pro Klasse existent: Alle Objekte der Klasse greifen auf gleichen Wert zu
 - Speicher wird bei Programmstart agelegt
@@ -250,22 +252,22 @@ static int myClass::myCounter = 1; // außerhalb der Klasse
 - Wenn statische Member public sind, kann auf diese auch ohne Objekt zugegriffen werden: ```myClass::myCounter = -1;```
 - in statischen Methoden ist ```this``` nicht definiert
 
-### const-Member
+## const-Member
 
 - normale const-Member-Variablen: existieren ein mal pro Objekt, Initialisierung durch Initialisierungsliste
 - echte Konstanten: belegen keinen Speicher (nur Primitives)
 - echte konstante Klassenvariablen: einmal im Speicher angelegt, bei Programmstart initialisiert (Initialisierung muss separat von der Deklaration stehen)
 
-### Pointer auf Methoden
+## Pointer auf Methoden
 
 - dürfen nicht auf ```void*``` konvertiert werden
 - Static Methoden sind normale Funktionspointer, keine Methoden-Pointer
 
-### Objekte als Parameter und Returnwert
+## Objekte als Parameter und Returnwert
 
 - wie bei Strukturen: Übergabe __by value__ möglich, normalerweise aber stets __by reference__
 
-### Friend
+## Friend
 
 - ```friend``` teilt den Zugriff auf alle Member und Methoden der eigenen Klasse
 - Häufig eingesetzt bei eigenen Ausgabe-Operatoren
@@ -275,7 +277,7 @@ friend class xxx;
 friend prototyp;
 ```
 
-### Aufteilung in Dateien
+## Aufteilung in Dateien
 
 - Ein .h-File und ein .cpp-File pro Klasse
 - weitere .cpp/.h-Files für nicht-Klassen-Code (z.B. main)
@@ -297,12 +299,12 @@ Includes:
 - Fehler bei mehrfachen Includes vermeiden: ```#ifndef /
 #define / #endif```
 
-### Enumeration innerhalb einer class
+## Enumeration innerhalb einer class
 
 - werden innerhalb einer Klasse Enumerations-Typen nicht als ```public``` deklariert, kann dieser nur innerhalb der Klasse verwendet werden
 - Zugriff auf ```public```-Enums: ```myClass::myEnumType; myClass::myEnumVal1```
 
-### Dynamische Speicherverwaltung: new und delete
+## Dynamische Speicherverwaltung: new und delete
 
 - `new` legt dynamischen Speicher an (vgl. ```malloc```), ruft den Konstruktor auf und liefert einen Pointer auf das Objekt/Array
 - Primitives sind mit Standard-Konstruktor uninitialisiert (zufällige Bits)
@@ -325,7 +327,7 @@ delete p; // Gibt ein Objekt frei (p = Pointer auf Objekt)
 delete [] p;  // Gibt ein Array von Objekten frei (p = Pointer auf Array)
 ```
 
-## Vererbung
+# Vererbung
 
 - Eine Klasse kann als Erweiterung einer bestehenden Klasse deklariert werden (sie "erbt" **alle** Member und Methoden dieser Klasse)
 	- Member werden unverändert übernommen, können nicht geändert werden
@@ -338,23 +340,23 @@ class Button: public DialogElement {...};
 // durch public werden die Rechte der Basis-Klasse unverändert übernommen (meist üblich)
 ```
 
-### protected
+## protected
 
 - ```protected``` ist eine Mischung aus ```public``` und ```private```
 - von außen sind ```protected```-Member unsichtbar (```private```)
 - innerhalb der Klasse verhält sich ```protected``` wie ```public```
 
-### Design-Hilfe
+## Design-Hilfe
 
 - __"X ist (auch) ein Y"__: X wird wahrscheinlich von Y abgeleitet
 - __"X hat (auch) ein Y"__: Y ist wahrscheinlich ein Member von X
 
-### Erben und Überschreiben von Methoden
+## Erben und Überschreiben von Methoden
 
 - Überschreiben von Code einer Funktion, die bereits in der Vaterklasse deklariert ist
 - Beim Aufruf wird stets der "zutreffenste" Code einer Methode ausgeführt (erst eigene, dann Vaterklasse)
 
-### Virtuelle Methoden
+## Virtuelle Methoden
 
 - Ein Pointer der auf ein Objekt der Klasse x zeigt, kann entweder auf ein Objekt der Klasse x oder auf ein Objekt einer davon direkt oder indirekt abgeleiteten Klasse zeigen
 - Man darf somit einen Pointer der Klasse X auch auf ein Objekt einer davon abgeleiteten Klasse zuweisen (__nicht umgekehrt__)
@@ -373,7 +375,7 @@ virtual void myFunc(); // Funktion der abgeleiteten Klasse wird aufgerufen
 void myFunc(); // Funktion der Vaterklasse wird aufgerufen
 ```
 
-### Typumwandlungen zwischen abgeleiteten Klassen
+## Typumwandlungen zwischen abgeleiteten Klassen
 
 - Wie kann man feststellen, ob ein Pointer auf eine Vaterklasse oder abgeleitete Klasse zeigt?
 	- Deklaration eines Members in der Vaterklasse, der diese Information beinhaltet
@@ -382,7 +384,7 @@ void myFunc(); // Funktion der Vaterklasse wird aufgerufen
 	- ```static_cast``` auf eine abgeleitete Klasse möglich (aber unsicher, __nur umgekehrt verwenden__)
 	- ```dynamic_cast``` für den speziellen Fall deklarieren (Sicher durch Laufzeitüberprüfung -> bei falscher Klasse ```NULL```-Pointer; funktioniert nur wenn mindestens eine virtuelle Methode deklariert ist)
 
-### Konstruktoren und Destruktoren in abgeleiteten Klassen
+## Konstruktoren und Destruktoren in abgeleiteten Klassen
 
 **Reihenfolge**
 
@@ -408,7 +410,7 @@ void myFunc(); // Funktion der Vaterklasse wird aufgerufen
 
 Im Code von Konstruktoren und Destruktoren ist der Aufruf virtueller Methoden nicht möglich, es wird immer die Methode unmittelbar aus der Klasse des Konstruktor aufgerufen.
 
-### Aufruf der Methode einer Vaterklasse
+## Aufruf der Methode einer Vaterklasse
 
 Um explizit die Methode einer Vaterklasse aufzurufen, muss der Scope-Operator verwendet werden.
 
@@ -418,7 +420,7 @@ someObj.myBaseClass::myFunc(...); // Für andere Objekte
 ptr->myBaseClass::myFunc(...); // ^^
 ```
 
-### Rein virtuelle Methoden, abstrakte Klassen
+## Rein virtuelle Methoden, abstrakte Klassen
 
 - Häufig soll eine Methoden in einer Basisklasse deklariert (Prototyp), aber nicht Implementiert werden (Code)
 - = rein virtuelle Methoden
@@ -430,7 +432,7 @@ virtual void draw() = 0; // Rein virtuelle Methode
 
 - rein virtuelle Destruktoren werden durch ```{}``` markiert
 
-### Mehrfachvererbung
+## Mehrfachvererbung
 
 ```C++
 class myClass : public Base1, public Base2 { ... };
@@ -440,7 +442,7 @@ class myClass : public Base1, public Base2 { ... };
 - Besitzen die Vaterklassen indirekt selbst eine geteilte Vaterklasse, so werden zwei Instanzen dieser Großvaterklasse erzeugt (Großvaterklasse muss in Vaterklasse als ```virtual``` geerbt werden)
 - solche Konstrukte sollten vermieden werden
 
-### ```clone```-Trick
+## ```clone```-Trick
 
 - Pointer auf Objekt der Basisklasse kann entweder auf Basisklasse oder auf abgeleitete Klassen zeigen
 - Copy-Konstruktor reicht der Basisklasse nicht, um die Member der abgeleiteten Klasse zu kopieren
@@ -456,3 +458,38 @@ virtual Child* clone() const {
 // Korrekte Klasse wird nun automatisch Kopiert (mit allen Membern)
 copyPtr = origPtr->clone();
 ```
+
+# Operator Overloading
+
+- Overloading ermöglicht das überschreiben völlig getrennter unabhängiger Funktionen
+- diese Funktionalität lässt sich auch für Operatoren wie ```+,-,=,->,&&,==, ...``` realisieren
+
+```C++
+T& T::operator =(const T& b); // Basic assignment
+bool T::operator >(const T& b) const; // Greater than
+T T::operator ~() const; // Bitwise not
+R& T::operator [](const T2& b); // Array subscript
+// ...
+```
+
+- Gleiche Operationen mit unterschiedlichen Operanden lassen sich mit verschiedenen Parameter-Typen überschreiben
+- Können global oder als Methode einer Klasse definiert werden
+	- soll der Operator als Methode aufgerufen werden, muss der linke Operator die entsprechende Klasse sein (das eigene Objekt wird mit ```this``` übergeben)
+	- Kann der Operand in einer Klasse (Basistyp oder fremd) nicht überschrieben werden, muss der Operator global überschrieben werden
+	- für I/O-Zwecke werden immer als globale Funktionen definiert
+- Anzahl der Operanden, Bindungsrichtung Priorität sind nicht überschreibbar
+- Operator-Funktionen (speziell ```<<, >>```) werden oft als ```friend``` definiert, damit auch auf die ```private``` Member der Klassen zugegriffen werden kann
+- Operanden werden normalerweise als ```const```-Referenz übergeben (Ausnahme: Zuweisungen; das ```const``` für ```this``` steht im Prototypen)
+
+## Returnwert
+
+**Der Operator berechnet ein neues Ergebnis**
+
+- Returnwert ist keine Referenz, Operanden sind als ```const``` definiert
+- neues, lokales Objekt anlegen und zurückgeben (__by value__)
+
+**Der Operator ändert einen der Operanden**
+
+- Returnwert muss eine Referenz sein (verweist auf geänderten Operanden, keine Kopie)
+- Bei Funktion: ein Operand muss Referenz sein, kein ```const``` (diese Referenz muss zurückgegeben werden)
+- Bei Methode: gibt Referenz auf das eigene Objekt zurück (```return *this;```)

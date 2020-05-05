@@ -32,8 +32,8 @@
 - [X] Grundlegende C++-Konstrukte 2
 - [X] Vererbung
 - [X] clone
-- [ ] Operationen 1
-- [ ] Operationen 2
+- [X] Operatoren 1
+- [ ] Operatoren 2
 - [ ] Strings und Stringstreams
 
 ## MAT - Analysis
