@@ -515,7 +515,7 @@ $$O(fkt(N))=O(N^2)$$
 - Höhe des Baumes entspricht Anzahl der Vergleiche
 - Stirlingsche Formel für erreichbaren minimalen Aufwand:
 
-$$N! \approx \sqrt{2\N N}(\frac{N}{e})^N \rightarrow V(N) \approx N ld N \rightarrow O(N log N)$$
+$$N! \approx \sqrt{2N N}(\frac{N}{e})^N \rightarrow V(N) \approx N ld N \rightarrow O(N log N)$$
 
 - wichtige Operation für Zeiteffizienz: __Vergleiche__
 - bei Sortierung in Arrays: Austausche von Datensätzen (Listen: nur vertauschen der Referenzen)
@@ -531,8 +531,8 @@ $$N! \approx \sqrt{2\N N}(\frac{N}{e})^N \rightarrow V(N) \approx N ld N \righta
 
 - Behälter $R$ enthält $n$ Elemente der Form $r=\text{key}+w$
 - Sortieren durch Ändern der Reihenfolge oder Angabe der Reihenfolge
-- Sortierfunktion: $\text{sort}: R \rightarrow R^'$
-- Menge $M = \{\text{key}_1,\dots,\text{key}_n\}$; Reihenfolge in $R^': r_i < r_j$
+- Sortierfunktion: $\text{sort}: R \rightarrow R'$
+- Menge $M = \{\text{key}_1,\dots,\text{key}_n\}$; Reihenfolge in $R': r_i < r_j$
 
 
 ## Einfache Sortierverfahren
@@ -576,7 +576,7 @@ $$N! \approx \sqrt{2\N N}(\frac{N}{e})^N \rightarrow V(N) \approx N ld N \righta
 - $N-1$ Durchläufe (in jedem Durchlauf $i$ $N-i$ Vergleiche)
 - pro Durchlauf von Vorsortierung abhängige Anzahl von Vergleichen und Verschiebungen ($T_{worst}(n)\neq T_{best})
 - stabiles Verfahren
-- Aufwandsabschätzung: $T_{worst}(n)\rightarrowO(N^2); T_{best}(N)\rightarrowO(N); T_{avg}\rightarrow(N^2)$
+- Aufwandsabschätzung: $T_{worst}(n)\rightarrow O(N^2); T_{best}(N)\rightarrow O(N); T_{avg}\rightarrow(N^2)$
 
 ### Bubble-Sort
 
@@ -593,7 +593,7 @@ $$N! \approx \sqrt{2\N N}(\frac{N}{e})^N \rightarrow V(N) \approx N ld N \righta
 
 - In jedem Durchlauf wandert das größte Element an die richtige Stelle
 - stabiles Suchverfahren, bei fast Vorsortierung trotzdem $n-1$ Durchläufe
-- Aufwandsabschätzung: $T_{worst}(n)\rightarrowO(N^2); T_{best}(N)\rightarrowO(N); T_{avg}\rightarrow(N^2)$
+- Aufwandsabschätzung: $T_{worst}(n)\rightarrow O(N^2); T_{best}(N)\rightarrow O(N); T_{avg}\rightarrow(N^2)$
 
 ### Vergleich
 
@@ -628,3 +628,104 @@ __Diskussion__
 - Laufzeitverhalten theoretisch schwer feststellbar (prinzipiell: $O(N^{1+e})$, experimentell: $O(N^{1.25})$)
 - Shell-Sort ist terminiert (vgl. Insertion-Sort)
 - kein stabiles Verfahren (swaps über weite Distanz)
+
+## Effiziente Sortierverfahren
+
+### Divide and conquer
+
+- Teile und herrsche
+- Vertreter:
+	- Quick-Sort: Aufwendiger Divide-Schritt, trivialer Füge-Schritt
+	- Merge-Sort: Trivialer Divide-Schritt, aufwendiger Füge-Schritt
+- Laufzeitverhalten: $T_{worst}(n)\rightarrow O(N^2); T_{avg}\rightarrow(N log N)$
+
+**Grundprinzip**
+
+```
+Divide: Zerlege Menge in zwei gleich große Teilmengen
+Conquer: Sortiere jede Teilmenge
+Fügen: Füge Teillösungen geordnet zusammen
+```
+
+### Quick-Sort
+
+- Idee: wähle ein beliebiges Element x aus der Folge (= Pivotelement)
+	- teile die Restfolge in zwei Teilmengen (LTM und RTM)
+	- sortiere beide Teilmengen mit Quick-Sort (Rekursion)
+- Auswahl des Pivot-Elements
+	- für höchste Effizienz teilen in zwei gleichgroße Teilmengen
+	- Verschiedene Strategien: R[li].key, R[re].key, R[(li+re) div 2].key, ...
+- Termination: bei Partitionierung entstehende Teilmengen sind immer kleiner als die Ausgangsmenge bis zur einelementigen Liste
+- kein stabiles Verfahren
+
+**Algorithmus**
+
+- Abbruch bei einelementiger bzw. leerer Menge
+- setze Partitionierungsindizes L, R
+- Wähle Pivot-Element (Index p)
+- partitioniere:
+	- prüfe Partitionierungsbed. linke Teilmenge
+	- prüfe Partitionierungsbed. rechte Teilmenge
+	- tausche Elemente, wenn notwendig
+- $L>R$: Partitionierung fertig, 2 Teilmengen
+- rekursiver Aufruf mit den beiden Teilmengen
+
+**Aufwandsabschätzung**
+
+- worst case: Conquer zerlegt eine Folge von $N$ Elementen rekursiv in 2 Folgen der Länge $1$ und $N-1$ ($T_{worst}\rightarrow O(N^2)$)
+- best case: Conquer zerlegt eine Folge von $N$ Elementen rekursiv in 2 Folgen gleicher Länge ($T_{best}\rightarrow O(N log N)$)
+
+### Merge-Sort
+
+- Idee:
+	- Zerlege die Ausgangsmenge rekursiv in 2 gleichgroße Teilmengen (bis einelementige Mengen)
+	- Mische jeweils 2 benachbarte Teilmengen, sortiere dabei die Elemente
+- Gut geeignet für Sortierung von Daten auf externen Medien
+- Termination: durch sukzessive Teilung der Folge bis zu einelementiger Folge gesichert
+- stabiles Verfahren
+**Algorithmus**
+- Abbruch bei einelementiger bzw. leerer Menge
+- teile R[li]...R[re] in der Mitte m;
+- sortiere rekursiv (linke, rechte Teilmenge)
+- füge 2 Teilmengen zusammen
+
+**Aufwandsabschätzung**
+
+- worst case: $O(N log N)$
+- worst = optimal (immer optimale Teilung)
+
+### Heap-Sort
+
+- Idee: Sortierung mittels eines spez. Binärbaums
+- Grundprinzip: partielle Ordnung eines Baumes mit N Knoten (Schlüsseln)
+$$k_i \geq \begin{cases} k_{2i} & 2i \leq N \\k_{2i+1} & 2i+1 \leq N \end{cases}$$
+- Die sukzessive Entnahme des Wurzelknotens mit anschließendem Wiederherstellen der partiellen Ordnung erzeugt eine geordnete Folge
+- Termination: unsortierte Menge nimmt kontinuierlich ab
+- nicht stabil
+
+**Algorithmus**
+
+- solange R_Unsort nicht leer
+	- entnimm R_Unsort Wurzelschlüssel und hänge ihn in R_Sort sukzessive am Ende an
+	- Stelle danach wieder die Heap-Bedingung für R_Unsort her
+
+**Diskussion**
+
+- Baumstruktur: $j = ld(N+1)$ Ebenen -> garantiertes $O(N log N)$-Verfahren
+- Durchschnittliche Zahl der Vergleiche: $2*N log N + O(N)$
+- Laufzeitverhalten: $T_{worst}(n)\rightarrow O(N log N);$
+
+### Radix-Sort
+
+- Idee: Ausnutzen digitaler Darstellungs-Eigenschaften der Schlüssel (Schlüssel als Zahl zur Basis M) -> Betrachtung der einzelnen Ziffern
+- Stabilität: bitweise Zerlegung -> Schlüssel mit i-ten Bit 0 vor Schlüsseln mit i-ten Bit 1 stabil angeordnet
+
+***Diskussion***
+
+- für N verschiedene Schlüssel werden im Dualsystem $b=ld(N)$ Bits benötigt
+- Komplexität: $T=O(N log N)$ ($b*N$ Vergleiche)
+- gut bei Zeichenketten fester Länge
+- stabil und terminiert , weil Anz. von Bits und Keys begrenzt ist
+- Effizienzproblem bei Vorsortierung
+- Zusätzlicher Speicherplatz notwendig (exsitu)
+- Umfangreiche innere Schleife des Verfahrens (deshalb kaum schneller als Quicksort)

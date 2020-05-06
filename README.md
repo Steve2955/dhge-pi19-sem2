@@ -81,9 +81,9 @@
 - [X] Bäume
 	- [X] Bäume 1
 	- [X] Bäume 2
-- [ ] Sortieren
+- [X] Sortieren
 	- [X] Sortieren 1
-	- [ ] Sortieren 2
+	- [X] Sortieren 2
 - [ ] Suchen
 	- [ ] Suchen 1
 	- [ ] Suchen 2
