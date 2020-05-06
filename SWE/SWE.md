@@ -493,3 +493,50 @@ R& T::operator [](const T2& b); // Array subscript
 - Returnwert muss eine Referenz sein (verweist auf geänderten Operanden, keine Kopie)
 - Bei Funktion: ein Operand muss Referenz sein, kein ```const``` (diese Referenz muss zurückgegeben werden)
 - Bei Methode: gibt Referenz auf das eigene Objekt zurück (```return *this;```)
+
+
+## Zuweisungsoperator
+
+- kann nur als Methode definiert werden
+- immer erst Prüfung auf Selbst-Zuweisung (```if (this == &value) return *this;```)
+- Zuweisungs-Operator einer abgeleiteten Klasse: Aufruf der Basisklasse (```this->myBaseClass::operator=(val);```)
+- ```return *this;``` (Referenz auf Objekt der eigenen Klasse)
+- Verwendung: Aufräumen, Pointer auf dynamische Daten
+
+## Index-Operator
+
+- kann nur als Methode definiert werden
+- bei Zuweisung Rückgabe einer Referenz auf das ausgewählte Element, sonst *by value*
+
+```C++
+elemClass &operator[] (int index); // Lesen und Schreiben (Zuweisung)
+elemClass const &operator[] (int index) const; // Lesen
+```
+
+## <</>>-Operator
+
+```C++
+ostream &operator<<(ostream &outFile, const myClass &val);
+istream &operator>>(istream &inFile, myClass &var);
+// für Reihung mehrere Ein-/Ausgabe Operationen:
+return outFile;
+```
+
+## Der Typ-Cast-Operator
+
+- kann nur als Methode definiert werden (Umwandlung des ```this```)
+- Operator-Name = Typ-Name (z.B.```operator double()```); kein expliziter Return-Typ
+- Verwandelt Klasse in fremden Typ
+
+## Increment- und Decrement-Operator
+
+- Prefix: Returnwert = Referenz auf das eigene Objekt
+- Postfix: Returnwert = neuer Wert *by value*
+- Unterscheidung über zusätzlichen funktionslosen int-Parameter (mit = suffix)
+
+## Probleme von virtuellen Funktionen und Operatoren
+
+Vorrausetzung für das Überschreiben:
+- Return-Typ muss exakt ident sein (oder voneinander abgeleitete Klassen)
+- Parameter müssen exakt ident sein (keine abgeleitete Klassen! -> viele Probleme)
+In der Realität kaum überschriebene Operatoren

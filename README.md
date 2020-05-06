@@ -33,7 +33,7 @@
 - [X] Vererbung
 - [X] clone
 - [X] Operatoren 1
-- [ ] Operatoren 2
+- [X] Operatoren 2
 - [ ] Strings und Stringstreams
 
 ## MAT - Analysis
