@@ -540,3 +540,31 @@ Vorrausetzung für das Überschreiben:
 - Return-Typ muss exakt ident sein (oder voneinander abgeleitete Klassen)
 - Parameter müssen exakt ident sein (keine abgeleitete Klassen! -> viele Probleme)
 In der Realität kaum überschriebene Operatoren
+
+# Strings und Stringstreams
+
+- Header: ```<string>``` (alte C-Strings: ```<cstring>```)
+- Umwandlung von C-Strings in C++-Strings sehr angenehm (Verwendung von C-Strings mit C++ Funktionen)
+
+**Operationen auf String-Objekte**
+
+- ```s.clear();``` - setze ```s``` auf Leerstring
+- ```s.length();``` oder ```s.size();``` - Tatsächliche Länge von ```s```
+- ```s.empty();``` - ist ```s``` leer?
+- Zugriff auf einzelne Zeichen: ```s[];``` (ohne Längenprüfung!)
+- Zusammenhängen mit ```+``` Operator (mindestens ein Operand muss ```string``` sein)
+- Anhängen mit ```+=``` ```s.append()```: für String, C-String oder char
+- Teilstring extrahieren mit ```s.substr(pos,n)```
+- Vergleich über Normale Operatoren ```== != < > <= >``` oder ```s1.compare(s2)```
+- Weitere Funktionen: ```find, insert, erase, replace```
+
+**String-Streams**
+
+- Header: ```<sstream>```
+- Ein- oder Ausgabe wie bei ```cin, cout``` mit ```<<, >>``` (in einen String schreiben oder lesen)
+
+```C++
+stringstream s;
+s << "Hello " << name << "!\n";
+return s.str(); // Liefert internen String
+```

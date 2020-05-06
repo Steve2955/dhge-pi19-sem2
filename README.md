@@ -34,7 +34,7 @@
 - [X] clone
 - [X] Operatoren 1
 - [X] Operatoren 2
-- [ ] Strings und Stringstreams
+- [X] Strings und Stringstreams
 
 ## MAT - Analysis
 
