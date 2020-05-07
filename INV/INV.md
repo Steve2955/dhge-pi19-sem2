@@ -461,3 +461,12 @@ $$I=\{0,1\}\quad L \subset I^* = (01 \lor 010 \lor 001)^* $$
 $$Q=\{q_0,q_1,q_2,q_3,q_4,q_5\}; I=\{a,b\}; F=\{q_0,q_2,q_4\}$$
 
 $$\delta = \{(q_0,0,q_1), (q_0,1,q_5), (q_1,0,q_3), (q_1,1,q_2),\\ (q_2,0,q_4), (q_2,1,q_5), (q_3,0,q_5), (q_3,1,q_0),\\ (q_4,0,q_1), (q_4,1,q_2), (q_5,0,q_5), (q_5,1,q_5)\}$$
+
+## Endliche nichtdeterministische Automaten
+
+- im Gegensatz zu deterministischen Automaten: **mehrere/keine Kanten für ein Zeichen, Katen für Zeichenketten**
+- erlaubt deutlich einfachere Problembeschreibung (zu jedem nichtdeterministischen Automat existiert auch ein komplexerer deterministischer Automat)
+- reale Umsetzung nicht möglich (hellseherischen Fähigkeiten -> korrekt aus mehreren Folgezuständen wählen)
+- akzeptieren eine Eingabe genau dann, wenn es mindestens einen Weg vom Anfangszustand in den Endzustand gibt
+- gibt es ausgehend von einem Zustand keine Kante, die das Zeichen verarbeitet, wird das Wort nicht akzeptiert
+- die formelle Beschreibung entspricht der eines deterministischen Automaten

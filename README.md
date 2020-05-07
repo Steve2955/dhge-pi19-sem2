@@ -13,7 +13,7 @@
 - [X] Turing-Maschinen, Übung Inkrementmaschine
 - [X] Endliche deterministische Automaten
 - [X] Endliche deterministische Automaten, Übung 1
-- [ ] Endliche nichtdeterministische Automaten
+- [X] Endliche nichtdeterministische Automaten
 - [ ] Übung zum Entwurf nichtdeterministischer Automaten
 - [ ] Umwandlung nichtdeterministischer in deterministische Automaten
 - [ ] Übung zur Umwandlung nichtdeterministischer in deterministische Automaten
@@ -35,6 +35,9 @@
 - [X] Operatoren 1
 - [X] Operatoren 2
 - [X] Strings und Stringstreams
+- [X] Organisatorisches
+- [ ] Objekte mit Pointern
+- [ ] Exceptions
 
 ## MAT - Analysis
 
