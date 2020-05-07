@@ -11,7 +11,7 @@
 - [X] Registermaschinen, RAM
 - [X] Turing-Maschinen
 - [X] Turing-Maschinen, Übung Inkrementmaschine
-- [ ] Endliche deterministische Automaten
+- [X] Endliche deterministische Automaten
 - [ ] Endliche deterministische Automaten, Übung 1
 - [ ] Endliche nichtdeterministische Automaten
 - [ ] Übung zum Entwurf nichtdeterministischer Automaten

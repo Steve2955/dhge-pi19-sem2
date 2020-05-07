@@ -248,7 +248,7 @@ Automat, der nur dessen Worte akzeptiert, die weder **aa** noch **bb** enthalten
 ```Javascript
 i:DO f ; GOTO j // Ausführung einer Registeroperation und Sprung nach j
 i:IF t THEN GOTO j ELSE GOTO k // Test, ob der Registerinhalt 0 ist,
-															// wenn ja Sprung nach j, sonst nach k
+                               // wenn ja Sprung nach j, sonst nach k
 ```
 
 - Tupelschreibweise: $(i,f,j)$ und $(i,t,j,k)$
@@ -341,7 +341,7 @@ Turing-Maschinen können entweder Funktionen berechnen oder entscheiden, ob best
 
 - Funktion $f:I^*\rightarrow I^*$ heißt total rekursiv (berechenbar), wenn eine Turing-Maschine existiert, die aus einer Eingabe $x$ den Funktionswert $f(x)$ berechnet
 
-- Funktion $f:N^k\rightarrow N$ heißt total rekursiv, wenn eine Turing-Maschine existiert, die für Eingaben vom Typ $bin(i_1), bin(i_2), \dots, #bin(i_k)$ mit einem Ergebnis $bin(m)$ stoppt, wenn $m = ƒ( i_1, \dots , i_k)$
+- Funktion $f:N^k\rightarrow N$ heißt total rekursiv, wenn eine Turing-Maschine existiert, die für Eingaben vom Typ $bin(i_1), bin(i_2), \dots, bin(i_k)$ mit einem Ergebnis $bin(m)$ stoppt, wenn $m = ƒ( i_1, \dots , i_k)$
 
 - Eine Sprache $L \subset I^*$ heißt rekursiv (entscheidbar), wenn eine Turing-Maschine existiert, die für alle Eingaben stoppt und das Eingabewort $w$ akzeptiert, wenn $w \in L$
 
@@ -351,30 +351,31 @@ Für rekursiv aufzählbare Sprachen muss die Turing-Maschine nicht in jedem Fall
 
 Die Überprüfung der Funktionsweise einer Turing-Maschine kann durch Konfigurationen erfolgen. Eine Konfiguration ist die Momentaufnahme der Arbeit einer Turing-Maschine.
 
-Bsp.: ```#q0abbaba# |-- #aq0bbaba# |-- #abq1baba# |-- #abbq2aba# ...```
+Bsp.: ``` #q0abbaba# |-- #aq0bbaba# |-- #abq1baba# |-- #abbq2aba# ... ```
 
-```|--*``` steht für endlich viele Rechenschritte
+Zeichen für endlich viele Rechenschritte: ``` |--* ```
+
 
 ### Beispiel
 
 Turing-Maschine, die nur Worte akzeptiert, bei denen maximal zwei aufeinanderfolgende b vorkommen dürfen
 
 $$T=(I,B,Q,\delta,q_0,F)$$
-$$I=\{a,b\}; B=\{a,b,#\}$$
+$$I=\{a,b\}; B=\{a,b,\#\}$$
 $$Q=\{q_0,q_1,q_2,q_3\}; F=\{q_3\}$$
 $\delta:$
-| $q$    | $a$     | $\delta(q,a)$ |
-|--------|---------|---------------|
-| $q_0$  | $a$     | $q_0,R$       |
-| $q_0$  | $b$     | $q_1,R$       |
-| $q_0$  | $#$     | $q_3,N$       |
-| $q_1$  | $a$     | $q_0,R$       |
-| $q_1$  | $b$     | $q_2,R$       |
-| $q_1$  | $#$     | $q_3,N$       |
-| $q_2$  | $a$     | $q_0,R$       |
-| $q_2$  | $b$     | $q_2,N$       |
-| $q_2$  | $#$     | $q_3,N$       |
-| $q_3$  | $a,b,#$ | $q_3,N$       |
+| $q$    | $a$      | $\delta(q,a)$ |
+|--------|----------|---------------|
+| $q_0$  | $a$      | $q_0,R$       |
+| $q_0$  | $b$      | $q_1,R$       |
+| $q_0$  | $\#$     | $q_3,N$       |
+| $q_1$  | $a$      | $q_0,R$       |
+| $q_1$  | $b$      | $q_2,R$       |
+| $q_1$  | $\#$     | $q_3,N$       |
+| $q_2$  | $a$      | $q_0,R$       |
+| $q_2$  | $b$      | $q_2,N$       |
+| $q_2$  | $\#$     | $q_3,N$       |
+| $q_3$  | $a,b,\#$ | $q_3,N$       |
 
 ![Beispiel der Turing-Maschine](https://steve2955.github.io/dhge-pi19-sem2/INV/IMG/Turing-Beispiel.JPG)
 
@@ -400,15 +401,55 @@ Es gibt kein automatisches Verfahren für die Überprüfung der Korrektheit beli
 
 ## Übung: Inkrementmaschine
 
-|                       | q      | 0/1 | $\delta(q,0/1,a)$ |
-|-----------------------|--------|-----|-------------------|
-| Nach rechts "wandern" | $q_0$  | $0$ | $q_0,0,R$         |
-|                       | $q_0$  | $1$ | $q_0,1,R$         |
-|                       | $q_0$  | $#$ | $q_1,#,L$         |
-| Addition              | $q_1$  | $0$ | $q_2,1,L$         |
-|                       | $q_1$  | $1$ | $q_1,0,L$         |
-|                       | $q_1$  | $#$ | $q_3,1,N$         |
-| Nach links "wandern"  | $q_2$  | $0$ | $q_2,0,L$         |
-|                       | $q_2$  | $1$ | $q_2,1,L$         |
-|                       | $q_2$  | $#$ | $q_3,#,R$         |
-| Fertig                | $q_3$  | $*$ | $q_3,*,N$         |
+|                       | q      | 0/1  | $\delta(q,0/1,a)$ |
+|-----------------------|--------|------|-------------------|
+| Nach rechts "wandern" | $q_0$  | $0$  | $q_0,0,R$         |
+|                       | $q_0$  | $1$  | $q_0,1,R$         |
+|                       | $q_0$  | $\#$ | $q_1,\#,L$        |
+| Addition              | $q_1$  | $0$  | $q_2,1,L$         |
+|                       | $q_1$  | $1$  | $q_1,0,L$         |
+|                       | $q_1$  | $\#$ | $q_3,1,N$         |
+| Nach links "wandern"  | $q_2$  | $0$  | $q_2,0,L$         |
+|                       | $q_2$  | $1$  | $q_2,1,L$         |
+|                       | $q_2$  | $\#$ | $q_3,\#,R$        |
+| Fertig                | $q_3$  | $*$  | $q_3,*,N$         |
+
+
+# Endliche Automaten
+
+## Schaltwerke und endliche deterministische Automaten
+
+- Hardware besteht aus festverdrahteten Schaltkreise (realisieren Befehlssatz eines Mikroprozessors)
+- jeder Befehl benötigt bestimmte Schaltungen (Miniaturisierung nicht möglich)
+- ein Schaltkreis $S$ wird durch eine externe Eingabe $x_1,\dots,x_l$ und $k$ interne Steuersignale gespeist($s_1\dots,s_k$)
+- daraus entstehende externe Ausgaben $y_1,\dots,y_m$ und neue Steuersignale $s_1',\dots,s_k'$ werden zunächst in einem Block aus Flip-Flops zwischengespeichert und im nächsten Takt ausgegeben
+- Ausgabe des nächsten Verarbeitungsschrittes in Abhängigkeit von Eingaben und zuvor erzeugten Steuersignalen
+
+### Mealy-Automat
+
+$$M=(Q,I,O,q_0,\delta,\gamma,F)$$
+
+- endliche Menge an Zuständen $Q = \{0,1\}^k$
+- Eingabealphabet $I = \{0,1\}^l$
+- Ausgabeaphabet $O = \{0,1\}^m$
+- Anfangszustand $q_0 \in Q$
+- Zustandsüberführungsfunktion: $\delta:Q\times I \rightarrow Q$
+- Ausgabefunktion: $\gamma:Q\times I \rightarrow O$
+- Menge akzeptierter Endzustände $F \subset Q$
+
+Ein Eingabewort $w$ wird von einem Mealy-Automaten genau dann akzeptiert, wenn sich der Automat nach dem vollständigen Lesen der Eingabe in einem der Finalzustände befindet. Die durch diese Einschränkung entstehenden Automaten der Form $M = (Q, I, q_0, \delta, F)$ heißen endliche deterministische Automaten. (deterministisch: gleiche Eingabe = gleiche Ausgabe)
+
+**Arbeitsweise**
+
+- Wort $w$ wird von links nach rechts gelesen (bei jedem Schritt: Verarbeitung eines Zeichen -> Zustandswechsel)
+- Befindet sich der Automat nach der Bearbeitung aller Zeichen in einem Finalzustand, wurde $w$ akzeptiert
+
+**Beispiel**
+
+Automat, der nur Worte akzeptiert, die weder aa noch bb enthalten.
+
+$$M = (Q, I, q_0, \delta, F)$$
+
+$$Q=\{q_0,q_1,q_2,q_3\}; I=\{a,b\}; F=\{q_0,q_1,q_2\}$$
+
+$$\delta = \{(q_0,a,q_1), (q_0,b,q_2), (q_1,a,q_3), (q_1,b,q_2), (q_2,a,q_1), (q_2b,q_3), (q_3,a,q_3), (q_3,b,q_3)\}$$
