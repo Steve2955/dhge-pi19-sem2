@@ -12,7 +12,7 @@
 - [X] Turing-Maschinen
 - [X] Turing-Maschinen, Übung Inkrementmaschine
 - [X] Endliche deterministische Automaten
-- [ ] Endliche deterministische Automaten, Übung 1
+- [X] Endliche deterministische Automaten, Übung 1
 - [ ] Endliche nichtdeterministische Automaten
 - [ ] Übung zum Entwurf nichtdeterministischer Automaten
 - [ ] Umwandlung nichtdeterministischer in deterministische Automaten
