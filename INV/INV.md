@@ -464,7 +464,7 @@ $$\delta = \{(q_0,0,q_1), (q_0,1,q_5), (q_1,0,q_3), (q_1,1,q_2),\\ (q_2,0,q_4), 
 
 ## Endliche nichtdeterministische Automaten
 
-- im Gegensatz zu deterministischen Automaten: **mehrere/keine Kanten für ein Zeichen, Katen für Zeichenketten**
+- im Gegensatz zu deterministischen Automaten: **mehrere/keine Kanten für ein Zeichen, Kanten für Zeichenketten**
 - erlaubt deutlich einfachere Problembeschreibung (zu jedem nichtdeterministischen Automat existiert auch ein komplexerer deterministischer Automat)
 - reale Umsetzung nicht möglich (hellseherischen Fähigkeiten -> korrekt aus mehreren Folgezuständen wählen)
 - akzeptieren eine Eingabe genau dann, wenn es mindestens einen Weg vom Anfangszustand in den Endzustand gibt
@@ -474,14 +474,18 @@ $$\delta = \{(q_0,0,q_1), (q_0,1,q_5), (q_1,0,q_3), (q_1,1,q_2),\\ (q_2,0,q_4), 
 **Übungen**
 
 $$I=\{a,b\}\quad L \subset I^* = (ab \lor aba \lor aab)^* $$
-F=\{q_0\}$$
+$$F=\{q_0\}$$
 $$\delta = \{(q_0,ab,q_0), (q_0,aba,q_0), (q_0,aab,q_0)\}$$
 
 $$I=\{a,b\}\quad L \subset I^* = aba ((ab)^* \lor (aba)^* )$$
-F=\{q_1,q_2,q_3\}$$
+$$F=\{q_1,q_2,q_3\}$$
 $$\delta = \{(q_0,aba,q_1), (q_1,ab,q_2), (q_2,ab,q_2),(q_1,aab,q_3),(q_3,aba,q_3)\}$$
 
-
 $$I=\{a,b\}\quad L \subset I^* = (a \lor b)^* bbab$$
-F=\{q_1\}$$
+$$F=\{q_1\}$$
 $$\delta = \{(q_0,a,q_0), (q_0,b,q_0), (q_0,bbab,q_1)\}$$
+
+## Überführung nichtdeterministischer Automaten in deterministische Automaten
+
+- Schritt 1: Aufspalten von Kanten mit Zeichenketten
+- Schritt 2: Zusammenführen von Kanten und Zuständen mit gleichem Zeichen und Ausgangszustand (jeder Knoten, der einen Finalzustand enthält ist selbst Finalzustand; Fehlende Kanten führen zu einem Fehlerzustand)

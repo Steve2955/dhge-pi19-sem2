@@ -15,7 +15,7 @@
 - [X] Endliche deterministische Automaten, Übung 1
 - [X] Endliche nichtdeterministische Automaten
 - [X] Übung zum Entwurf nichtdeterministischer Automaten
-- [ ] Umwandlung nichtdeterministischer in deterministische Automaten
+- [X] Umwandlung nichtdeterministischer in deterministische Automaten
 - [ ] Übung zur Umwandlung nichtdeterministischer in deterministische Automaten
 - [ ] Ableitung einer Grammatik
 - [ ] Chomsky-Hierarchie, Kellerautomaten
