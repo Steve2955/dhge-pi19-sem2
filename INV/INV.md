@@ -489,3 +489,12 @@ $$\delta = \{(q_0,a,q_0), (q_0,b,q_0), (q_0,bbab,q_1)\}$$
 
 - Schritt 1: Aufspalten von Kanten mit Zeichenketten
 - Schritt 2: Zusammenführen von Kanten und Zuständen mit gleichem Zeichen und Ausgangszustand (jeder Knoten, der einen Finalzustand enthält ist selbst Finalzustand; Fehlende Kanten führen zu einem Fehlerzustand)
+
+
+**Übung**
+
+$$I=\{a,b\}\quad L \subset I^* = (a \lor b)^* bbab$$
+
+$$Q=\{q_0,q_1,q_2,q_3,q_4\}; I=\{a,b\}; F=\{q_4\}$$
+
+$$\delta = \{(q_0,a,q_0), (q_0,b,q_1), (q_1,a,q_0), (q_1,b,q_2),\\ (q_2,a,q_3), (q_2,b,q_2), (q_3,a,q_0), (q_3,b,q_4),\\ (q_4,a,q_0), (q_4,b,q_2)\}$$
