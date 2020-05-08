@@ -17,7 +17,7 @@
 - [X] Übung zum Entwurf nichtdeterministischer Automaten
 - [X] Umwandlung nichtdeterministischer in deterministische Automaten
 - [X] Übung zur Umwandlung nichtdeterministischer in deterministische Automaten
-- [ ] Ableitung einer Grammatik
+- [X] Ableitung einer Grammatik
 - [ ] Chomsky-Hierarchie, Kellerautomaten
 
 ## SWE - Objektorientierte Programmierung (+ Vertiefung)

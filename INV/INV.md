@@ -490,7 +490,6 @@ $$\delta = \{(q_0,a,q_0), (q_0,b,q_0), (q_0,bbab,q_1)\}$$
 - Schritt 1: Aufspalten von Kanten mit Zeichenketten
 - Schritt 2: Zusammenführen von Kanten und Zuständen mit gleichem Zeichen und Ausgangszustand (jeder Knoten, der einen Finalzustand enthält ist selbst Finalzustand; Fehlende Kanten führen zu einem Fehlerzustand)
 
-
 **Übung**
 
 $$I=\{a,b\}\quad L \subset I^* = (a \lor b)^* bbab$$
@@ -498,3 +497,35 @@ $$I=\{a,b\}\quad L \subset I^* = (a \lor b)^* bbab$$
 $$Q=\{q_0,q_1,q_2,q_3,q_4\}; I=\{a,b\}; F=\{q_4\}$$
 
 $$\delta = \{(q_0,a,q_0), (q_0,b,q_1), (q_1,a,q_0), (q_1,b,q_2),\\ (q_2,a,q_3), (q_2,b,q_2), (q_3,a,q_0), (q_3,b,q_4),\\ (q_4,a,q_0), (q_4,b,q_2)\}$$
+
+# Grammatiken der Chomsky Hierarchie
+
+## Ableitung einer Grammatik
+
+$$G=(T,V,S,P)$$
+
+$$I \leftrightarrow T; \quad Q \leftrightarrow V = \{Q / Falle\};$$
+
+$$ \delta \leftrightarrow P =\{ \delta / \text{Wege in die Falle}\}; $$
+
+$$q_0 \leftrightarrow S$$
+
+**Ausgangspunkt: Formelle Beschreibung eines Automaten**
+
+$$M = (Q, I, q_0, \delta, F)$$
+
+$$Q=\{q_0,q_1,q_2,\underline{q_3}\}; I=\{a,b\}; F=\{q_0,q_1,q_2\}$$
+
+$$\delta = \{(q_0,a,q_1), (q_0,b,q_2), \underline{(q_1,a,q_3)}, (q_1,b,q_2),\\ (q_2,a,q_1), \underline{(q_2,b,q_3), (q_3,a,q_3), (q_3,b,q_3)}\}$$
+
+**Überführung:**
+
+$$G=(T,V,S,P)$$
+
+$$T=\{a,b\} \qquad V=\{q_0,q_1,q_2\}$$
+
+$$S=q_0$$
+
+$$P=\{(q_0,aq_1),(q_0,bq_2),(q_1,bq_2),(q_2,aq_1), (q_0,\varepsilon), (q_1, \varepsilon), (q_2, \varepsilon)\}$$
+
+Die Überführung nichtdeterministischer Automaten funktioniert analog.
