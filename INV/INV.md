@@ -470,3 +470,18 @@ $$\delta = \{(q_0,0,q_1), (q_0,1,q_5), (q_1,0,q_3), (q_1,1,q_2),\\ (q_2,0,q_4), 
 - akzeptieren eine Eingabe genau dann, wenn es mindestens einen Weg vom Anfangszustand in den Endzustand gibt
 - gibt es ausgehend von einem Zustand keine Kante, die das Zeichen verarbeitet, wird das Wort nicht akzeptiert
 - die formelle Beschreibung entspricht der eines deterministischen Automaten
+
+**Übungen**
+
+$$I=\{a,b\}\quad L \subset I^* = (ab \lor aba \lor aab)^* $$
+F=\{q_0\}$$
+$$\delta = \{(q_0,ab,q_0), (q_0,aba,q_0), (q_0,aab,q_0)\}$$
+
+$$I=\{a,b\}\quad L \subset I^* = aba ((ab)^* \lor (aba)^* )$$
+F=\{q_1,q_2,q_3\}$$
+$$\delta = \{(q_0,aba,q_1), (q_1,ab,q_2), (q_2,ab,q_2),(q_1,aab,q_3),(q_3,aba,q_3)\}$$
+
+
+$$I=\{a,b\}\quad L \subset I^* = (a \lor b)^* bbab$$
+F=\{q_1\}$$
+$$\delta = \{(q_0,a,q_0), (q_0,b,q_0), (q_0,bbab,q_1)\}$$
