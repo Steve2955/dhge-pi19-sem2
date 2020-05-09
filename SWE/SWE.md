@@ -568,3 +568,7 @@ stringstream s;
 s << "Hello " << name << "!\n";
 return s.str(); // Liefert internen String
 ```
+
+# Objekte mit Pointer
+
+- Hast du Objekte mit Pointern oder dynamischen Arrays, muss du dich für Konstruktor, Copy-Konstruktor, Dekonstruktor, ... selbst um die Speicherverwaltung kümmern (default: bitweise Kopie)

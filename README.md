@@ -36,7 +36,7 @@
 - [X] Operatoren 2
 - [X] Strings und Stringstreams
 - [X] Organisatorisches
-- [ ] Objekte mit Pointern
+- [X] Objekte mit Pointern
 - [ ] Exceptions
 
 ## MAT - Analysis
@@ -103,3 +103,10 @@
 	- [ ] 4.7.2 R-L-Reihenschaltung
 	- [ ] 4.7.3 R-C-Parallelschaltung
 	- [ ] 4.7.4 Ersatzzweipolschaltung mit Zahlenbeispiel
+
+## SCH - Labor
+
+- [ ] Versuch 1: Rechneraufbau
+- [ ] Versuch 2: Speicher und RAID
+- [ ] Versuch 3: Tuning und Sicherheit
+- [ ] Versuch 4: Netzwerk
