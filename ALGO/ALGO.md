@@ -829,3 +829,57 @@ Der **Füllfaktor** $\alpha=\frac{n}{m}$ beschreibt die Anzahl die in einer Hash
 	- **Liste von Hash-Tabellen** (je m groß, max 90% gefüllt)
 		- Durchsuchen durch sukzessives Suchen in den einzelnen Listen
 		- Einfügen in der ersten nicht vollen Liste
+
+## Suchen in Texten
+
+- **Text:** nicht weiter strukturierte Folge von Zeichen eines endlichen Alphabets
+- **Problem: Suche im Text**
+	- geg.: Text und Muster
+	- ges.: ein oder alle Vorkommen des Musters im Text
+- **Match:** Übereinstimmung einer Teiltextzeichenkette
+- **Mismatch:** Nichtübereinstimmung
+- **Gesichtspunkt:**
+	- statische oder dynamische Texte (bei statisch: Anlegen eines Index sinnvoll)
+	- Suche nach einem oder mehreren Mustern
+	- ist Vorverarbeitung sinnvoll
+
+### Naive Suche
+
+- Muster wird an jedem Zeichen des Textes nacheinander angelegt
+- Es erfolgt jedes Mal ein Vergleich der Zeichen
+- Verbesserung: Muster nur bis zum ersten Mismatch prüfen
+- $O(n*m)$ Vergleiche
+
+### Knuth-Morris-Pratt
+
+- Nutzung der bei der Übereinstimmung von Zeichen gewonnen Informationen
+- $O(n)$ Vergleiche
+- Vorlauf: Analyse des Musters
+	- **Präfix**, **Suffix**
+	- **Rand** ($\text{Präfix}=\text{Suffix}\neq\text{Muster}$) und **Breite** des Randes
+- Auf Basis dieser Informationen wird eine **Schiebedistanz** berechnet
+	- = für jedes Präﬁx das Musters die Länge seines breitesten Randes
+- Suche: zeichenweiser Vergleich
+	- Bei Mismatch: Verschieben des Musters um die zuvor berechnete Schiebedistanz des entsprechenden Zeichen (bereits verglichene Zeichen müssen nicht erneut geprüft werden)
+	- Bei Match: Ausgabe des Treffers
+
+### Boyer-Moore
+
+- Idee: Vergleich des Musters von rechts nach links
+
+**Schlechtes-Zeichen-Strategie**
+
+- Bei Mismatch: Verschieben des Musters
+- Bei Zeichen, das nicht im Muster enhalten ist: Verschieben des Musters um $m$ Positionen
+
+**Gutes-Zeichen-Strategie**
+
+- Ableiten der größtmöglichen Schiebedistanz aus der Struktur des Musters (vgl. KMP, aber Suffix)
+- schwierig zu verstehen und zu implementieren (wird meist weggelassen)
+
+### Rabin-Karp
+
+- Verfahren ähnelt naivem Algorithmus
+- **Aber:** Vergleich der Signatur eines Textfenster mit dem Muster (bei Match: Bruteforce-Vergleich)
+- Anforderungen an die Signaturfunktion: Vermeidung von Kollisionen, konstante Berechnungszeit -> Verwendung einer Hash-Funktion
+- Inkrementelle Hashwert-Berechnung bei den Teilstrings sinnvoll

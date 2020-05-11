@@ -87,9 +87,9 @@
 - [X] Sortieren
 	- [X] Sortieren 1
 	- [X] Sortieren 2
-- [ ] Suchen
+- [X] Suchen
 	- [X] Suchen 1
-	- [ ] Suchen 2
+	- [X] Suchen 2
 - [ ] Automaten
 - [ ] Sprachen
 - [ ] Maschinenmodelle
