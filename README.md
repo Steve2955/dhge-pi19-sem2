@@ -88,7 +88,7 @@
 	- [X] Sortieren 1
 	- [X] Sortieren 2
 - [ ] Suchen
-	- [ ] Suchen 1
+	- [X] Suchen 1
 	- [ ] Suchen 2
 - [ ] Automaten
 - [ ] Sprachen

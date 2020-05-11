@@ -729,3 +729,103 @@ $$k_i \geq \begin{cases} k_{2i} & 2i \leq N \\k_{2i+1} & 2i+1 \leq N \end{cases}
 - Effizienzproblem bei Vorsortierung
 - Zusätzlicher Speicherplatz notwendig (exsitu)
 - Umfangreiche innere Schleife des Verfahrens (deshalb kaum schneller als Quicksort)
+
+# Suchen
+
+- Suchen von einem Schlüssel (oder Vergleiche zwischen Schlüsseln) in einer Sequenz (Reihung/Liste)
+- Elementare Suchverfahren, oder Suchverfahren, die:
+	- spezielle Datenstrukturen verwenden (z.B. Bäume)
+	- Schlüssel transformieren (z.B. Hashing)
+	- mehrere Schlüssel verwenden
+
+## Auswahlproblem
+
+- Suche nach *i-kleinsten* oder *i-größten* Schlüsseln einer Sequenz (z.B. drittgrößter Schlüssel)
+- **Verfahren:** Suche wiederholt nach dem kleinsten/größten Schlüssel der Liste, entferne den Schlüssel solange die gesuchte Tiefe nicht erreicht ist
+- $N-1$ Vergleiche für jede Iteration nötig ($O(i*N)$)
+
+## Sequentielle Suche
+
+- **Voraussetzung:** Länge der Sequenz bekannt (keine Sortierung)
+- **Algorithmus:** Durchlaufen der Sequenz, jeweils Vergleich mit Suchschlüssel (bis Fund oder Ende)
+- **Aufwand:** max. $N+1$ Vergleiche
+
+### Binäre Suche
+
+- **Voraussetzung:** Länge der Sequenz bekannt, Sortierung
+- **Algorithmus:** Suchbereich wird halbiert, mittlerer Schlüssel entscheidet welche Hälfte weiter rekutsiv durchsucht werden soll (= Suche im Binärbaum)
+- **Aufwand:** $O(N log N)$
+
+### Fibonacci-Suche
+
+- Unterteilung des Suchbereiches entsprechend der Fibonacci-Zahlen
+- **Algorithmus:** Suchbereich wird anhand der Fibonacci-Folge geteilt, Schlüssel entscheidet ob die Folge fortgesetzt oder zurückgesetzt wird
+- **Aufwand:** $O(N log N)$
+
+### Exponentielle Suche
+
+- Verwendung bei sehr langen sortierten Sequenzen
+- **Algorithmus:** Suchbereich wird an einer Grenze $i$ geteilt, Suche des Schlüssels, Verdopplung der Teilgrenze
+- **Aufwand:** $O(N log N)$
+
+### Interpolationssuche
+
+- vgl. binäre Suche, aber verkleinern/vergrößern der "Hälften" mit Schätzfaktor
+- z.B. Suche in alphabetischem Wörterbuch (Buchstabe "A" am Anfang)
+
+## Selbstanordnende Listen
+
+- Wird auf die Elemente einer Liste unterschiedlich häufig zugegriffen, sollten die am häufigsten genutzten am anfang stehen
+- **Methoden:**
+	- **Move to front:** gerade zugegriffenes Element an den Anfang
+	- **Transpose:** gerade zugegriffenes Element wird mit vorhergehendem getauscht
+	- **Frequency count:** Elemente mit Zugriffszähler, absteigende Sortierung
+
+## Nichtelementare Suchverfahren
+
+### Suchen mit Hash-Verfahren
+
+- Finden eines Schlüssels in einer Datenstruktur mit möglichst wenig Vergleichen
+- **Überlegungen:**
+	- bei Kenntnis des Index: sofortiger Zugriff auf Element des Arrays (ohne Suche)
+	- einzutragende Schlüssel meist kleiner als aufstellbare Schlüssel (-> Schlüsseltranformation)
+- Bereich der Schlüsseltransformation: $0 \text{bis} m-1$ (= **Abbildung** Ganze Zahlen -> Index)
+- Hash-Verfahren rechnet Schlüssel in ganze Zahlen um (Adresskollision muss behandelt werden)
+- **Hash-Funktion:** bildet einen Schlüssel $k$ auf eine **Hash-Adresse** ab
+- **Hash-Tabelle:** bezeichnung eines solchen Array mit dem Indexbereich $0 \text{bis} m-1$
+- sind effizient, wenn zunächst viel eingefügt und dann viel gesucht wird (kein Entfernen)
+- ist die Anzahl der möglichen Schlüssel gleich der Anzahl der Abbilder, kann eine eindeutige (bijektiv) Hash-Funktion aufgestellt werden
+- Verschiedene Hash-Verfahren unterscheiden sich nach Hash-Funktion und Adresskollisionsbehandlung
+
+**Problem**
+
+- Hash-Funktion kann für verschiedene Schlüssel gleiche Hash-Adressen liefern (**= Synonyme**)
+- Eine solche **Adresskollision** muss behandelt werden (für Unterscheidung muss Orignial-Schlüssel im Datensatz gespeichert werden)
+- Hash-Funktion soll schnell berechenbar sein und Hash-Adressen gleichmäßig verteilen (Grundlegende Verfahren: Divisions-Rest-Methode, Multiplikative Methode)
+
+**Belegungsfaktor**
+
+Der **Füllfaktor** $\alpha=\frac{n}{m}$ beschreibt die Anzahl die in einer Hash-Tabelle belegten Adressen
+
+#### Hash-Verfahren mit direkter Verkettung
+
+- $C_n^+$: **Erwartungswert** für betrachtete Schlüssel bei **erfolgreicher Suche**
+- $C_n^-$: **Erwartungswert** für betrachtete Schlüssel bei **erfolgslose Suche**
+- Dem **Eintragen** eines Schlüssels geht eine erfolglose Suche voraus (alle Schlüssel werden betrachtet: $C_n^-=\alpha$)
+- Dem **Entfernen** eines Schlüssels geht eine erfolgreiche Suche voraus (Durchschnittliche $C_n^+\approx 1+ \frac{\alpha}{2}$)
+
+#### Offene Hashverfahren
+
+- Prinzip: Finden der noch nciht besetzten Array-Elemente in der Hash-Tabelle nach festgelegter **Sondierungsfolge** $s(j,k)$ (ein Platz muss immer frei bleiben!)
+- Lineares Sondieren: $s(j,k)=j$
+- Quadratisches Sondieren: $s(j,k)=(\lceil\frac{j}{2}\rceil)^2 \times (-1)^j$
+- Double Hashing: $s(j,k)= j \times h^'(k)$ (h' = 2. Hashfunktion)
+
+### Fortsetzung
+
+- Was wenn Hash-Tabelle voll ist? (offene Hash-Verfahren bis ca. 80..90% effizient)
+- Lösung: **Dynamische Hash-Verfahren** -> Vergrößern der Hash-Tabelle
+	- **Vergrößern von m**: Veränderung der Hash-Funktion
+	- **Liste von Hash-Tabellen** (je m groß, max 90% gefüllt)
+		- Durchsuchen durch sukzessives Suchen in den einzelnen Listen
+		- Einfügen in der ersten nicht vollen Liste
