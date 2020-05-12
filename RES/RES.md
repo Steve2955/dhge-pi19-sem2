@@ -82,7 +82,6 @@ Betriebssysteme
 - Hohe I/O-Bandbreite, Einsatz als Webserver o. Server für B2B-Anwendungen
 - Typische Prozessverwaltungsarten: Batchverfahren (sukzessive Abarbeitung), Transaktionsverfahren (Buchungen), Zeitaufeilungsverfahren (Anfragen an DB)
 
-
 **Sever-Betriebssysteme**
 
 - viele Nutzer über Netzwerk, Verteilung der Ressourcen an Nutzer (z.B. ISPs, Google)
@@ -504,3 +503,104 @@ __Schwächen__
 	- Abhängigkeit vom Compiler, Betriebssystem oder Zusatzbibliothek
 	- Ständige Veränderung von Bibliotheken: Kompatibilitätsprobleme
 - Beispiel: POSIX (Ziel: Kompatibilität der UNIX-Derivate)
+
+# Prozesse
+
+**Definition**
+
+> eine Abstraktion eines laufenden Programms
+> - Tanenbaum, 2003
+
+- Prozesse sind aktive Komponenten, befinden sich in Ausführung und können voneinander abhängen
+- Prozesskommunikation ermöglicht Synchronisation von Prozessen (Konfliktsituationen möglich)
+- Prozesse verwenden Ressourcen und besitzen stets einen Zustand
+
+**Abgrenzung**
+
+- Programm: statische Beschreibung eines sequentiellen Algorithmus
+- Prozess: Programm in der Ausführung
+- Thread: sequentieller Abarbeitungsablauf innerhalb eines Prozesses
+- Task: Synonym für Prozess, aber auch Thread
+
+**Parallelität**
+
+- Prozesse sind die wichtigste Eigenschaft für die parallele Ausführung von Aufgaben
+- bei nur einem Prozessor: Parallelität simuliert (Zeitscheibe-Verfahren)
+
+**Prozess-Umschaltung**
+
+- Scheduler entscheidet, wann welcher Prozess ausgeführt werden soll
+- Füher: Stapelbetrieb (ein Prozess nach dem anderen - nicht-präemtives Scheduling)
+- Heute: Multitasking (Scheduler entscheidet über die Unterbrechung laufender Prozesse - präemtives Scheduling)
+
+**Eigenschaften**
+
+- alle ausführbare Programme sind sequentielle Prozesse
+- jeder Prozess besitzt eigenen virtuellen Prozessor (Scheduler schaltet zwischen virtuell und real um)
+- jeder Prozess hat eigenen Kontrollfluss
+- zu jedem Zeitpunkt nur ein Prozess aktiv
+
+## Prozesserzeuung/-terminierung
+
+**Prozesserzeugung**
+
+- Initialisierung durch das System (Betriebssystem-Dienste) oder Benutzer (Programme)
+- durch Systemaufruf eines bestehenden Prozesses (fork -> Prozesshierarchie)
+- Initiierung eines Batch-Jobs
+
+**Prozessterminierung**
+
+- Freiwillig durch Aufruf von ```exit``` (normal oder aufgrund Fehler)
+- Unfreiwillig durch Betriebssystem
+	- schwerwiegender Fehler (Speicherüberschreitung, E/A-Fehler, ...)
+	- durch anderen Prozess
+	- Reaktion des Prozesses Teilweise noch möglich
+
+## Erweitertes Prozessmodell
+
+Ein Prozess beﬁndet sich in genau einem der folgenden Zustände:
+- rechnend (Befehle werden in diesem Moment ausgeführt)
+- rechenbereit (anderer Prozess rechnet gerade)
+- blockiert (warten auf externes Ereignis)
+
+## Implementierung von Prozessen
+
+- Betriebsystem verwaltet eine Prozesstabelle (ein Block/Prozess)
+- Prozesskontrollblock enthält Informationen über den Zustand des Prozesses
+	- Prozessidentifikation
+	- Befehlszähler, Kellerzeiger, ...
+	- Zustand seiner geöffneten Dateinen
+	- Verwaltungs- und Schedulinginformationen
+- Prozess wird nach Zustandsänderung ohne Auswirkungen fortgesetzt
+
+## Prozessverwaltung
+
+### Prozesserzeuung
+
+- Zuweisung einer eindeutigen Prozesskennung (Eintrag in Prozesstablle)
+- Zuteilung von Speicherplatz (für Programmcode, Daten und Keller)
+- Initialisierung des Prozesskontrollblock (Prozess bereit)
+	- PC und SP
+	- Ressourcen evtl. von Elternprozessen geerbt
+- Einhängen des Prozesses in Warteschlange
+
+### Prozesswechsel
+
+**Urachen**
+
+- bei Systemaufruf (Prozess gibt Kontrolle freiwillig ab)
+	- Sichern des Prozessorstatus
+	- Zustand des Prozess auf bereit zurücksetzen
+	- Ausführung des Aufrages (evtl. Prozess auf blockiert setzen)
+	- Sprung zum Scheduler
+- bei Ausnahme (z.B. unzulässiger Befehl -> Beendigung oder Behandlung durch OS)
+	- Sichern des Prozessorstatus
+	- Beenden/Blockieren des Prozesses oder Behebung der Ursache für die Ausnahme (je nach Art der Ausnahme)
+	- Sprung zum Scheduler
+- bei Interrupt (Behandlung des Interupts im Betriebssystem)
+	- Sichern des Prozessorstatus
+	- Zustand des Prozess auf bereit zurücksetzen
+	- Ursache der Unterbrechung ermitteln
+	- Ereignis entsprechend behandeln
+	- evtl. blockierte Prozesse auf bereit setzen
+	- Sprung zum Scheduler

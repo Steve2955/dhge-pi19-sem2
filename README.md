@@ -38,6 +38,8 @@
 - [X] Organisatorisches
 - [X] Objekte mit Pointern
 - [ ] Exceptions
+- [ ] Templates
+- [ ] Die Standard Templates Library
 
 ## MAT - Analysis
 
@@ -63,7 +65,7 @@
 - [X] Strukturen
 - [X] Schnittstellen
 - [ ] Prozesse
-	- [ ] Prozesse 1
+	- [X] Prozesse 1
 	- [ ] Prozesse 2
 	- [ ] Prozesse 3
 - [ ] Deadlocks
