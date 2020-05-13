@@ -40,7 +40,7 @@
 - [X] Exceptions
 - [X] Templates
 - [X] Die Standard Templates Library
-- [ ] Die C++-11 Erweiterungen
+- [X] Die C++-11 Erweiterungen
 
 ## MAT - Analysis
 
