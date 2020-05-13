@@ -18,7 +18,7 @@
 - [X] Umwandlung nichtdeterministischer in deterministische Automaten
 - [X] Übung zur Umwandlung nichtdeterministischer in deterministische Automaten
 - [X] Ableitung einer Grammatik
-- [ ] Chomsky-Hierarchie, Kellerautomaten
+- [X] Chomsky-Hierarchie, Kellerautomaten
 
 ## SWE - Objektorientierte Programmierung (+ Vertiefung)
 
@@ -40,6 +40,7 @@
 - [X] Exceptions
 - [X] Templates
 - [X] Die Standard Templates Library
+- [ ] Die C++-11 Erweiterungen
 
 ## MAT - Analysis
 

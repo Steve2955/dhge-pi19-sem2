@@ -111,7 +111,7 @@ Informationsverarbeitung
 
 ### Grammatiken
 
-- Regelwerk, das festlegt, welche Zeichen und Zeichenreihen zu einer Sprache gehören.
+- Regelwerk, das festlegt, welche Zeichen und Zeichenreihen zu einer Sprache gehören (= Wortproblem)
 - Definierung von Programmiersprachen erfolgt über präzise Grammatiken
 
 **Bestandteile einer Grammatik**
@@ -529,3 +529,18 @@ $$S=q_0$$
 $$P=\{(q_0,aq_1),(q_0,bq_2),(q_1,bq_2),(q_2,aq_1), (q_0,\varepsilon), (q_1, \varepsilon), (q_2, \varepsilon)\}$$
 
 Die Überführung nichtdeterministischer Automaten funktioniert analog.
+
+## Die Chomsky-Hierarchie
+
+Einteilung von Grammatiken in vier Klassen
+
+- Chomsky-0: Grammatiken ohne Einschränkungen
+- Chomsky-1: Alle Regeln der Form $u\rightarrow v$ mit $u \in V^+$ mit $v \in ((V \cup T) - {S})^+$ und $|u| \leq |v|$ oder $S \rightarrow \varepsilon$(kontextsensitive Grammatiken)
+- Chomsky-2: Alle Regeln der Form $A\rightarrow v$ mit $A \in V$ und $v \in (V \cup T)^* $(kontextfreie Grammatiken)
+- Chomsky-3: Alle Regeln der Form $A\rightarrow v$ mit $A \in V$ und $v = \varepsilon$ oder $v = aB$ mit $a \in T$ und $B \in V$ (rechtslinear, reguläre Grammatiken)
+
+# Deterministische Kellerautomaten
+
+- um einen Keller erweiterte endliche Automaten (LIFO)
+- Kellerband ermöglicht Merken bestimmter Zeichen und Zustandsübergänge in Abhängigkeit vom zuletzt gemerkten Zeichen
+- Bsp: Grammatik zum Erkennen von paarigen Klammern
