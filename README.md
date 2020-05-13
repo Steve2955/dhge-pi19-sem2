@@ -39,7 +39,7 @@
 - [X] Objekte mit Pointern
 - [X] Exceptions
 - [X] Templates
-- [ ] Die Standard Templates Library
+- [X] Die Standard Templates Library
 
 ## MAT - Analysis
 

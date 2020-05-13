@@ -643,3 +643,23 @@ char *max<char *>(char *a, char *b){
 template<>
 myClass<char *>::myClass()
 ```
+
+# Standard Templates Library
+
+- vordefinierte Algorithmen, Datenstrukturen, ...
+- siehe [Online-Doku](http://www.cplusplus.com/reference/)
+
+**Iteratoren**
+
+- Für die Container-Klassen und Algorithmen der STL sind Iteratoren dafür zuständig Container zu durchwandern
+	- implementieren Array-Pointer-Operatoren aus C für Container
+
+```C++
+vector<float>::iterator pos;
+pos = c.begin(); // zeigt auf erstes Element des Containers
+pos = c.end(); // zeigt auf erstes Element hinter dem Container (kein Zugriff!)
+// pos kann wie Array-Pointer in C verwendet werden (unterschiedliche Operationen für unterschiedliche Container implementiert)
+```
+
+- ```auto``` für Iterator-Variablen, statt explizitem ```:iterator``` (seit C++11)
+- ```for```-Schleifen für Container: ```for(auto &variable : container){ }``` (seit C++11)
