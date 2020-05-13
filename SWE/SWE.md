@@ -572,3 +572,14 @@ return s.str(); // Liefert internen String
 # Objekte mit Pointer
 
 - Hast du Objekte mit Pointern oder dynamischen Arrays, muss du dich für Konstruktor, Copy-Konstruktor, Dekonstruktor, ... selbst um die Speicherverwaltung kümmern (default: bitweise Kopie)
+
+# Exceptions
+
+- Fehlerbehandlung: an der normalen Programmlogik (```return```) vorbei
+- ```throw``` wirft eine Exception mit beliebigem Wert (```int```, ```string```, Objekte, ...)
+	- bei Objekten ohne ```new```, sonst muss Speicher im ```catch``` selbst wieder freigegeben werden
+	- Objekte sollten von der vordefinierten Klasse ```exception``` abgeleitet werden
+- ```try``` & ```catch``` fängt die Exception
+	- wird eine Exception geworfen, wird diese im ersten ```catch``` behandelt, das dem Typ der geworfenen Exception entspricht (abgeleitete Klassen werden auch durch die Basisklasse gefangen)
+	- ```const``` muss bei der Typdeklaration beachtet werden!
+	- ```catch(...)``` fängt alle Exceptions, hat aber keinen Zugriff auf den Übergabe-Parameter

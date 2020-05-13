@@ -37,7 +37,7 @@
 - [X] Strings und Stringstreams
 - [X] Organisatorisches
 - [X] Objekte mit Pointern
-- [ ] Exceptions
+- [X] Exceptions
 - [ ] Templates
 - [ ] Die Standard Templates Library
 
