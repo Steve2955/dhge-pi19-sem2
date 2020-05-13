@@ -583,3 +583,63 @@ return s.str(); // Liefert internen String
 	- wird eine Exception geworfen, wird diese im ersten ```catch``` behandelt, das dem Typ der geworfenen Exception entspricht (abgeleitete Klassen werden auch durch die Basisklasse gefangen)
 	- ```const``` muss bei der Typdeklaration beachtet werden!
 	- ```catch(...)``` fängt alle Exceptions, hat aber keinen Zugriff auf den Übergabe-Parameter
+
+# Templates
+
+- Idee: Code der für mehrere verschiedene Typen verwendet werden kann -> Template-Code mit Typ als Parameter
+- Templatedeklaration erfolgt vor einer genau einer Klassen- oder Funktions-Deklaration:
+
+```C++
+template <typename T>
+void swap(T &x, T &y)
+{
+	T tmp;
+	tmp = x; x = y; y = tmp;
+}
+```
+
+- der definierte ```typename``` (oder ```class```) kann wie bei einer ```tydef``` verwendet werden
+- eine Templatedeklaration kann auch mit mehreren Typen erfolgen: ```template <class T1, class T2>``` (```int```-Parameter ebenfalls möglich, default-Werte möglich)
+- wird die Methode außerhalb einer Klasse definiert, muss die Templatedeklaration erneut erfolgen (auch bei statischen Methoden)
+- automatische Typumwandlungen werden nicht berücksichtigt -> explizite Umwandlung möglich: ```max<double>(x, 100);```
+- ```typedef```s für verbesserte Lesbarkeit
+
+```C++
+typedef Stack<string, 30> stringStack;
+stringStack callStack;
+```
+
+- Soll in einer Template-Klasse eine ```friend```-Funktion deklariert werden, muss wie folgt vorgegangen werden
+
+```C++
+// Vorab-Deklaration der Template-Klasse
+template <class T>
+class myClass;
+// Protoyp der Template-Funktion
+template <class T>
+ostream &operator<<(ostream &outFile, const myClass<T> &a);
+// Deklaration der Template-Klasse
+template <class T>
+class myClass {
+	// friend-Deklaration in der Klasse (<T>!)
+	friend ostream &operator<< <T>(ostream &outFile, const myClass<T> &a);
+}
+// Definition der Template-Funktion nach der Klasse
+template <class T>
+ostream &operator<<(ostream &outFile, const myClass<T> &a) {
+	//...
+}
+```
+
+- für bereits deklarierte Templates können weiter Templates für bestimmte Spezialfälle von Parametern deklariert werden (z.B. C-Strings)
+
+```C++
+// globale Funktion:
+template <>
+char *max<char *>(char *a, char *b){
+	return (strcmp(a, b) > 0) ? a : b;
+}
+// Methode:
+template<>
+myClass<char *>::myClass()
+```

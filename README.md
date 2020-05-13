@@ -38,7 +38,7 @@
 - [X] Organisatorisches
 - [X] Objekte mit Pointern
 - [X] Exceptions
-- [ ] Templates
+- [X] Templates
 - [ ] Die Standard Templates Library
 
 ## MAT - Analysis
