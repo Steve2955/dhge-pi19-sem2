@@ -1008,3 +1008,139 @@ Die Konfigutation eines Kellerautomaten $K$ entspricht einem Tripel $(S_i,w,W)$ 
 - Es gibt Eingabeworte, die mit dem Kellerautomaten nicht erkannt werden können
 - Kellerautomaten können Eingabeband nur von links nach rechts lesen
 - Im Stack ist nur das oberste Element zugänglich
+
+# Sprachen
+
+**Natürliche Sprachen**
+
+- Informationsaustausch nach bestimmten Regeln, damit ihre Bedeutung verstanden wird
+- hoher Wortschatzumfang und komplexe Grammatiken -> Ausdruck komplizierter Sachverhalte möglich
+
+**Formale Sprachen**
+
+- Informationsaustausch in technischen Systemen mit geringer Wortzahl
+- Anpassung der Sprache an die Bedürfnisse des Systems
+
+## Semiotik
+
+- Lehre der Zeichen und ihrere Anordnung
+- **Syntax:** Regeln für den formalen Aufbau von Wörtern und Sätzen
+- **Semantik:** Bedeutung eines syntaktisch korrekten Satzes
+- **Pragmatik:** subjektive Komponente in Abhängigkeit von der aktuellen Situation (Umgebung, Zeit)
+- Bei formalen Sprachen sind nur Syntax und Semantik ausschlagebend
+
+## Formale Sprache
+
+- formale Sprache = Menge von Wörtern, welche aus einem gegebenen Alphabet gebildet werden können
+- können mit formalen Grammatiken beschrieben werden (= mathematische Modelle)
+- zentrale Rolle spielt die Syntax, Semantik hat keine Bedeutung
+- Anwendung in der Berechenbarkeitstheorie und im Compilerbau
+- Klassifizierung durch die Chomsky-Hierarchie
+
+### Chomsky-Hierarchie
+
+- Akzeptoren einer jeweiligen Klasse kann man eine akzeptierte Sprache zuordnen
+- Klasse von Automaten ist somit eine Klasse Formaler Sprachen
+
+| Grammatik | Sprachen        | Automat           |
+|-----------|-----------------|-------------------|
+| Typ 0     | rekursiv        | Turingmaschine    |
+| Typ 1     | kontextsensitiv | Linear beschränkt |
+| Typ 2     | kontextfrei     | Kellerautomat     |
+| Typ 3     | regulär         | Endlicher Automat |
+
+- Jeder Typ ist eine Teilmenge des darüberliegenden Typs
+
+### Definition
+
+
+$$G = (N,T,P,S)$$
+
+- Menge $T$ von **Terminalsymbolen** (endlich, nichtleer)
+- Menge $N$ von **Nichtterminalsymbolen** (endlich, nichtleer)
+- Menge $P$ von **Produktionsregeln**
+- **Startsymbol** $S\in N$
+
+- Menge aller terminaler und nichtterminaler Symbole $V = N\cup T$ einer Grammatik $G$ wird Vokabular genannt
+
+
+## Erzeugte Formale Sprache
+
+- eine von Grammatik $G$ erzeugte formale Sprache heißt $L(G)$
+- alle Wörter der Sprache bestehen nur aus Terminalsymbolen (vom Startsymbol in endlichen Schritten abgeleitet)
+- **Kleenesche Hülle** einer formalen Sprache $L$ ist die Menge aller Wörter, die durch beliebige Konkatenation von Wörtern der Sprache $L$ gebildet werden können (Operator: **Kleene-Stern** "\*")
+
+## Reguläre Grammatiken
+
+- Eine Grammatik $G(N,T,P,S)$ heißt **rechtslinear**, wenn alle Regeln einer der Folgenden Formen entsprechen:
+$$A\rightarrow a; A\rightarrow aB; A\rightarrow \varepsilon; A,B, \in N$$
+- Eine Grammatik $G(N,T,P,S)$ heißt **linkslinear**, wenn alle Regeln einer der Folgenden Formen entsprechen:
+$$A\rightarrow a; A\rightarrow Ba; A\rightarrow \varepsilon; A,B, \in N$$
+- Eine durch eine rechts- bzw. linkslineare Grammatik erzeugte Sprache heißt rechts- bzw. linkslinear
+- Sei $L$ eine formale Sprache, dann sind die folgenden Aussagen äquivalent:
+ 	- L ist rechtslinear
+	- L ist linkslinear
+	- L ist regulär
+
+### Syntaktische Beschreibung
+
+- besondere Notationsform zur Beschreibung von Sprachen
+- Unterstützte Operationen:
+	- Selektion: $(r|s)$
+	- Konkatenation: $(rs)$
+	- Iteration: $r^* $
+
+## Automaten und reguläre Sprachen
+
+- die Sprache jedes regulären Ausdrucks kann von einem endlichen Automaten erkannt werden
+- jeder nichtdeterministische endliche Automat kann in einen deterministischen übersetzt werden
+- für jeden regulären Ausdruck kann automatisch ein effizienter erkennender Automat erzeugt werden
+
+> Die Menge aller von einem Automaten akzeptierten Wörter bezeichnet man als akzeptierte Sprache.
+
+### Umwandlung regulärer Ausdrücke in endliche Automaten
+
+1. schreibe gesamten regulären Ausdruck an die einzige Kante des folgenden Automaten
+2. falls eine Kante mit mehr als einem einzelnen Zeichen beschriftet ist, führe dort eine Graphersetzung (s.o.) mit dem äußersten regulären Operator aus
+3. falls keine solche Kante da, terminiere, sonst gehe zu 2.
+
+## Das Pumping Lemma (Annahme, Vorausetzung)
+
+- wichtiger Satz, um nachzuweisen, dass eine Sprache nicht regulär ist
+- Sei $L$ eine reguläre Sprache, dann gibt es eine Zahl $n$, so dass sich alle Wörter $x \in L \text{mit} |x| \geq n$ zerlegen lassen in $x=uvw$, so dass folgene Eigenschaften erfüllt sind
+	- $|v|\geq 1$
+	- $|uv|\leq n$
+	- $\forall i \in \N \text{gilt:} uv^iw\in L$
+- **Allgemein:** Hat ein Automat n Zustände, so erreicht man spätestens nach dem n-ten Symbol einen bereits früher besuchten Zustand.
+- Um Wörter der Länge $n$ und länger lesen zu können, muss eine Schleife im Automaten existieren (Schleifen beliebig oft durchlaufbar)
+
+> Das Pumping Lemma kann nicht dazu verwendet werden, zu zeigen, dass eine Sprache regulär ist.
+
+## Kontextfreie Sprachen
+
+### Probleme der regulären Sprachen
+
+- Bspw. ein arithmetischer Ausdruck kann durch einen endlichen Automaten nicht als richtig oder falsch eingestuft werden
+- Ein endlicher Automat besitzt kein "Gedächtnis" (z.B. notwendig für Prüfung der Klammernpaare)
+
+> Sprachen mit Klammerstrukturen lassen sich nicht mehr durch reguläre Sprachen und endliche Automaten beschreiben.
+
+- Lösung über kontextfreie Sprachen
+
+### Parse-Baum
+
+- grafische Darstellung der Ableitung des Satzes einer Grammatik/Sprache
+- Eigenschaften:
+	- Wurzel = Startsymbol
+	- Blatt = Terminalsymbol oder leeres Wort
+	- Jeder innere Knoten ist ein Nichtterminalsymbol
+	- Wenn $A$ ein innerer Knoten mit den Kindern $b_1, b_2, \dots, b_n$ ist, stellt $A$ die Produktionsregel $A \rightarrow b_1b_2\dotsb_n$ dar
+
+### Kellerautomat
+
+- Ergänzung von endlichen Automaten mit einem Gedächtnis (Kellerspeicher)
+- es exisiteren Unterschiede zwischen deterministischen und nichtdeterministischen Kellerautomaten
+	- Bsp.: kein deterministischer der Palindrome akzeptieren
+	- Klasse der deterministisch kontextfreien Sprachen ist eine echte Teilklasse der kontextfreien Sprachen
+
+> Das Konzept der nichtdeterministischen Kellerautomaten istsomitmächtiger,alsdasKonzeptderdeterministischen Kellerautomaten.
