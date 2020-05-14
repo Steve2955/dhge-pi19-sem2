@@ -93,7 +93,7 @@
 - [X] Suchen
 	- [X] Suchen 1
 	- [X] Suchen 2
-- [ ] Automaten
+- [X] Automaten
 - [ ] Sprachen
 - [ ] Maschinenmodelle
 

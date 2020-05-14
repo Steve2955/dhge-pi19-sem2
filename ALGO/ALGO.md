@@ -883,3 +883,128 @@ Der **Füllfaktor** $\alpha=\frac{n}{m}$ beschreibt die Anzahl die in einer Hash
 - **Aber:** Vergleich der Signatur eines Textfenster mit dem Muster (bei Match: Bruteforce-Vergleich)
 - Anforderungen an die Signaturfunktion: Vermeidung von Kollisionen, konstante Berechnungszeit -> Verwendung einer Hash-Funktion
 - Inkrementelle Hashwert-Berechnung bei den Teilstrings sinnvoll
+
+# Automatentheorie
+
+- Teilgebiet der Theoretischen Informatik
+- Praktische Anwendung im Compilerbau und beim Entwurf von Programmiersprachen
+
+**Verhalten**
+
+- **Eingabe:** von außen als Folge von Zeichen
+- **Verarbeitung:** In Abhängigkeit vom Eingabezeichen erfolgt ein Zustandsübergang -> Zustandsübergängen definieren Verhalten des Automaten
+- **Ausgabe:** im Laufe seiner Arbeit produzierte Ausgabedaten
+
+**Unterscheidung**
+
+- **Endliche und nicht endliche Automaten:** nach der Menge der möglichen Zustände
+- Automaten mit und ohne Ausgabe:
+	- **Akzeptoren:** binäre Entscheidung als Ausgabe
+	- **Transduktoren:** jedem Zustand (Moore-Automaten) oder jedem Paar aus Zustand und Eingabezeichen (Mealy-Automat) wird ein Ausgabezeichen zugeordnet
+- **Deterministische und nichtdeterministische Automaten:** ein Automat ist determiniert, für jeden Zustand und jedes Zeichen genau ein Folgezustand definiert ist
+
+## Klassen von Automaten
+
+- Endliche Automaten: Automat mit endlich vielen Zuständen
+- Kellerautomaten: Automat mit endlichen Zuständen und einem Kellerspeicher für die spätere Verarbeitung von Zeichen
+- Turingmaschinen: unendliches Band mit beweglichem Schreib-/Lesekopf
+- Linear beschrnkte Automaten: Turingmaschine mit einem Band, dass durch die Größe der Eingabe beschränkt ist
+
+## Endliche Automaten
+
+$$A=(\Sigma,S,S_0,\delta,F)$$
+
+- $\Sigma$: endliche Eingabealphabet
+- $S$: endliche nicht leere Menge von Zuständen
+- $S_0 \in S: Anfangszustand
+- $\delta$: Zustandsüberführungsfunktion $\delta : S \times \Sigma \rightarrow S$
+- $F$: Menge akzeptierter Endzustände
+
+### Konfigurationen
+
+> Eine Konfiguration eines endlichen Automaten $A$ ist ein Paar $(S_i,w)$ mit $S_i\in S,w\in\Sigma^* $
+
+- Beschreibung der Verarbeitung eines Eingabewortes
+- Aktueller Zustand und verbleibendes Eingabewort als wesentliche Informationen
+
+$$(S_0,-304)\rightarrow(S_1,304)\rightarrow(S_2,04)\rightarrow(S_2,4)\rightarrow(S_2,\varepsilon)\rightarrow$$
+
+### Nichtdeterministischer endlicher Automat
+
+- Definition entspricht endlichem Automaten
+- Unterschied: Folgezustand kann eine Menge von Zuständen sein
+- "Orakel" entscheidet über den korrekten Folgezustand
+- nichtdeterministischer Automat akzeptiert die Eingabe sofern eine mögliche Verarbeitung in einem akzeptiertem Zustand endet
+
+#### Umwandlung in einen determinisischen Automaten
+
+- Zustände des konstruierten DEA sind Teilmengen von Zuständen des NEA
+- Zustand von DEA kodiert dabei die Zustände, in denen sich der äquivalente NEA zu einem bestimmten Zeitpunkt beﬁnden könnte
+- Potenzmengenkonstruktion ergibt nicht notwendigerweise eine minimale Lösung
+
+#### Mit Epsilon-Übergängen
+
+- Automat, der einen Zustandswechsel durchführen kann, ohne ein Zeichen gelesen zu haben
+- solche Übergänge werden durch das leere Wort $\varepsilon$ markiert
+
+##### Möglichkeiten für die Umwandlung von Epsilon-Übergängen
+
+- Alle Zustände, die von einem Zustand $S$ durch Epsilon-Übergänge erreichbar sind, werden als Epsilon-Hülle von $S$ bezeichnet
+1. $\varepsilon$-Zyklen zusammenfassen: Zustände, die in alle Richtungen durch $\varepsilon$-Übergänge verbunden sind, werden zu einem Zustand zusammengefasst
+2. $\varepsilon$-Schlingen beseitigen: $\varepsilon$-Übergänge, die auf den eigen Zustand zurückführen, können entfernt werden
+3. $\varepsilon$-Übergänge ersetzen: Zusammenfassen von Zuständen ($\varepsilon-x-\varepsilon \text{oder} \varepsilon-x \rightarrow x$)
+
+
+## Kellerautomat
+
+- endliche Automaten besitzen keinen Speocher für beliebig viele Informationen
+- Erweiterung des endlichen Automaten um Kellerspeicher (LIFO)
+- Zustandsänderungen in Abhängigkeit vom aktuellen Zustand dem gespeichertem Symbol
+- $\#$ - Kellerendzeichen
+- nichtdeterministische Kellerautomaten sind nicht allgemein in deterministisches Äquivalent transformierbar
+
+### Nichtdeterministischer Kellerautomat
+
+$$KA=(\Sigma,S,\Gamma,S_0,\#,\delta)$$
+
+- $\Sigma$:  Eingabealphabet
+- $S$: endliche Menge von Zuständen
+- $S_0 \in S: Anfangszustand
+- $\Gamma$: Kelleralpabet
+- $\#$: unterstes Kellerzeichen
+- $\delta$: Zustandsüberführungsfunktion $\delta : S \times (\Sigma\cup\{\varepsilon\}) \times \Gamma \rightarrow (S\times\Gamma^* )$
+- akzeptiert Eingabe, wenn die Eingabe vollständig gelesen wurde und der Keller leer ist
+- Es gibt keine Endzustände
+
+### Deterministischer Kellerautomat
+
+$$KA=(\Sigma,S,\Gamma,S_0,\#,\delta,F)$$
+
+- $\Sigma$:  Eingabealphabet
+- $S$: endliche Menge von Zuständen
+- $S_0 \in S: Anfangszustand
+- $\Gamma$: Kelleralpabet
+- $\#$: unterstes Kellerzeichen
+- $\delta$: Zustandsüberführungsfunktion $\delta : S \times (\Sigma\cup\{\varepsilon\}) \times \Gamma \rightarrow (S\times\Gamma^* )$
+- $F$: Menge akzeptierter Endzustände
+- immer nur eine möglihe Überführungsfunktion
+- akzeptiert Eingabe, wenn die Eingabe vollständig gelesen wurde und er sich in einem Endzustand befindet
+
+### Regeln
+
+$$\delta_i(S_j,e_i,A)\rightarrow(S_k,W)$$
+
+- $e_i\in \Sigma$: Ist $e_i$ das Eingabezeichen und $A$ das oberste Kellerzeichen, gehe vom Zustand $S_j$ in $S_k$ über und speichere $W$ in den Keller
+- $e_i=\varepsilon$: spontaner/$\varepsilon$-Übergang (Übergang ohne Lesen eines Eingabezeichen)
+- $W=\varepsilon$: Lösche das aktuelle Kellerzeichen
+- $W \in \Gamma$: Keller bleibt unverändert
+
+### Konfigutation
+
+Die Konfigutation eines Kellerautomaten $K$ entspricht einem Tripel $(S_i,w,W)$ mit $S_i \in S, w\in\Sigma^* ,W\in\Gamma^* $
+
+### Grenzen
+
+- Es gibt Eingabeworte, die mit dem Kellerautomaten nicht erkannt werden können
+- Kellerautomaten können Eingabeband nur von links nach rechts lesen
+- Im Stack ist nur das oberste Element zugänglich
