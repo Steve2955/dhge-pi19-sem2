@@ -95,7 +95,7 @@
 	- [X] Suchen 2
 - [X] Automaten
 - [X] Sprachen
-- [ ] Maschinenmodelle
+- [X] Maschinenmodelle
 
 ## ELE - Elektrotechnik/Elektronik
 

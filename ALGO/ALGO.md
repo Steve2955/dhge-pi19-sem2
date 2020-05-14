@@ -1144,3 +1144,79 @@ $$A\rightarrow a; A\rightarrow Ba; A\rightarrow \varepsilon; A,B, \in N$$
 	- Klasse der deterministisch kontextfreien Sprachen ist eine echte Teilklasse der kontextfreien Sprachen
 
 > Das Konzept der nichtdeterministischen Kellerautomaten istsomitmächtiger,alsdasKonzeptderdeterministischen Kellerautomaten.
+
+# Maschinenmodelle
+
+- Spezifikation des Algorithmenbegriff in der theoretischen Informatik
+- grundlegende Definition von Berechenbarkeit oder Charakterisierung der in Polynomialzeit berechbaren Probleme: **Turing-Maschine**
+- **Register-Maschine** als Modell für die Architektur eines Von-Neumnann-Rechners
+
+## Turingmaschine
+
+- Gedankenmodell für die Definition der Berechnbarkeitstheorie
+
+> alles was berechenbar ist, ist durch eine Turingmaschine berechenbar
+
+- Grundlegende Operationen: Lesen, Schreiben und Kopf bewegen
+- ermöglicht Vergelich wichtiger Eigenschaften (z.B. Laufzeit, Terminierung) *unabhängig* vom Algorithmenmodell bzw. Programmierparadigma
+
+### Aufbau
+
+- unendlich langen Speicherband mit unendlich vielen sequentiell angeordneten Feldern
+- programmgesteuerten Lese- und Schreibkopf
+
+### Formale Definition
+
+$$T=(S,\Sigma,\Gamma,S_0,\#,\delta,F)$$
+
+- endliche Menge an Zuständen: $S$
+- Eingabealphabet: $\Sigma$
+- Band-/Ausgabealphabet: $\Gamma$
+- Startzustand: $S_0$
+- Zustandsüberführungsfunktion: $\delta : S\times \Gamma \times \{L,R,H\}$
+- Menge der akzeptierten Endzustände: $F$
+
+### Prinzipielle Funktionsweise
+
+- Ausführung einer Berechnung durch schrittweise Umwandlung der Eingabe in Ausgabe
+- Ereichen eines Endzustandes = Beendigung der Berechnung
+- Überführungsfunktion gibt an, wie die Turingmaschine schrittweise den Bandinhalt, ihren Zustand und die Position des LSK ändert
+
+## Registermaschine
+
+- einfaches Modell realer Computer: Kontrollstrukturen und elementare von einer Maschine ausführbare Einzelschritte
+	- endliche Anweisungsliste (Programm)
+	- Rechenoperationen: + - * /
+	- bedingter, unbedingter Sprung
+	- Konstanten, direkte, indirekte Adressierung
+	- Haltbefehl
+- auch Random Access Machine (RAM)
+
+### Aufbau
+
+- Befehlsspeicher
+- Datenspeicher
+- Prozessor (Befehlszähler + Akumulator)
+
+### Formale Definition
+
+- eine Registermaschine besteht aus den Registern $B, C_0, C_2, \dots, C_n$ und einem Programm
+	- $B$ ist der Befehlszähler
+	- $C_0$ ist der Akkumulator
+	- Jedes der Register $C_n, n \geq 1$ ist ein Speicherregister
+	- jedes Register enthält als Wert eine Zahl aus $\N$
+- Unter einer Konfiguration der Registermaschine verstehen wir das unendliche Tupel ($b, c_0, c_1, \dots, c_n$)
+- Das Programm ist eine endliche Folge von Befehlen
+
+### Befehlssatz
+
+- **C-Befehle:** Lade eine Konstante $i$ bzw. den Inhalt des Registers $c_i$
+- **I-Befehle:** Indirekte Adressierung (Adresse einer Speicherzelle deren Inhalt die Adresse der zuladenden Speicherzelle $c_{c_i}$angibt)
+
+### Prinzipielle Funktionsweise
+
+- Abbarbeitung der einzelnen Befehle (Inkrementierung des Befehlszählers)
+- jeder Befehl ändert die Konfiguration der Registermaschine
+- Eingaben der zu berechnenden Funktion stehen in den Speicheregistern, alle nicht benötigten Register sind mit dem Wert 0 belegt
+- Registermaschine beendet ihre Arbeit mit dem Erreichen des END-Befehls
+- Die Ausgaben der Verarbeitung sthen in den vorab festgelegten Speicherregistern $C_{ix}$
