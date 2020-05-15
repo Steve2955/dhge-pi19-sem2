@@ -24,8 +24,7 @@ Extern:
 
 ## 3.2 Welche Erweiterungssteckplätze sind auf aktuellen Mainboards zu finden (für Steckkarten, Massenspeicher, nicht USB, RAM etc.)?
 
-- PCI
-- PCI-Express (x16,8,4,1)
+- PCI/PCI-Express (x16,8,4,1)
 - SATA 3
 - M.2
 
@@ -40,16 +39,21 @@ Extern:
 ## 3.4 Welche drei Takte spezifizieren die Leistung des Arbeitsspeichers? Erklären Sie diese und wie sie miteinander zusammenhängen!  
 
 - Speichertakt
-- I/O-Takt
-- effektive Taktfrequenz = Speichertakt * I/O (bei DDR: zweimal eigentliche Taktfrequenz))
+- I/O-Takt (Speichertakt\*2 bei DDR: zweimal eigentliche Taktfrequenz))
+- effektive Taktfrequenz = Speichertakt * Prefetch (bei SDRAM kein Prefetch)
 
 [Wiki: DDR-SDRAM](https://de.wikipedia.org/wiki/DDR-SDRAM#Arbeitsweise)
 
 ## 3.5 Wie wird die Erhöhung der Datenrate von DDR-SDRAM zu DDR2- und DDR3-Speicher maßgeblich realisiert (zwei sich bedingende Maßnahmen)?
 
-- Erhöhung des I/O Takts -> Erhöhung des effektiven Takts + Übertragungsrate
-- Reduktion der Spannung -> gesenkter Stromverbrauch
-- Prefetchbuffer Erhöhung -> I/O Takt Erhöhung
+- Erhöhung Prefetchbuffer -> I/O Takt Erhöhung -> Erhöhung des effektiven Takts + Übertragungsrate
+- (Reduktion der Spannung -> gesenkter Stromverbrauch)
+
+|       | Prefetch | Speichertakt | I/O-Takt |
+|-------|----------|--------------|----------|
+| DDR-1 | 2x       | 100 MHz      | 100 MHz  |
+| DDR-2 | 4x       | 100 MHz      | 200 MHz  |
+| DDR-3 | 8x       | 100 MHz      | 400 MHz  |
 
 [Wiki: DDR-SDRAM](https://de.wikipedia.org/wiki/DDR-SDRAM#Arbeitsweise)
 
@@ -83,6 +87,12 @@ Extern:
 [Wiki: Arbeitsspeicher](https://de.wikipedia.org/wiki/Arbeitsspeicher#Leistung_von_Speichermodulen)
 
 ## 3.8 Wenn Sie mit einer Software die Latenz des Arbeitsspeichers messen, welche Schaltzeiten müssen Sie dann berücksichtigen wenn das Programm a) eine zufällig bestimmte Speicheradresse anfordert und b) sequenziell auf den Speicher zugreift?
+
+Max:
+```
+a)Zeile aktivieren -> Spalte auswählen -> Zeile deaktivieren(CL) # CL, trcd, tras, evtl. trp, trc  ->  abh. v. d.angeforderten Bank
+b)Zeile aktivieren -> prefetching buffer (tRCD pro Zeile, jedes mal CL)
+```
 
 Prefetch greift nicht
 
@@ -130,6 +140,7 @@ Versuch 2: Speicher und Raid
 - NVM Express
 	- Anbindung über PCIe 3.0/3.1: 7,88‬‬ Gbit/s; 4.0: 15.75 Gbit/s; 5.0: 60.23 Gbit/s (jeweils pro Lane)
 	- (1 Gerät/Anschluss?)
+- Thunderbolt 3
 
 [Wiki: SATA](https://de.wikipedia.org/wiki/Serial_ATA)
 [Elektronik Kompendium](https://www.elektronik-kompendium.de/sites/com/0310281.htm)
@@ -160,7 +171,6 @@ Versuch 2: Speicher und Raid
 Hier fehlt ein Balkendiagramm!
 ```
 
-
 | Speicher      | Preis/GB | Preis    | Kapazität | Händler     | URL                                                                                                           |
 |---------------|----------|----------|-----------|-------------|---------------------------------------------------------------------------------------------------------------|
 | HDD-SATA      | 0,019475 | 78,71 €  | 4 TB      | Mindfactory | [Geizhals](https://geizhals.de/toshiba-p300-high-performance-4tb-hdwd240uzsva-a2189648.html?hloc=at&hloc=de)  |
@@ -186,21 +196,176 @@ Hier fehlt ein Balkendiagramm!
 	- erhöhte Fehler- und Ausfallwahrscheinlichkeit
 - RAID 1:
 	- min. 2 Festplatten
-	- volle Redundanz durch Mirroring
+	- volle Redundanz durch Mirroring (ein Ausfall möglich)
 	- effektives Halbieren der Kapazität
+	- gesteigerte Lese-Performance
 - RAID 10: RAID 0 über mehrere RAID 1
 	- min. 4 Festplatten
 	- gesteigerte Transferrate (Speicherung zusammenhängender Blöcke auf unterschiedlichen Speichern)
-	- volle Redundanz durch Mirroring
+	- volle Redundanz durch Mirroring (ein Ausfall möglich)
 	- effektives Halbieren der Kapazität
 - RAID 5:
 	- min. 3, max. 5 Festplatten
 	- gesteigerte Transferrate (Speicherung zusammenhängender Blöcke auf unterschiedlichen Speichern)
 	- Speicherung von Paritätsinformationen (keine Redundanz, aber für Wiederherstellung verwendbar)
+	- Kapazitätsausnutzung: 67% - 94% (bei 16 HDDs)
 - RAID 6:
 	- gesteigerte Transferrate (Speicherung zusammenhängender Blöcke auf unterschiedlichen Speichern)
 	- zweifache Speicherung von Paritätsinformationen (keine Redundanz, aber für Wiederherstellung verwendbar)
 	- hohe Fehler- und Ausfalltoleranz
+	- Kapazitätsausnutzung: 50% - 88% (bei 16 HDDs)
+	- kein Datenverlust beim Ausfall zweier Festplatten
 
+[ThomasKrennWiki: RAID](https://www.thomas-krenn.com/de/wiki/RAID)
 [Wiki: RAID](https://de.wikipedia.org/wiki/RAID)
 [Storage Insider](https://www.storage-insider.de/was-ist-raid-alles-ueber-level-1-bis-5-und-mehr-a-517806/)
+
+Versuch 3: System-Tuning und Sicherheit
+=======================================
+
+# Vorbereitung
+
+## 3.1 Notieren Sie Bezeichnungen und Grundmerkmale (Taktfrequenz, Kerne Sockel, Cache, Strukturgröße, Verlustleistung) aktueller INTEL sowie adäquater AMD Desktop-Prozessoren! (jeweils 2 konkret am Markt verfügbare CPUs)
+
+|                 | Intel Core i9-10980XE Extreme Edition | AMD Ryzen Threadripper 3960X |
+|-----------------|---------------------------------------|------------------------------|
+| Taktfrequenz    | 3,00 GHz (max. 4,60 GHz)              | 3.80 GHz (max. 4,50 GHz)     |
+| Kerne           | 18                                    | 24                           |
+| Sockel          | FCLGA2066                             | sTRX4                        |
+| Cache           | 24.75 MB                              | 128 MB                       |
+| Strukturgröße   | 14nm                                  | 7nm                          |
+| Verlustleistung | 165 W                                 | 280 W                        |
+
+[Intel](https://www.intel.de/content/www/de/de/products/processors/core/x-series/i9-10980xe.html)
+[AMD](https://www.amd.com/de/products/cpu/amd-ryzen-threadripper-3960x)
+
+## 3.2 Es gibt prinzipiell 2 Optionen im BIOS/UEFI um eine CPU in einem Desktoprechner zu übertakten. Welche sind das? Welche Vor- und Nachteile hat die jeweilige Option? Welche Vor- und Nachteile birgt das Übertakten im Allgemeinen?
+
+**Möglichkeiten für das Übertakten**
+
+- Übertakten
+- Untervolten
+
+**Vorteile**
+
+- gesteigerte Leistungs des Systems(begrenzt)
+
+**Nachteile**
+
+- gesteigerter Stromverbrauch
+- aufwendigere Kühlung notwendig
+- Reduktion der Lebensdauer des Prozessors
+- zu starkes Übertakten führt zu Instabilität des Systems
+
+## 3.3 Welche grundlegenden Aufgaben besitzt das BIOS (UEFI)! Nenne Sie gängige Hersteller! Nennen Sie mindestens drei Möglichkeiten ein BIOS-Passwort zu löschen bzw. zu umgehen.
+
+- BIOS-Batterie entfernen
+- CMOS Clear (Jumper)
+- Master Passwort
+
+## 3.4 Was ist UEFI? Welche Vorteile bietet es gegenüber einem BIOS?
+
+- Industrieller Standard (s.a [http://www.uefi.org](http://www.uefi.org/about/))
+- Aufgrund der Entwicklung in C leichter programmier- und erweiterbar
+- Architektur unabhängig (für aktuelle 32/64 Bit Systeme ausgelegt)
+- Graphische User Interfaces in der der Pre-Boot-Umgebung anbieten (z.B. durch einen pre-Boot Netzwerk-Stack)
+- Remote Upgrade von Firmware-Komponenten oder der ganzen Firmware durchführen
+- Auf beliebigen Plattformen eingesetzt werden
+- Parallel-Installation von mehreren Betriebssystemen ohne OS-spezifische Bootmanager (wie z.B. Grub2)
+- Limitierung der Festplattenkapazität auf 2,2 TByte (im eigentlichen Sinne eine Einschränkung des Master Boot Records (MBR), die durch die Einführung der GPT-Partitionierung aufgehoben wurde)
+- Netzwerkfähigkeiten auch ohne OS (z.B. zum Aktualisieren der Firmware)
+- Pre-Boot-Applikationen (z.B. für Recovery-Funktionen, Diagnose-Werkzeuge)
+
+[ThomasKrennWiki: UEFI](https://www.thomas-krenn.com/de/wiki/UEFI_Einf%C3%BChrung)
+
+## 3.5 Es wird erwartet, dass Sie grundlegend mit einem Linux System umgehen können (Laufwerke einbinden, Dateien kopieren, umbenennen, erzeugen). Listen Sie die entsprechenden Kommandos auf und fügen Sie ein Beispiel an!
+
+```bash
+lsblk
+mount sda /mnt/sda
+umount /mnt/sda
+mkdir folder
+touch file
+fallocate -l 1G file
+cp src dest
+mv src dest
+rm file
+```
+
+[Linux Command Line Cheat Sheet](https://cheatography.com/davechild/cheat-sheets/linux-command-line/)
+
+## 3.6 Was ist das Kommandozeilentool Winsat? Welche Möglichkeiten bietet es bezüglich CPU- und Arbeitsspeicherbewertung?
+
+WinSAT ist das "Windows System Assessment Tool", es zuständig für die Systembewertung, es misst die Leistung und Funktionsfähigkeit eines Systems.
+
+???
+
+[win-tipps-tweaks](https://www.win-tipps-tweaks.de/cms/windows-7-tipps/tricks/winsat-windows-system-assessment-tool.html)
+
+
+Versuch 4: Netzwerk
+====================
+
+# Vorbereitung
+
+## 3.1 Wie ist die Steckerbelegung und Farbcodierung eines paarigen Netzwerkkabels nach DIN EN 50173 mit RJ45 Stecker?
+
+```
+1 - orange/weiß ──┐
+2 - orange ───────┘
+3 - grün-weiß ────┐
+4 - blau ──────┐  │
+5 - blau-weiß ─┘  │
+6 - grün ─────────┘
+7 - braun-weiß ───┐
+8 - braun ────────┘
+```
+
+[Netzmafia](http://www.netzmafia.de/skripten/netze/twisted.html)
+
+## 3.2 Welche Schirmungsarten für Twisted-Pair-Kabel gibt es (Bezeichnung/Aufbau)?
+
+- Ziel: Erhalt der Übertragungsqualität bei Einstrahlung der Störungen von außen
+- Gesamtschirmung
+	- Drahtgeflecht: S/UTP, S/FTP, SF/FTP
+	- Folie: F/FTP, SF/FTP
+- Adernpaarschirmung
+	- Drahtgeflecht: -
+	- Folie: U/FTP, S/FTP, F/FTP, SF/FTP
+
+[Wiki: Twisted-Pair-Kabel](https://de.wikipedia.org/wiki/Twisted-Pair-Kabel#Schirmung)
+
+## 3.3 Ab welcher Kategorie ist ein Netzwerkkabel geeignet, um in einem GBit-Netz eingesetzt zu werden?
+
+- Netzwerkkabel der Kategorie 5/5e
+
+## 3.4 Was ist PowerLAN, wie ist die maximale Reichweite, wie funktioniert es? Welche Bandbreiten können realisiert werden?  
+
+- Technik, die vorhandene elektrische Leitungen im Niederspannungsnetz zum Aufbau eines lokalen Netzwerks zur Datenübertragung nutzt, so dass keine zusätzliche Verkabelung notwendig ist
+- IEEE-1901-FFT-Standard: maximal 2000 Mbit/s bei bis zu 300 m Reichweite
+- ITU-G.hn-Standard: maximal 2400 MBit/s brutto mit bis zu 500 m Reichweite
+
+(Wiki: PowerLAN)[https://de.wikipedia.org/wiki/PowerLAN]
+
+## 3.5 Welche Einflüsse können eine PowerLan-Verbindung stören? Welche Besonderheiten hinsichtlich der Sicherheit sind zu beachten?
+
+## 3.6 Notieren Sie entscheidende Merkmale des Industriestandards IEEE 802.11! Erklären Sie insbesondere Unterschiede zwischen IEEE 802.11a/b/g/n (max. Datenrate, Frequenzband, Modulation)! Welche Neuerungen brachte der ac-Standard?
+
+## 3.7 Erklären Sie Unterschiede zwischen dem 2,4 und dem 5 GHz Übertragungsband! Nennen Sie jeweils die Vor- und Nachteile!
+
+## 3.8 Geben Sie für folgende Fragestellungen die Kommandos mit entsprechenden Parametern an:
+
+Wie ermitteln Sie die physikalische Adresse Ihres Netzwerkadapters auf der Kommandozeile?
+
+```cmd
+ip config /all
+ifconfig
+```
+
+Wie prüfen Sie mit Hilfe eines Terminal-Kommandos die Netzwerkverbindung zu einer dedizierten Gegenstelle?
+
+```cmd
+ping 1.2.3.4
+```
+
+Wie kopieren Sie über die Kommandozeile eine Datei aus dem Netzwerk auf Ihren lokalen Rechner und messen dabei die für den Kopiervorgang nötige Zeit? Schreiben Sie die entsprechende Kommandofolge, wie sie in einer Batch-Datei stehen könnte, auf!
