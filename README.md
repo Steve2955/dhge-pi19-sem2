@@ -67,7 +67,7 @@
 - [X] Schnittstellen
 - [ ] Prozesse
 	- [X] Prozesse 1
-	- [ ] Prozesse 2
+	- [X] Prozesse 2
 	- [ ] Prozesse 3
 - [ ] Deadlocks
 - [ ] Ein- und Ausgaben

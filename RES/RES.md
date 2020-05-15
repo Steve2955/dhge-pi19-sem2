@@ -604,3 +604,193 @@ Ein Prozess beﬁndet sich in genau einem der folgenden Zustände:
 	- Ereignis entsprechend behandeln
 	- evtl. blockierte Prozesse auf bereit setzen
 	- Sprung zum Scheduler
+
+## Threads
+
+- Aspekte klassischer Prozesse
+	- Einheit des Ressourcenbesitzes: eigener Adressraum, Kontrolle von Ressourcen (z.B. E/A-Geräte)
+	- Einheit der Ablaufplanung/Ausführung
+
+> Prozesswechsel sind aufwändige Aktionen des Betriebssystems
+
+- Lösung: Trennung der Aspekte
+	- **Prozess:** Einheit des Ressourcenbesitzes und Schutzes
+	- **Thread:** Einheit der Ausführung (Prozessorzuteilung)
+- Ziel: Strukturierung unabhängiger Programmkomponenten, Leistungssteigerung durch effiziente Parallelarbeit
+
+### Aufbau von Prozessen und Threads
+
+| Elemente pro Prozess         | Elemente pro Thread |
+|------------------------------|---------------------|
+| - Adressraum                 | - Befehlszähler     |
+| - Globale Variablen          | - Register          |
+| - Geöffnete Dateien          | - Stack             |
+| - Kindeprozesse              | - Zustand           |
+| - Zu behandelnde Signale     |                     |
+| - Signale und Signalroutinen |                     |
+| - Accounting Informationen   |                     |
+
+> Ein Thread hat Zugriff auf alle Ressourcen des Prozesses in dem er abläuft
+
+**Vorteile**
+
+- schnellere Umschaltung zwischen Threads als Prozessen
+- Einfache Nutzung von gemeinsamen Prozessressourcen (Parallelität innerhalb einer Anwendung)
+- Bessere Nutzung der verfügbaren Rechenzeit
+
+### Typische Anwendungen
+
+- Textverarbeitung
+	- Texteingabe, Rechtschreibprüfung, Zwischenspeichern auf verschiedenen Threads
+- Webserver
+	- Dispatcher-Thread: nimmt ankommende Anfrage entgegen
+	- Worker-Thread: wird vom Dispatcher geweckt und erhält die Anfrage
+
+### Implementierung
+
+- **User-Thread:** für Programmierer sichtbar, **logische Realisierung** der gewünschten Parallelität
+- **Kernel-Thread:** dem Betriebsystem bekannt, erhält vom Betriebssystem Rechenzeit
+
+> User-Thread muss einem einem konkreten Kernel-Thread zugeteilt werden, dmit er real Ausgeführt wird
+
+**Realisierungsformen:**
+- $m:1$-Zuordnung: Alle zu einem Prozessgehörenden User-Threads werden einem einzigen Kernel-Thread zugeteilt (Multithreading außerhalb des Systemkerns)
+- $1:1$-Zuordnung: Jedem User-Thread wird ein Kernel-Thread zugeteilt (Multithreading auf Systemebene)
+- $m:n$-Zuordnung: Einem Kernel-Thread sind mehrere User-Threads zugeordnet, mehrere Kernel-Threads pro Prozess (Hybridlösung)
+
+## Interprozesskommunikation
+
+### Parallelität und Nebenläufigkeit
+
+- **Mehrprogrammbetrieb:** Verwaltung mehrerer Prozesse in einem Einprozessorsystem
+- **Mehrprozessorbetrieb:** Verwaltung mehrerer Prozesse in einem Mehrprozessorsystem
+- **Verteilte Verarbeitung:** Verwaltung mehrerer Prozesse auf mehreren Verteilten Computersystemen (Cluster)
+
+Grundlegender Bedeutung: Kommunikation, Synchronisation zwischen Prozessen; Nutzung von Ressourcen und Prozessorzeit
+
+- **Parallelität:** Die Anweisungen zweier Prozesse werden gleichtzeitig unabhängig voneinander ausgeführt (echte Parallelität -> nur auf Multiprozessor-Systemen)
+- **Nebenläufigkeit:** Die Anweisungen zweier Prozesse werden  unabhängig voneinander sequentiell ausgeführt (pseudo Parallelität -> auf Monoprozessor-Systemen)
+
+#### Probleme bei der Ausführung
+
+- **Blockieren:** ein Prozess belegt Betriebsmittel, die ebenfalls von einem anderen benötigt werden
+- **Verhungern:** ein Prozess erhält keine Rechenzeit (anderer hat höherer Priorität)
+- **Verklemmung:** Zustand bei dem ein oder mehrere Prozesse auf eine bereits zugeteilt Betriebsmittel warten
+
+### Notwendigkeit der Interprozesskommunikation
+
+- Austausch von Informationen = wichtiges Mittel für die Koordination mehrere Prozesse
+- im engeren Sinne: Kommunikation zwischen Prozessen auf einem Computer mit getrennten Speicherbereichen
+- im weiteren Sinne: Datenaustausch in Verteilten Systemen (Threads bis Netzwerk verschiedener Computer)
+
+### Race Conditions
+
+- Nebenläufige Prozesse (oder Threads) geraten in Konflikt, wenn sie um die gleichen Ressourcen wetteifern
+- Endergebnisse hängen von der zeitlichen Reihenfolge ab
+
+> Wechselseitiger Ausschluss notwendig! (Mutual Exclusion)
+
+- **kritischer Abschnitt:** Teil eines Programms, das auf gemeinsame Ressourcen zugreift
+- Bedingungen zur Vermeidung von Race-Conditions
+	- keine zwei Prozesse dürfen sich gleichzeitig in einem kritischen Abschnitt befinden
+	- keine Annahmen über Geschwindigkeit oder Anzahl der CPUs
+	- kein Prozess außerhalb einer kritischen Region darf einen anderen blockieren
+	- Alle Prozesse müssen in endlicher Zeit den kritischen Abschnitt betretten können
+
+### Prozess-Synchronisation
+
+#### Unterbrechungen ausschalten
+
+- unattraktiver Ansatz
+- Benutzerprozess schaltet Unterbrechung ab und nie wieder ein -> CPU kann nie wieder zu anderem Prozess wechseln (keine Unterbrechung durch Systemuhr möglich)
+
+#### Variablen sperren
+
+- gemeinsam genutzte Sperrvariable (Spinlock) zeigt die Möglichkeit über den Eintritt in einen kritischen Bereich an
+- Setzen des Spinlock bei Betretten eines kritischen Abschnittes, Rücksetzen bei Verlassen
+- Race-Condition auf Sperrvariable möglich (Unterbrechung nach Auslesen)
+
+#### Decker-Algorithmus
+
+- Für jeden Prozess exisiter eine Flag
+- eine gesetzte Flag signalisiert, dass sich der Prozess in einem kritischen Abschnitt befindet
+- Variable ```turn``` entscheidet, wer als nächstes einen kritischen Abschnitt betretten kann
+- Problem: Prozess kann nicht in kritische Region, solange anderer Prozess ```turn``` besitzt und einen nichtkritischen Bereich bearbeitet
+
+#### Petersons Lösung
+
+- Prozess bekundet sein Interesse indem er sein Feldelement setzt und setzt ```turn```
+- Nach Verlassen des kritischen Bereiches wird das Feldelement zurückgesetzt
+- weitere Prozesse warten, bis der laufende Prozess sein Interesse zurückzieht
+
+#### Test and Set Lock (TSL)
+
+- Problem: Testen und Schreiben auf Sperrvariablen sind zwei unterbrechbare Aktionen
+- Lösung: nichtunterbrechbarer Test-And-Set Maschinenbefehl (Hardwareunterstützung)
+
+#### Sleep and Wakeup
+
+Klassisches Beispiel: Erzeuger-Verbraucher-Problem
+
+- Erzeuger: erzeugt Datenpakete, bis zur vollen Warteschlange (schäft und wird geweckt, wenn Platz in der Warteschlange ist)
+- VerbraucherL verbraucht Datenpakete (schläf und wird geweckt, wenn neue Daten vorhanden sind)
+
+
+**Problemfall**
+
+- Verbraucher wird geweckt, bevor er sich bereits komplett pausieren konnte (Prozessunterbrechung im kritischen Abschnitt Erkennung der Bedingung von Sleep und Aufruf von Sleep)
+- Idee: Speicherung der Anzahl der Weckrufe in neuer Variablenart(**Semaphor**)
+
+##### Semaphore
+
+- "Ampel", die immer nur einem Prozess die Benutzung erlaubt und allen anderen verweigert
+- Alle Prozesse sind dazu verpflichtet bestimmten Code nur auszuführen, wenn es die Semaphore erlaubt
+- Prozesse synchronisieren sich über die Semaphore (Setzen/Rücksetzen der Semaphore bei Betretten/Verlassen kritischer Bereiche)
+- Zur Manipulation und Abfrage der Senaphoren exisitieren zwei unteilbare Operationen
+- Notation nach Dijkstra:
+	- **P(sema)** Semaphore reservieren (auch down-Operation)
+	- **V(sema)** Semaphore freigeben (auch up-Operation)
+- Eine Semaphore regelt durch Zählen Wechselwirkungsituationen von Prozessen und realisiert ein passives Warten der Prozesse
+- binären Semaphore auch "Mutexe", Integer auch "Zähl-Semaphore"
+
+**Implementierung**
+
+- Zähler (Ganzzahl) beim Start mit Zahl maximal verfügbarer Ressourcen initialisiert
+- Herunterzählen bei einer Reservierung, Inkrementieren bei einer Freigabe
+- Fällt der Zähler unter 0, muss der reservierende Prozess warten
+
+##### Erzeuger-Verbraucher-Problem mit Semaphoren
+
+- Semaphor mutex verhindert, dass gleichzeitig Verbraucher und Erzeuger im kritischen Abschnitt sind
+- Um zu verhindern, dass eine leere/volle Liste gelesen/geschrieben wird, werden zwei Weitere Semaphoren verwendet (empty/full)  
+
+#### Monitore
+
+- Monitor besteht aus einigen Prozeduren, Variablen und Darenstrukturen
+- verkapselt Semaphore und Operationen auf diese Semaphore
+- zu jedem Zeitpunkt kann nur ein Prozess einen Monitor benutzen, aber für alle Prozesse zugänglich
+- Häufig für Verwaltung von Puffern, Geräten
+
+## Prozess-Kommunikation
+
+### Pipes
+
+- unidirektionale Datenkanäle zwischen zwei Prozessen (ein Prozess schreibt, der andere liest)
+- Realisierung im Speicher oder als Datei
+- Lebensdauer entspricht der der beiden Prozesse
+- Nur innerhalb von Prozessgruppen (UNIX) oder zwischen Threads verwendbar, da diese nur dort eindeutig identifizierbar sind
+- Erweiterung: Named Pipes
+
+#### Named Pipes
+
+- keinem Prozess fest zugeordnet
+- Lesen/Schreiben wie Dateien (über Systemaufrufe)
+- existieren als Objekte mit Namen im Dateisystem
+- flexible Kommunikationsschnittstelle, Teil aller modernen Betriebssysteme
+
+### Sockets
+
+- Erweiterung von Pipes für Internet und Netzdienste
+- zwei Sockets werden zu einer bidirektionalen Pipe verbunden
+- über Rechneradresse identifizierbar (ermöglichen Client-Server-Kommunikation)
+- Serverprozess erstellt Socket (create) und wartet auf Verbindungswünsche (listen)
