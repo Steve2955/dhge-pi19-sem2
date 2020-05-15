@@ -1,4 +1,4 @@
-# DHGE Praktische Informatik Matrikel 19 Semester 2
+# DHGE - Praktische Informatik - Matrikel 19 - Semester 2
 
 ## INV - Einführung in die Informatik
 
@@ -25,7 +25,7 @@
 - [X] Organisatorisches
 - [X] Unterschiede C/C++
 - [X] Funktions-Features
-  - [ ] alter Kurztest
+	- [ ] alter Kurztest
 - [X] I/O und File-I/O
 - [X] Ziele, Konzepte, Geschichte, ...
 - [X] Grundlegende C++-Konstrukte 1
@@ -65,10 +65,10 @@
 - [X] Architekturen
 - [X] Strukturen
 - [X] Schnittstellen
-- [ ] Prozesse
+- [X] Prozesse
 	- [X] Prozesse 1
 	- [X] Prozesse 2
-	- [ ] Prozesse 3
+	- [X] Prozesse 3
 - [ ] Deadlocks
 - [ ] Ein- und Ausgaben
 - [ ] Speicherverwaltung

@@ -794,3 +794,129 @@ Klassisches Beispiel: Erzeuger-Verbraucher-Problem
 - zwei Sockets werden zu einer bidirektionalen Pipe verbunden
 - über Rechneradresse identifizierbar (ermöglichen Client-Server-Kommunikation)
 - Serverprozess erstellt Socket (create) und wartet auf Verbindungswünsche (listen)
+
+## Prozessscheduling
+
+- mehrere Prozesse konkurrieren zur gleichen Zeit um die CPU -> Konfliktsituation
+- Koordination des Zugriffes auf die CPU notwendig, wenn Nachfrage zu hoch
+	- Langzeit-(Job)Scheduler = zuständig für Prozesse, die in den Speicher geladen werden
+	- Kurzzeit-(CPU)Scheduler = zuständig für die bereits im Speicher befindlichen, rechenbereiten Prozesse
+- zentrale oder dezentrale (Prozess selbst) Verwaltung
+	- **Deterministisches Modell:** alle Informationen bekannt
+	- **Probalistisches Modell:** offen (Anzahl der Prozesse nicht bekannt) oder geschlossen (Anzahl bekannt, Bedienzeit nicht)
+
+### Deterministisches Modell
+
+- Berechnung der Prozessabläufe vor der Ausführung
+- nur in geschlossenen Systemen (feste Prozesszahl, statischer Ablauf)
+
+### Probalistisches Modell
+
+- Zuteilung der CPU zu Prozessen erfolgt dynamisch während der Prozessabarbeitung
+- Entscheidung mittels stochastischer Verfahren auf Grundlage der Wahrscheinlichkeitstheorie (z.B. Poisson-Prozesse, Markow-Prozesse)
+
+### Scheduling-Strategien
+
+- Ziele:
+	- möglichst hohe CPU-Auslastung, Durchsatz
+	- Fairness (ohne Priorisierung alle Prozesse gleich)
+	- niedrige Ausführungszeit, Wartezeit und Antwortzeit
+
+#### Non-präemptive Scheduling
+
+- **First come first serve (FCFS/FIFO):** Jobs werden in eine Warteschlange eingefügt
+- **Shortest-Job-First (SJF):** Prozess mit geschätzt kürzester Ausführungszeit wird zuerst bedient
+- **Highest response ration next (HRN):** verarbeitet Jobs mit maximalem Verhältnis aus Antwortzeit und Bedienzeit
+- **Prioritätsscheduling (PS):** Einsortieren von Jobs in eine Wartschlange nach ihrere Priorität
+
+#### Präemptives Scheduling
+
+- einfachste Strategie: alle Prozesse gleichberechtigt, erhalten gleiches Zeitfenster (Round-Robin)
+- Implementation: Scheduler muss Liste aller laufenden Prozesse vorhalten
+- Antwortzeiten proportional zu Bedienzeit
+- Prozess- / Kontextwechsel kostet Prozessorzeit
+	- Intervall zu klein: Verwaltung und Wartezeit höher, Durchsatz kleiner
+	- Intervall zu groß: geringere Verwaltung, höherer Durchsatz und Antwortzeit
+- **Dynamic Priority Round-Robin:** Einteilung der Prozese in Prioritätsklassen
+	- höchste Prioritätsklassen erhalten CPU
+	- Erhöhen der Priorität in der Vorstufe (verhindert das Prozesse verhungern)
+- **Shortest Remaining Time First:** Job mit der kürzesten Restlaufzeit wird vorgezogen
+
+### Interruptverarbeitung
+
+- Interrupt =  kurzfristige Unterbrechung eines Programms durch eine von der CPU abzuarbeitende Befehlssequenz (Interrupt Service Routine)
+- Funktion: schnelles reagieren auf Ein-/Ausgabe-Signale oder Zeitgeber
+- Reaktion auf zeitkritische Ereignisse
+- **interne Interupts:** laufen *synchron* mit dem ausgeführten Programm (erst nach Befehlsausführung erkannt)
+- **externe Interrupts:** asynchron, unabhängig vom gerade ausgeführten Programm (Unterbrechung nicht möglich)
+
+#### Hardware-Interrupts
+
+- durch einen Hardware-Baustein oder durch ein Peripheriegerät ausgelöst
+- **maskierbare** (sperrbare) oder **nicht maskierbare** Interrupts
+- wird ein nicht-maskierbarer Interrupt ausgelöst, arbeitet der Prozessor den gerade ausgeübten Befehl ab und führt unmittelbar anschließend den Interrupt durch
+- **Interrupt-Controller** verwaltet mehrere Interrupt-Anforderungen und gibt sie *geordnet nach Priorität* an den Prozessor
+- **vektorisiert:** Interruptquelle legt Adress der ISR auf den Datenbus und verzweigt direkt zum Mikroprogramm
+- **nichtvektorisiert:** Interruptquelle legt eine Vektornummer auf den Datenbus, mit der due Adresse der ISR aus einer Vektortabelle ermittelt wird
+
+#### Software-Interrupts
+
+- Aufruf mit speziellen Maschinenbefehlen (nur Nummer für den Interrupt notwendig)
+- Mit Nummer in der Interrupt-Vektor-Tabelle wird die Adresse des Interrupt-Unterprogrammes referenziert
+
+#### Traps
+
+- Art automatische Prozeduraufrufe, welche durch eine vom Programm verursachte Bedingung eingeleitet werden (z.B. Gleitkommaüberlauf)
+- Bei Auftretten der Bedingung stoppt die Ablaufsteuerung die Ausführung und überschreibt den Programmcounter mit der Adresse des Trap-Handlers
+- Wesentliches Merkmal: Auslösung bie Ausnahmebedingungen (durch HW oder Mikroprogramme)
+
+#### Ablauf der Interrupt-Verarbeitung
+
+- Sperren weiterer Unterbrechungen mit gleicher oder geringerer Priorität
+- Rettung wichtiger Register-Informationen (Prozessorstatus)
+- Bestimmen der Interruptquelle (durch Hardware realisiert)
+- Laden des zugehörigen Interruptvektors
+- Abarbeitung der Interruptroutine
+- Rückkehr zur unterbrochenen Aufgabe entweder
+
+#### Zustandssicherungskonzepte
+
+- **totale Sicherung:** Sicherung aller Register (UNIX & Co.)
+- **partielle Sicherung:** Sicherung des von Änderungen betroffene Teils (Embedded Systems)
+
+#### Alternative DMA
+
+- Interrupts befreien die Prozessoren vom Warten auf E/A Ereignisse, aber vektorisierte Interrupts benötigen viele Taktzyklen zu ihrer Abarbeitung
+- Interrupts werden erst nach der Befehlsabarbeitung erkannt und ausgeführt
+
+->  Problem bei Echtzeitanwendungen
+
+Lösung dieser Probleme wäre ein direkter Speicherzugriff eines Devices, da so der Prozessor komplett umgangen werden kann.
+
+**Implementierung DMA**
+
+- **Zentral:** zentraler DMA-Controller für alle Geräte
+- **Dezentral:** jede E/A-Einheit besitzt eigenen DMA-Controller und kann selbst Busmaster werden
+
+**Probleme**
+
+- durch Unabhängigkeit sind Schutzmaßnahmen notwendigen
+- DMA-Controller wirkt wie ein weiterer Prozessor am Bus
+- DMA-Controller muss eng mit Speichermanagment zusammenarbeiten (Inkonsistenzen im Speicher vermeiden)
+
+#### Polling
+
+- zyklische Abfragen von einen oder mehreren E/A-Devices zur Feststellung der Kommunikationsbereitschaft
+- Kann ohne Interrupts den Status von Geräten abfragen
+
+**Vorteile gegenüber Interrupts**
+
+- einfache Implementierung
+- Kommunikationsanforderungen erfolgen synchron zum Programmablauf
+
+**Nachteile**
+
+- Hoher Programm-Overhead
+- Die meisten Anfragen an die Geräte sind unnötig
+- Je mehr Geräte am Bus, um so höher die Reaktionszeit
+- Priorisierung zeitgleicher Anfragen erfordern zusätzlichen Zeitaufwand
