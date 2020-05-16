@@ -109,7 +109,7 @@
 
 ## SCH - Labor
 
-- [ ] Versuch 1: Rechneraufbau
-- [ ] Versuch 2: Speicher und RAID
-- [ ] Versuch 3: Tuning und Sicherheit
-- [ ] Versuch 4: Netzwerk
+- [X] Versuch 1: Rechneraufbau
+- [X] Versuch 2: Speicher und RAID
+- [X] Versuch 3: Tuning und Sicherheit
+- [X] Versuch 4: Netzwerk

@@ -298,7 +298,22 @@ rm file
 
 WinSAT ist das "Windows System Assessment Tool", es zuständig für die Systembewertung, es misst die Leistung und Funktionsfähigkeit eines Systems.
 
-???
+```XML
+<CPUMetrics>
+	<CompressionMetric units="MB/s">387.27909</CompressionMetric>
+	<EncryptionMetric units="MB/s">4679.87043</EncryptionMetric>
+	<CPUCompression2Metric units="MB/s">881.78483</CPUCompression2Metric>
+	<Encryption2Metric units="MB/s">1781.61980</Encryption2Metric>
+	<CompressionMetricUP units="MB/s">77.84197</CompressionMetricUP>
+	<EncryptionMetricUP units="MB/s">696.70586</EncryptionMetricUP>
+	<CPUCompression2MetricUP units="MB/s">198.94126</CPUCompression2MetricUP>
+	<Encryption2MetricUP units="MB/s">522.49450</Encryption2MetricUP>
+	<DshowEncodeTime units="s">0.00000</DshowEncodeTime>
+</CPUMetrics>
+<MemoryMetrics>
+	<Bandwidth units="MB/s">24011.42845</Bandwidth>
+</MemoryMetrics>
+```
 
 [win-tipps-tweaks](https://www.win-tipps-tweaks.de/cms/windows-7-tipps/tricks/winsat-windows-system-assessment-tool.html)
 
@@ -339,19 +354,55 @@ Versuch 4: Netzwerk
 
 - Netzwerkkabel der Kategorie 5/5e
 
+[Wiki: Twisted-Pair-Kabel](https://de.wikipedia.org/wiki/Twisted-Pair-Kabel#Schirmung)
+
 ## 3.4 Was ist PowerLAN, wie ist die maximale Reichweite, wie funktioniert es? Welche Bandbreiten können realisiert werden?  
 
 - Technik, die vorhandene elektrische Leitungen im Niederspannungsnetz zum Aufbau eines lokalen Netzwerks zur Datenübertragung nutzt, so dass keine zusätzliche Verkabelung notwendig ist
 - IEEE-1901-FFT-Standard: maximal 2000 Mbit/s bei bis zu 300 m Reichweite
 - ITU-G.hn-Standard: maximal 2400 MBit/s brutto mit bis zu 500 m Reichweite
 
-(Wiki: PowerLAN)[https://de.wikipedia.org/wiki/PowerLAN]
+[Wiki: PowerLAN](https://de.wikipedia.org/wiki/PowerLAN)
 
 ## 3.5 Welche Einflüsse können eine PowerLan-Verbindung stören? Welche Besonderheiten hinsichtlich der Sicherheit sind zu beachten?
 
+- Stromkabel sind nicht abgeschirmt: PowerLAN kann Störungen im Kurzwellenbereich verursachen
+- Verschiedene Haushaltsgeräte (z.B. Waschmaschinen, Spülmaschinen) können PowerLAN-Signale stören
+- FI-Schutzschalter können die Übertragung im Hochfrequenzbereich stören (Phasenkoppler durch Elektriker installieren lassen)
+- Für die Sicherheit der Daten-Verbindung sollte diese verschlüsselt sein
+
+[PowerLine Tests](https://powerline-tests.de/powerline-stoerungen-beseitigen/)
+
 ## 3.6 Notieren Sie entscheidende Merkmale des Industriestandards IEEE 802.11! Erklären Sie insbesondere Unterschiede zwischen IEEE 802.11a/b/g/n (max. Datenrate, Frequenzband, Modulation)! Welche Neuerungen brachte der ac-Standard?
 
+- Standart für die Kommunikation in Funknetzen (WLAN)
+
+- IEEE 802.11a: 5 GHz-Band mit bis zu 54 Mbit/s (Modulation: OFDM)
+- IEEE 802.11b: 2.4 GHz-Band mit bis zu 11 Mbit/s (Modulation: DSSS mit CCK)
+- IEEE 802.11g: 2.4 GHz-Band mit bis zu 54 Mbit/s (Modulation: OFDM)
+- IEEE 802.11n: 2.4/5 GHz-Band mit bis zu 600 Mbit/s (Modulation: OFDM)
+
+- IEEE 802.11ac: Erweiterung zu 802.11n (nur 5 Ghz)
+	- breitere Kanäle möglich (80 MHz, 160 MHz Kanalbreite optional) -> bis 867 Mbit/s
+	- mehrere MIMO-Verbindungen (bis zu acht) -> höhere Übertragungsgeschwindigkeit
+	- Downstream Multi-User MIMO (muss vom Accesspoint und Client unterstützt werden)
+	- Höhere Modulationsstufen bei sehr gutem Empfangssignal
+	- Standardisiertes Beamforming
+
+[Wiki: IEEE_802.11](https://de.wikipedia.org/wiki/IEEE_802.11#Standard_802.11)
+[Wiki: IEEE_802.11ac](https://de.wikipedia.org/wiki/IEEE_802.11ac)
+[Wiki: IEEE_802.11n](https://de.wikipedia.org/wiki/IEEE_802.11n)
+
 ## 3.7 Erklären Sie Unterschiede zwischen dem 2,4 und dem 5 GHz Übertragungsband! Nennen Sie jeweils die Vor- und Nachteile!
+
+| Band                | 2.4 GHz                            | 5 GHz                        |
+|---------------------|------------------------------------|------------------------------|
+| Kanal               | Drei (3) nicht überlappende Kanäle | 23 nicht überlappende Kanäle |
+| Standard            | Wireless-B, G, und N               | Wireless-A, N, und AC        |
+| Netzwerk Reichweite | Weite Reichweite                   | Kürzere Reichweite           |
+| Interferenzen       | Höher                              | Geringer                     |
+
+[linksys](https://www.linksys.com/ch/support-article?articleNum=134478)
 
 ## 3.8 Geben Sie für folgende Fragestellungen die Kommandos mit entsprechenden Parametern an:
 
@@ -359,7 +410,6 @@ Wie ermitteln Sie die physikalische Adresse Ihres Netzwerkadapters auf der Komma
 
 ```cmd
 ip config /all
-ifconfig
 ```
 
 Wie prüfen Sie mit Hilfe eines Terminal-Kommandos die Netzwerkverbindung zu einer dedizierten Gegenstelle?
@@ -369,3 +419,9 @@ ping 1.2.3.4
 ```
 
 Wie kopieren Sie über die Kommandozeile eine Datei aus dem Netzwerk auf Ihren lokalen Rechner und messen dabei die für den Kopiervorgang nötige Zeit? Schreiben Sie die entsprechende Kommandofolge, wie sie in einer Batch-Datei stehen könnte, auf!
+
+```cmd
+@echo Started: %date% %time%
+robocopy src dest
+@echo Completed: %date% %time%
+```
