@@ -167,9 +167,8 @@ Versuch 2: Speicher und Raid
 
 ## 3.3 Erstellen Sie ein Balkendiagramm in dem Sie aktuelle GB-Preise für folgende Speichermedien eintragen: HDD – SATA, SSD – SATA, HDD – SAS, USB-Stick 2.0, USB-Stick 3.0. Suchen Sie nach dem jeweils günstigsten Angebot und geben Sie Ihre Bezugsquelle (Händler) sowie die Gesamtspeichergröße und den Gesamtpreis in einer Tabelle an!
 
-```
-Hier fehlt ein Balkendiagramm!
-```
+![Balkendiagramm](https://steve2955.github.io/dhge-pi19-sem2/SCH/IMG/Preis_GB und Speicher.png)
+
 
 | Speicher      | Preis/GB | Preis    | Kapazität | Händler     | URL                                                                                                           |
 |---------------|----------|----------|-----------|-------------|---------------------------------------------------------------------------------------------------------------|
@@ -243,8 +242,8 @@ Versuch 3: System-Tuning und Sicherheit
 
 **Möglichkeiten für das Übertakten**
 
-- Übertakten
-- Untervolten
+- Underclocking
+- Overclocking
 
 **Vorteile**
 
@@ -257,7 +256,21 @@ Versuch 3: System-Tuning und Sicherheit
 - Reduktion der Lebensdauer des Prozessors
 - zu starkes Übertakten führt zu Instabilität des Systems
 
-## 3.3 Welche grundlegenden Aufgaben besitzt das BIOS (UEFI)! Nenne Sie gängige Hersteller! Nennen Sie mindestens drei Möglichkeiten ein BIOS-Passwort zu löschen bzw. zu umgehen.
+## 3.3 Welche grundlegenden Aufgaben besitzt das BIOS (UEFI)!
+
+- BIOS = Basic Input/Output System
+- Schnittstelle zwischen Hardware und Betriebssystem (früher, heute primär über eigene Treiber des Betriebsystems)
+
+
+Nenne Sie gängige Hersteller!
+
+- American Megatrends
+- ATI Technologies
+- IBM
+- Insyde
+- ...
+
+Nennen Sie mindestens drei Möglichkeiten ein BIOS-Passwort zu löschen bzw. zu umgehen.
 
 - BIOS-Batterie entfernen
 - CMOS Clear (Jumper)
@@ -296,7 +309,7 @@ rm file
 
 ## 3.6 Was ist das Kommandozeilentool Winsat? Welche Möglichkeiten bietet es bezüglich CPU- und Arbeitsspeicherbewertung?
 
-WinSAT ist das "Windows System Assessment Tool", es zuständig für die Systembewertung, es misst die Leistung und Funktionsfähigkeit eines Systems.
+WinSAT ist das "Windows System Assessment Tool", es zuständig für die Systembewertung, es misst die Leistung und Funktionsfähigkeit eines Systems
 
 ```XML
 <CPUMetrics>
