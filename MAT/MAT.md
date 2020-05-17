@@ -49,6 +49,8 @@ $$\lim\limits_{k \rightarrow \infty}{(1-\frac{5}{k})^{3}}\rightarrow 1$$
 
 $$\lim\limits_{k \rightarrow \infty}{(1-\frac{5}{k})^{k^{\frac{1}{4}}}}=e^{-5^{\frac{1}{4}}}=e^{-\frac{5}{4}}$$
 
+**Satz:** Das Produkt zweier konvergenter Zahlenfolgen konvergiert gegen das Produkt ihrer Grenzwerte
+
 ## Aufgabe 4: Werte geometrischer Reihen
 
 Bestimme unter Zuhilfenahme der geometrischen Reihe $\sum_{k=0}^{\infty} q^k =\frac{1}{1-q}$ die Werte folgender Reihen:
@@ -82,3 +84,9 @@ Da $\left|q\right|$ kleiner als $1$, konvergiert die in Frage stehende Reihe. De
 **Wurzelkriterium:** $q(k):=a(k)^{1/k}$. Alles andere wie oben.
 
 $$\sum_{k=1}^\infty (k*q1^k)\rightarrow \frac{q1}{(q1-1)^2} \quad q(k):= \frac{(k+1) * q1^{k+1}}{k*q1^k}=\frac{k+1}{k} * q1$$
+
+## Aufgabe 9: Differentieren von Vektorwertigen Funktionen
+
+$$v(t)\begin{bmatrix}t*cos(t)\\t*sin(t)\\e^{-2t}\end{bmatrix}$$
+
+Die Ableitung einer vektorwertigen Funktion entspricht der Ableitung der einzelnen Komponenten.

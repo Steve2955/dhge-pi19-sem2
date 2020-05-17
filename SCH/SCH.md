@@ -167,7 +167,7 @@ Versuch 2: Speicher und Raid
 
 ## 3.3 Erstellen Sie ein Balkendiagramm in dem Sie aktuelle GB-Preise für folgende Speichermedien eintragen: HDD – SATA, SSD – SATA, HDD – SAS, USB-Stick 2.0, USB-Stick 3.0. Suchen Sie nach dem jeweils günstigsten Angebot und geben Sie Ihre Bezugsquelle (Händler) sowie die Gesamtspeichergröße und den Gesamtpreis in einer Tabelle an!
 
-![Balkendiagramm](https://steve2955.github.io/dhge-pi19-sem2/SCH/IMG/Preis_GB und Speicher.png)
+![Balkendiagramm](https://steve2955.github.io/dhge-pi19-sem2/SCH/IMG/Preis_GB_Speicher.png)
 
 
 | Speicher      | Preis/GB | Preis    | Kapazität | Händler     | URL                                                                                                           |
