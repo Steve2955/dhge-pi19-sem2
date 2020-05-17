@@ -920,3 +920,111 @@ Lösung dieser Probleme wäre ein direkter Speicherzugriff eines Devices, da so 
 - Die meisten Anfragen an die Geräte sind unnötig
 - Je mehr Geräte am Bus, um so höher die Reaktionszeit
 - Priorisierung zeitgleicher Anfragen erfordern zusätzlichen Zeitaufwand
+
+# Deadlocks
+
+- Anwendungen verlangen exklusiven Zugriff auf Ressourcen
+- Fordern mehrere Prozesse die gleichen Ressourcen gleichzeitig an, kann es passieren, das keiner der Prozesse Zugriff auf alle benötigten Ressourcen erhält -> die Prozesse blockieren sich gegenseitig (= **Deadlock**/Verklemmung)
+- Deadlocks entstehen, wenn Prozessen das alleinige Zugriffsrecht auf Ressourcen erteilt wird
+- Unterbrechbare Ressourcen können dem Prozess entzogen werden, ununterbrechbare nicht!
+- Benutzung von Ressourcen besteht aus den Schritten: Anfordern, Benutzen, Freigeben (ist eine Ressource besetzt, blockiert der Prozess)
+
+> Eine Menge von Prozessen beﬁndet sich in einem Deadlock-Zustand, wenn jeder Prozess aus der Menge auf ein Ereignis wartet, das nur ein anderer Prozess aus der Menge auslösen kann.
+
+## Notwendige Bedingungen für Deadlocks
+
+- **Mutual Exclusion:** jede Ressource ist entweder verfügbar oder einem Prozess zugeordnet
+- **Belegungs- und Wartebedingung:** Prozesse, die bereits Ressourcen reserviert haben, können weitere anfordern
+- **Ununterbrechbarkeit:** Ressourcen, die einem Prozess zugeteilt sind, können diesem nicht entzogen werden (Prozess muss sie freigeben)
+- **Zyklische Wartebedingung:** Zyklische Kette von Prozessen, die jeweils auf die Freigabe einer Ressource im nächsten Prozess der Kette warten
+- alle Bedingungen müssen gleichzeitig erfüllt sein
+
+## Behandlung
+
+- Problem ignorieren (Vogel-Strauß-Algorithmus)
+- Erkennen und Beheben
+- Dynamische Verhinderung durch Ressourcenmanagement (vor Zuteilung prüfen)
+- Vermeidung von Deadlocks (eine der notwendigen Bedingungen eliminieren)
+
+### Vogel-Strauß-Algorithmus
+
+- "Kopf in den Sand stecken und so tun als gäbe es kein Problem"
+- Auftrittswahrscheinlichkeit gering
+- Vermeidung mit hohen Kosten verbunden
+- Abwägen zwischen: Bedienerfreundlichkeit und Korrektheit
+
+### Erkennen und Beheben
+
+- zur Ausführung eines Prozesses nötige Ressourcen müssen vor dem Ausführen bekannt sein (in offenem System nicht möglich)
+- Alternative: Deadlocks werden zugelassen und das System versucht diese zu Erkennen und zu Beheben (Unterbrechung, Rollback oder Prozessabbruch)
+
+**Erkennung**
+
+- eine Ressource pro Typ: Konstruktion eines Belegungs-Anforderungs-Graphen
+	- bei min. einem Zyklus befindet sich das System in einem Deadlock
+- mehrere Ressourcen pro Typ: existierende und verfügbare Ressourcen ($E,A$) werden in einer Belegungs- und einer Anforderungsmatrix($C,R$) dargestellt
+	- Summe aller belegten und freien Ressourcen muss der Gesamtzahl der Ressourcen entsprechen
+	- **Algorithmus**
+		- Suche nach einem unmarkierten Prozess $P_i$, für den die $i$-te Zeile von $R$ kleiner oder gleich $A$ ist
+		- Exisitiert ein solcher Prozess, addiere die $i$-te Zeile von $C$ zu $A$, markiere den Prozess und wiederhole
+		- Andernfalls beende den Algorithmus; alle nicht markierten Prozesse sind in Deadlock
+
+### Verhinderung
+
+- Ein Zustand heißt **sicher** , wenn kein Deadlock vorliegt, und es eine Scheduling-Reihenfolge gibt die nicht zum Deadlock führt
+- Ein **unsicherer Zustand** stellt noch keinen Deadlock dar. Es gibt nur keine Garantie, das alle Prozesse zu Ende laufen können
+
+#### Bankier-Algorithmus
+
+- Bankier hat so viele Ressourcen, dass er das größte vorhandene Limit gerade noch bedienen kann
+-  Kunde bekommt die Ressource, falls der Banker danach noch genügend Ressourcen hat, um mindestens einem der Kunden sein komplettes Limit zuteilen zu können
+- Algorithmus überprüft bei jedem Kundenantrag, ob die Freigabe zu einem unsicheren Zustand führt (wenn ja ablehnen, sonst freigeben)
+
+**Algorithmus**
+
+- Suche Zeile aus $R$, die kleiner oder gleich $A$ ist. Wenn es keine solche Zeile gibt, kann kein Prozess beendet werden (Deadlock)
+- Nimm an, dass der Prozess, der der gewählten Zeile entspricht, alle nötigten Ressourcen reserviert und seine Ausführung beendet. Markiere den Prozess als beendet und addiere seine Ressourcen zu $A$.
+- Wiederhole Schritt 1 und 2, bis alle Prozesse markiert sind oder ein Deadlock auftritt. Im ersten Fall ist der Zustand sicher, im Zweiten unsicher.
+
+**Probleme**
+
+- Prozesse wissen nicht im Voraus, wie viele Ressourcen sie brauchen
+- Anzahl der Prozesse ist nicht konstant
+- Ressourcen können plötzlich verschwinden
+
+> Deadlock-Verhinderung ist im Grunde unmöglich
+
+#### Im realen System
+
+- Eine der vier Voraussetzungen eliminieren
+
+**Mutual Exclusion**
+
+- Spooling-Prinzip: Dienst verwaltet Ressource (kann von mehreren Prozessen angefordert werden)
+- z.B. Drucker
+- nicht bei allen Ressourcen möglich
+
+**Belegungs- und Wartebedingung**
+
+- Jeder Prozess fordert seine Ressourcen im Voraus an (Ausführung nur, wenn alle verfügbar)
+- Problem: benötigte Ressourcen meist icht im Voraus bekannt
+- Alternative: Prozess gibt vor Anforderung alle Ressourcen kurzzeitig frei und reserviert dann alles auf einmal
+
+**Ununterbrechbarkeit**
+
+- kein erfolgsversprechender Ansatz
+- Prozessen Ressourcen zu entziehen ist schwierig oder unmöglich (z.B. gerade genutzter Drucker)
+
+**Zyklische Wartebedingung**
+
+- Ressourcen durchnummerieren -> Alle Prozesse dürfen nur in aufsteigender Reihenfolge reservieren
+- Beleguns-Anforderungs-Graph immer zyklenfrei
+- Alternativ: jeder Prozess darf nur Ressourcen mit kleinerer Nummer anfordern, als bereits reservierte
+
+#### Realität und zukünftige Entwicklung
+
+-  Vorherrschaft des sequentiellen Programmiermodells impliziert keine Dringlichkeit Betriebssysteme mit Methoden zur Vermeidung von Verklemmungen auszurüsten
+- Verfahren zum Erkennen und Vermeiden von Deadlocks sind praxisuntauglich
+- Latente Verklemmungsgefahr durch Virtualisierung und Bereitstellung logischer Geräte abgefangen
+- Wachsende Verbreitung des nebenläuﬁgen Programmiermodells (Parallelarbeit - Threads) impliziert steigende Konkurrenz um die Ressourcen
+- Deadlocks erfahren zunehmend Bedeutung in der Praxis
