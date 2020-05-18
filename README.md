@@ -72,7 +72,7 @@
 - [X] Deadlocks
 - [X] Ein- und Ausgaben
 - [ ] Speicherverwaltung
-	- [ ] Speicherverwaltung 1
+	- [X] Speicherverwaltung 1
 	- [ ] Speicherverwaltung 2
 - [ ] Dateisysteme
 - [ ] Sicherheit

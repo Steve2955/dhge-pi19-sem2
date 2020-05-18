@@ -1288,3 +1288,136 @@ $$T=t_S+t_d+t_T=t_s+\frac{t_R}{2}+\frac{k}{m}t_R$$
 	- 1:2 - übernächster Sektor hat die folgende Sektornummer
 	- 1:3 - zwei Sektoren werden übersprungen
 - hat an Bedeutung verloren
+
+# Speicherverwaltung
+
+- Speicher als wichtigste Ressource ist begrenzt und muss sorgfältig verwaltet werden
+- Programme wachsen schneller als der verfügbare Speicher -> Speicherhierarchie
+
+## Speicherhierarchie
+
+- Speicherverwaltung = Teil des Betriebssystems, dass die Speicherhierarchie verwaltet
+- Überwacht belegten Speicher, teilt Prozessen Speicher zu und gibt ihn wieder frei
+- Außerdem: Auslagern von Speicher (Swapping), wenn der Hauptspeicher zu klein ist
+
+**Speicherverwaltungssysteme**
+
+- Prozesse werden zwischen Hauptspeicher und Platte hin- und hergeschoben (Swapping und Paging)
+- Direkte Speicherverwaltung ohne Auslagerungen (Ein- und Mehrprogrammbetrieb)
+
+**Anforderungen nach Lister/Eager**
+
+- Relokation
+- Schutz
+- Gemeinsame Nutzung
+- Logische Organisation
+- Physikalische Organisation
+
+### Relokation - Verlagerbarkeit
+
+- Auslagern und Wiedereinlagern ganzer Prozesse aus dem Hauptspeicher
+- Ort der Einlagerung zum Zeitpunkt der Programmübersetzung unbekannt
+- Problem: Speicherrefernzen innerhalb des Programmes
+	- Absolute Sprungbefehle
+	- Datenzugriffsbefehle
+- Übersetzung der Speicherreferenzen im Programmcode in tatsächliche Speicheradressen durch Prozessorhardware und Betriebssystemsoftware
+
+### Schutz
+
+- Schutz von Prozessen gegen Störungen durch andere Prozesse
+	- Überprüfung aller Speicherzugriffe nötig
+	- nicht zur Übersetzungszeit prüfbar (dynamische Adressen, Relokation)
+- Nicht ausschließlich durch Software lösbar (für effektiven Schutz mit Hardwareunterstützung)
+
+### Gemeinsame Nutzung
+
+-  kontrollierter Zugriff mehrerer Prozesse auf gemeinsam genutzte Bereiche des Speichers
+
+**Beispiele**
+
+- Ausführung des gleichen Programms durch eine Reihe von Prozessen -> Code nur einmal im Speicher
+- Benuztung gemeinsamer Module (dynamisch gelinkte Bibliotheken)
+- Kooperation von Prozessen über gemeinsam genutzten Datenspeicher (shared memory)
+
+### Logische Organisation
+
+- Hauptspeicher ist lineares Feld von Bytes
+- Logischer Aufbau großer Programme besteht hingegen aus verschiedenen, evtl. gemeinsam genutzen Modulen, die unabhängig übersetzt wurden
+- Betriebsystem muss mit Modulen umgehen können
+
+### Physische Organisation
+
+- Zwei Ebenen
+	- Hauptspeicher (schnell, teuer, flüchtig)
+	- Hintergrundspeicher (langsam, billig, nicht flüchtig)
+- Grundproblem: Organisation des Informationsﬂusses zwischen Haupt- und Sekundärspeicher
+
+## Freispeicherverwaltung
+
+- Betriebssystem verwaltet diesen Speicherbereich als eine Kette von freien Speicherblöcken
+- Jeder dieser Blöcke enthält Informationen (Gesamtlänge, nächster freie Block, ...)
+- Wird Speicherplatz angefordert kann dieser mit verschiedenen Strategien durchlaufen werden
+
+**Strategien**
+
+- **First-Fit-Verfahren:** Durchlaufen des Speicherbereiches, Allokation des erstbesten freien Bereiches
+- **Next-Fit-Verfahren:** Wie First-Fit, aber aufeinanderfolgende Suchen werden bei zuletzt gefundenem Speicherpaltz begonnen
+- **Best-Fit-Verfahren:** Durchsuchen der gesamten Speicherliste, Allokation des kleinsten Bereichs (optimale Ausnutzung)
+- **Worst-Fit-Verfahren:** Allokation des größten freien Bereichs
+- **Quick-Fit-Verfahren:** unterhält getrennte Listen für freie Bereiche gebräuchlicher Größe
+- **Buddy-Verfahren:** für jede Speichergröße eine eigene Liste (nur Blöcke von Zweierpotenzen verwendet)
+	- ist kein gewünschter Block frei, wird ein Block in zwei gleich große Blöcke aufgeteilt
+
+## Direkte Speicherverwaltung
+
+### Monoprogrammierung
+
+- Betriebssystem belegt feste Speicherbereiche
+- freier Speicher wird einem Benutzerprogramm zur Verfügung gestellt
+- Programm organisiert seinen Speicherbedarf selbst
+- Solche Struktur nur für einen laufenden Prozess möglich
+
+### Multiprogrammierung
+
+- Mehrere Prozesse werden vollständig im Hauptspeicher gehalten
+- Aufteilung des Hauptspeichers in feste Partitionen (gleiche oder unterschiedliche Größe)
+- Getrennte Warteschlangen für jede Partition
+	- Auftrag wird der kleinsten Partition, die groß genug für ihn ist, angehängt
+	- Nachteil: Schlange für große Partitionen leer, für kleine voll
+- gemeinsame Warteschlang für alle Partitionen
+	- First Fit: In eine freie Partition wird der erste passende Auftrag geladen
+	- Next Fit: Wie First Fit, Suche ab aktueller Position
+	- Best Fit: Ist eine Partition frei, wird die ganze Schlange durchsucht und der größte passende Auftrag geladen
+
+#### Partitionierung
+
+**Statische Partitionierung**
+
+- Programm zu groß für Partition -> aufwändige Programmerstellung durch Overlays nötig
+- Interne Fragmentierung (Platzverschwendung)
+- Fest vorgegebene Anzahl von Prozessen im Speicher
+- Laden von Prozessen in Speicher: evtl. Auslagern von anderen Prozessen
+- Zuweisung von Partitionen an Prozesse
+	- Bereiche gleicher Länge: trivial
+	- Bereiche variabler Länge: kleinst verfügbare ausreichend große Partition
+
+**Dynamische Partitionierung**
+
+- Einteilung des Speichers in Partitionen mit variabler Länge und Anzahl
+- Prozesse erhalten exakt passende Speicherbereiche
+- Ein- und Auslagern führt zu externer Fragmentierung (Defragmentierung erforderlich)
+
+#### Modellierung der Multiprogrammierung
+
+- Betrachtung der CPU von einem probabilistischen Standpunkt
+- Ein Prozess wartete einen Anteil $p$ auf das Ende von I/O-Operationen (I/O wait)
+- Bei $n$ Prozessen im Speicher ist die Wahrscheinlichkeit, das alle gleichzeitig auf I/O-Operationen warten $p^n$ (CPU wird nicht genutzt)
+- Ausnutzung $A$ aus dem Grad der Multiprogrammierung $n$:
+
+$$A=1-p^n$$
+
+**Grenzen des Modells**
+
+- probalistisches Modell ist nur eine Annährung, weil es annimmt, dass die Prozesse unabhängig voneinander sind
+- in einem realen System kann die CPU nur einen gleichzeitig Prozess ausführen -> andere müssen warten (nicht unabhängig)
+- Dennoch: Multiprogrammierung verbessert die Ausnutzung der CPU
