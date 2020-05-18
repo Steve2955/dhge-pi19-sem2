@@ -70,7 +70,7 @@
 	- [X] Prozesse 2
 	- [X] Prozesse 3
 - [X] Deadlocks
-- [ ] Ein- und Ausgaben
+- [X] Ein- und Ausgaben
 - [ ] Speicherverwaltung
 	- [ ] Speicherverwaltung 1
 	- [ ] Speicherverwaltung 2

@@ -565,7 +565,7 @@ Ein Prozess beﬁndet sich in genau einem der folgenden Zustände:
 
 ## Implementierung von Prozessen
 
-- Betriebsystem verwaltet eine Prozesstabelle (ein Block/Prozess)
+- Betriebssystem verwaltet eine Prozesstabelle (ein Block/Prozess)
 - Prozesskontrollblock enthält Informationen über den Zustand des Prozesses
 	- Prozessidentifikation
 	- Befehlszähler, Kellerzeiger, ...
@@ -649,7 +649,7 @@ Ein Prozess beﬁndet sich in genau einem der folgenden Zustände:
 ### Implementierung
 
 - **User-Thread:** für Programmierer sichtbar, **logische Realisierung** der gewünschten Parallelität
-- **Kernel-Thread:** dem Betriebsystem bekannt, erhält vom Betriebssystem Rechenzeit
+- **Kernel-Thread:** dem Betriebssystem bekannt, erhält vom Betriebssystem Rechenzeit
 
 > User-Thread muss einem einem konkreten Kernel-Thread zugeteilt werden, dmit er real Ausgeführt wird
 
@@ -1028,3 +1028,263 @@ Lösung dieser Probleme wäre ein direkter Speicherzugriff eines Devices, da so 
 - Latente Verklemmungsgefahr durch Virtualisierung und Bereitstellung logischer Geräte abgefangen
 - Wachsende Verbreitung des nebenläuﬁgen Programmiermodells (Parallelarbeit - Threads) impliziert steigende Konkurrenz um die Ressourcen
 - Deadlocks erfahren zunehmend Bedeutung in der Praxis
+
+# Ein- und Ausgaben
+
+## Grundlegende Hardware
+
+- Ein-/Ausgabegeräte als wichtigste Hardwarekomponenten und Kommunikationsschnittstelle
+- Varianten mit der Außenwelt zu kommunizieren:
+	- Zeichen- vs. block-orientiert
+	- Sequentieller vs. wahlfreier Zugriff
+	- gemeinsame vs. exklusive Kanäle
+	- Geschwindigkeit: Abhängig vom Gerät oder Kommunikationspartner
+	- read/write, read only, write only
+
+### Ein-/Ausgabegeräte
+
+- **blockorientierte Geräte:** Informationen in adressierbaren Blöcken fester Größe; Blöcke können unabhängig voneinander gelesen und geschrieben werden
+- **zeichenorientierte Geräte:** Zeichenströme ohne Blockstruktur, nicht adressierbar
+- jedes Gerät besitzt einen **Controller**
+	- verwaltet, steuert ein/mehrere Geräte
+	- einfach Schnittstelle zum Betriebssystem
+	- besitzen Register und Datenpuffer für die Kommunikation
+
+| Benutzerprozess    |
+|--------------------|
+| Kernel-Verteiler   |
+| Auftragsverwaltung |
+| Pufferung          |
+| Treiber            |
+| Controller         |
+| Gerät              |
+
+- idealisierte Struktur einer IO-Verwaltung
+- jede Schicht Kommuniziert nur mit ihren direkten Nachbarn
+
+### Kommunikation mit Controller
+
+Zwei Alternativen:
+- Jedem Kontrollregister wird eine **Ein-/Ausgabe-Port-Nummer** zugewiesen
+	- Spezielle Ein-/Ausgabebefehle notwendig (Assembler)
+- **Memory Mapped Ein-/Ausgabe:** Jedem Kontrollregister wird eine Hauptspeicheradresse zugewiesen
+	- Kontrollregister sind Variable im Speicher und können von C aus direkt angesprochen werden
+
+#### Direkter Speicherzugriff
+
+- **Direct Memory Access** (DMA) erlaubt Geräten direkt mit dem Arbeitsspeicher zu kommunizieren (ohne Umweg über die CPU)
+- Vorteile: Entlastung des Prozessor und Steigerung der Datenübertragung
+- DMA-Controller überträgt Daten zwangsläuﬁg über die gleichen Bussysteme, wie die CPU -> Abstimmung notwendig
+	- DMA-Controller fordert die Kontrolle über das Bussystem von der CPU
+	- CPU übergibt Kontrolle
+	- DMA-Controller führt Datenübertragung aus und gibt Kontrolle an CPU zurück.
+- **Transparentes DMA:** DMA-Controller wartet dass CPU keinen Zugriff zum Hauptspeicher durchführt (Nutzung freier Bus-Zyklen)
+- **Einzeltranfer:** Gerätecontroller übernimmt kurzzeitig Buszyklus von der CPU zur Übertragung *eines Wort* (kleine Datenrate; auch cycle-steal mode)
+- **Blocktransfer:** *Alle Daten* werden unmittelbar hintereinander übertragen, CPU wird eine Zeit lang blockiert  (burstmode)
+
+**DMA-Betriebsphasen**
+
+- Initialisierung: DMA-Controller wird programmiert (Quell und Zieladresse, Anzahl Byte, ...)
+- DMA-Betrieb: Controller übernimmt je nach Betriebsart (Einzel- oder Blocktransfer) teilweise oder dauerhaft den Bus
+- Abschluss: Die CPU wird mittels Interrupt darüber informiert, dass alle Daten transferiert wurden
+
+## Grundlagen Software
+
+**Ziele**
+
+- Geräteunabhängigkeit
+- Abstraktion von den technischen Gerätedetails (Schichtenmodell)
+- einheitliche Namensgebung
+- Fehlerbehandlung
+- Pufferung (z.B. Druckerausgabe)
+- Gerätevergabe und Prioritätssteuerung
+
+**Ansätze**
+
+- Programmgesteuert
+- Interruptgesteuert
+- DMA-Betrieb
+
+### Programmgesteuerte Ein-/Ausgabe
+
+- dauernde Kontrolle über den E/A-Vorgang durch den Prozessor
+- Prozessor fragt ständig Ein-/Ausgabegerät ab, ob es für das nächste Zeichen bereit ist (Polling oder busy waiting)
+- Vorteil: Einfachheit
+- Nachteil: Verschwendung von Rechenzeit durch viele Busy-Waits
+
+### Interruptgesteuerte Ein-/Ausgabe
+
+- Bessere Ausnutzung der Wartezeiten für andere Aufgaben durch Unterbrechungen
+- Vorteil: CPU kann bis zum einem Interrupt ungestört Programmcode abarbeiten und nach Behandlung fortsetzen
+- Nachteil: Interrupts kosten Zeit
+
+## Gerätetreiber
+
+- **Gerätetreiber:** geräteabhängige Steuersoftware
+- für jedes Betriebssystem unterschiedlich
+- steuern meist eine Klasse ähnlicher Geräte
+- greifen auf die Register des Controllers (HW-Zugriff notwendig)
+- vom Hardwarehersteller geschrieben -> erfordert klares Modell und klare Schnittstellen
+- Unterteilung in Treiber für Block- und zeichenorientierte Geräte (jeweils mit Standardschnittstelle)
+
+### Aufgaben
+
+- deﬁniert das Gerät und sich selbst gegenüber dem Betriebssystem
+- initialisiert den Controller und das Gerät beim Systemstart (Aktiviert das Gerät)
+- wandelt allgemeine E/A-Anforderungen in gerätespeziﬁsche Befehle um
+- antwortet auf Hardwaresignale (Interrupts)
+- meldet Geräte- und Controllerbefehle
+- bearbeitet Schreib-und Lesebefehle
+- Ereignisverwaltung
+- puffert Daten bei der Ein- und Ausgabe
+
+### Struktur
+
+Abhängig vom Betriebssystem...
+
+- müssen alle Treiber in der Systemkonfiguration eingebunden werden (neuer Treiber -> OS neu übersetzen)
+- müssen Treiber beim Systemstart bekannt sein
+- können Treiber dynamisch während des Betriebs installiert, gestartet/gestoppt werden
+
+Sonderfälle müssen beachtet werden
+
+- Treiber muss Entfernen eines Gerätes umgehen können
+	- I/O abbrechen, wartende Anfragen entfernen, Aufrufer informieren
+- neue Geräte können dazukommen
+
+## Geräteunabhängige Software
+
+- Teile der Ein-/Ausgabe-Software ist geräteunabhängig durchführbar
+
+**Typische Funktionen**
+
+- Einheitliches Interface
+- Pufferung
+- Fehlerbericht
+- Anforderung/Freigabe von Geräten
+- Geräteunabhängige Blockgröße
+
+### Schnittstellen
+
+- Hauptaufgabe: einheitliche Darstellung unterschiedlicher I/O-Geräte und Treiber
+- Einheitliches Schnittstellen -> Treiber leichter einbindbar
+- Abbildung von Symbolischer Gerätenamen auf eigentliche Treiber
+
+### Pufferung
+
+- Strategie 1: ein Zeichen anfordern Blockieren
+	- pro Zeichen einmal Prozess starten viele Kontextwechsel -> Inefﬁzient
+- Strategie 2: Prozess stellt Puffer (n Zeichen) zur Verfügung -> Lesebefehl für n Zeichen -> wenn Puffer voll, Prozess aufwecken und Zeichen anfordern
+	- Effizienter, aber Pufferspeicher darf nicht ausgelagert werden
+- Strategie 3: Puffer im Kernelspace -> Wenn gefüllt, ev. Seite einlagern und Daten in Userspace kopieren
+	- Problem: Was tun, wenn Daten ankommen, während kopiert wird
+- Strategie 4: zweiter Puffer im Kernel - doppelte Pufferung;
+	- Benutzerprozess und Peripheriegerät können parallel arbeiten
+
+### Kommunikation
+
+| Benutzerprozess      | I/O-Aufruf; Formatierung der I/O; Spooling   |
+|----------------------|----------------------------------------------|
+| Geräteunabhängige SW | Benennung, Schutz, Sperren, Puffern, Belegen |
+| Gerätetreiber        | Initialisiere Geräteregister, prüfe Status   |
+| Interrupthandling    | Aktiviere Treiber, wenn I/O beendet          |
+| Hardware             | Führe I/O-Operationen durch                  |
+
+## Physikalische Geräte
+
+### Plattenspeicher
+
+**Bauelemente einer Festplatte**
+
+- eine/mehrere drehbar gelagerte Scheiben (Platters)
+- bewegliche Schreib-/Leseköpfe (Heads)
+- jeweils Lager für Platter und Heads
+- Steuerelektronik für Antrieb- und Kopfsteuerung
+- Hochleistungs-DSP (Digital Signal Processor) für die Schreib/Leseköpfe
+- Schnittstelle zur Verbindung mit dem Festplattencontroller
+- Festplattencache (meist zw. 2 bis 32 MB Größe)
+
+**Plattengeometrie**
+
+- Festplatte aufgeteilt in Zylinder
+- Zylinder aufgeteilt in Spuren
+- Spuren aufgeteilt in Sektoren (Datenblöcke zu je 512 Byte)
+
+Lokalisierung eines Datenblocks bzw. Sektors über die CHS bzw. LBA
+
+#### CHS-Adressierung
+
+- CHS (Cylinder-Head-Sector) war eine frühe Methode zum Ansprechen von Festplatten
+- Sektoren können bis 8 GByte durch CHS Koordinaten adressiert werden:
+	- C: Cylinder, gültiger Bereich: 0-1023 cylinders
+	- H: Head, gültiger Bereich 0-254 heads
+	- S: Sector, gültiger Bereich 1-63 sectors
+- heute in der Regel nicht mehr verwendet
+
+#### LBA-Adressierung
+
+- Logical Block Addressing (LBA)
+- Blöcke werden unabhängig von der Geometrie adressiert (Blöcke fortlaufen durchnummeriert -> linearer Adressraum)
+- Lokalisierung eines Datenblocks über logische Blockadress
+- LBA unterscheidet zwischen Adressen mit 28 (max. 128 GByte) und 48 Bit (max. 128 PByte)
+- höheres Abstraktionsniveau: physische Organisation hat für OS keine Bedeutung, physische Beschränkungen aufgehoben
+- Aus Gründen der Kompatibilität unterstützen Festplatten jedoch weiterhin beide Adressierungsverfahre
+- Festplatten-Controller kann defekte Blöcke ausblenden und Block aus Reserve-Bereich einblenden
+
+#### Fehlerbehandlung durch Controller
+
+Logische Ersetzung defekter Sektoren/Blöcke durch intakte Ersatzsektoren
+
+- in der Produktion:
+	- Liste fehlerhafter Sektoren auf Festplatte schreiben und durch Reservesektoren ersetzen (Sector slipping)
+- im Betrieb:
+	- transiente Fehler verursacht durch feine Staubpartikel – erneutes Lesen funktioniert
+	- Sektor wird kaputt -> auf Reservesektor ausweichen (Sector sparing)
+	- Verwaltung durch Betriebssystem
+
+#### Zugriffszeiten
+
+- mittlere Suchzeit $t_S$
+- Rotationsverzögerung $t_D$ - bis Sektor unter Kopf erscheint
+- Dauer der Datenübertragung $t_T$
+- Gesamtzugriffszeit mit $t_d=\frac{t_R}{2}$
+$$T=t_S+t_d+t_T=t_s+\frac{t_R}{2}+\frac{k}{m}t_R$$
+- Zugriffszeit dominiert durch Suchzeit
+	- Dateien möglichst in aufeinanderfolgenden Sektoren
+	- geeignetes Scheduling der Plattenzugriffe
+
+#### Schedulingstrategien für Plattenzugriffe
+
+- FCFS: Zugriff in Reihenfolge der Aufträge -> viele unnötige Bewegungen des Plattenarms
+- Priority: Zugriff prioritätsgesteuert -> „Verhungern“ möglich
+- SSTF: (Shortest Seek Time First) kürzesten Bewegungen zuerst
+- SCAN: möglichst wenig Richtungswechsel: erst in eine Richtung, bis es in dieser Richtung keine Anfragen mehr gibt, dann Richtung wechseln (Fahrstuhlalgorithmus)
+- read-ahead (Vorauslesen): große Wahrscheinlichkeit, das nachfolgende Sektoren benötigt werden
+- lazy write (verzögertes Schreiben): Daten werden nicht sofort geschrieben sondern zwischengepuffert
+
+#### Plattencache
+
+- Plattenspeicher ist langsam (Mechanik der Positionierung) -> Plattencache zur Leistungssteigerung
+
+**Strategien**
+
+- Read cache: Zugriffswahrscheinlichkeit auf folgenden Block ca. 50%
+- Write through cache: Vor dem Schreiben prüfen, ob sich Blockinhalt geändert hat
+- Write back cache: Schreiboperationen werden nicht sofort ausgeführt, sondern gesammelt (lazy write)
+
+**Typen**
+
+- Buffer cache: Orientierung an logischen Sektoren
+- File cache: Orientierung an konkreter Speicherung der Datei (Vorteil bei fragmentierter Datenspeicherung)
+
+
+#### Interleaving
+
+- Problem: Bis ein Datenblock komplett übertragen war rotierten die nächsten Blöcke unter dem Schreib-Lesekopf hindurch -> Zugriff auf nachfolgenden Block erst nach einer kompletten Umdrehung
+- Lösung: Änderung der Nummerierung der Blöcke durch Auslassung (interleaving)
+- logische Sektornumerierung stimmt mit der physikalischen Numerierung nicht überein
+- Verhältnis zwischen den beiden Numerierungen wird als Interleave-Faktor bezeichnet
+	- 1:1 - fortlaufende Nummerierung
+	- 1:2 - übernächster Sektor hat die folgende Sektornummer
+	- 1:3 - zwei Sektoren werden übersprungen
+- hat an Bedeutung verloren
