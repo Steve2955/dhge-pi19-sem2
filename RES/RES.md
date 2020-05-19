@@ -1545,3 +1545,189 @@ $$t_Z=t_{HS}+p*t_{SF}$$
 - Befehlszeiger (EIP) kann jeden Maschinenbefehl innerhalb der 4 GB ansprechen
 - Segmentregister (CS, DS, SS, ES) speichern nun die Adresse des 4 GB Flat Segment im virtuellen Speicher -> fester Bestandteil des Betriebssystems, nicht veränderbar
 - ESI, EDI und EBX sind 32 Bit Allzweckregister und referenzieren auf Daten die im Speicher abgelegt sind
+
+# Dateisysteme
+
+- Daten müssen in einen nicht flüchtigen Speicher geschrieben werden können
+- Anforderungen:
+	- Möglichkeit große Mengen an Informationen zu sammeln
+	- Informationen müssen die Terminierung des auf sie zugreifenden Prozesses überdauern (Persistenz)
+	- mehrere Prozesse müssen gleichzeitig auf die Informationen zugreifen können
+- Dateien werden durch Dateisystem verwaltet (= Teil des Betriebssystem)
+- Dateisystem vermittelt zwischen der logischen Sicht von Dateien und Verzeichnissen und der physikalischen Sicht von Blöcken, Spuren, Sektoren, Geräten, Netzlaufwerken
+- Abstraktion des Betriebssystems zur geräteunabhängigen Verwaltung von Dateien
+
+## Dateien
+
+- Dateien besitzen fast immer einen **Dateinamen** sowie **Attribute** (**=Metadaten**)
+- Dateinamen sind in speziellen Dateien, den **Verzeichnissen**, abgelegt
+- **Dateisystem** bildet einen **Namensraum**
+- Alle Dateien sind so über eine eindeutige Adresse (Dateiname inkl. Pfad) innerhalb des Dateisystems aufrufbar
+
+
+**Namenskonventionen**
+
+- Regeln zur Benennung von Dateien variieren von System zu System
+	- Unterschiedliche Längen und Zeichen (Buchstaben, Zahlen, Sonderzeichen) erlaubt
+	- Unterscheidung zwischen Groß- und Kleinschreibung
+- Üblich: zweiteilige Dateinamen bestehend aus Dateiname und Dateinamenserweiterung (durch Punkt getrennt)
+
+### Dateistruktur
+
+- eine Datei besteht aus einer Folge von Worten/Bytes
+- Durch Einfügen spezieller Kontrollzeichen können kompliziertere Strukturen dargestellt werden:
+	- Einfach Verbund-Struktur (Record): Zeilenstruktur, Datensätze fester/variabler Länge
+	- Komplexe Strukturen: formatiertes Dokument oder ausführbares Programm
+
+### Zugriff
+
+- **sequentieller Zugriff:** Datensätze einer Datei werden vom Anfang der Reihe nach gelesen (kein Überspringen)
+- **Direktzugriff:** Datensätze können in beliebiger Reihenfolge gelesen werden (random access)
+
+### Attribute
+
+- Dateiattribute = spezifizierende Eigenschaften (abhängig vom OS)
+
+**Beispiele**	 
+
+- Dateirechte
+- Besitzer
+- Ersteller
+- Zeitpunkt der Erstellung/letzten Änderung/letzten Zugriffs
+- aktuelle Größe
+- ...
+
+
+### Dateioperationen
+
+Zugriff auf Dateien erfolgt durch Systemaufrufe die das Betriebssystem zur Verfügung stellt
+
+- open, close: Öffnen und Schließen einer Datei
+- read, write: Lesen und Schreiben
+- create, delete: Erzeugen und Löschen
+- seek: Neupositionierung des Schreib/Lese-Zeigers
+- get/set attributes: Auslesen und Setzen der Dateiattribute
+- rename: Dateinam ändern
+
+## Verzeichnisse
+
+- heute allgemein übliche Methode von Betriebssystemen, den Zugriff auf Dateien zu organisieren
+- Verzeichnisse sind selbst Dateien, erkennbar am Typ "Verzeichnis"
+- enthalten Dateinamen: entweder weitere Dateiverzeichnisse oder andere Dateien (-> Baumstruktur)
+- globales Wurzelverzeichnis (root-Directory) oder mehrere Wurzelverzeichnisse, die logischen Laufwerken zugeordnet sind
+- Weg durch das Dateisystem = Pfad
+	- absolute Pfadnamen (relativ zur root-Directory)
+	- relative Pfadnamen (relativ zum aktuellen Verzeichnis)
+
+### Verzeichnisoperationen
+
+- erlaubten Systemaufrufe für die Verwaltung von Verzeichnissen sind stark Systemabhängig
+- analog zu Systemaufrufen für Dateioperationen:
+	- Anlegen, Löschen,
+	- Umbenennen,
+	- ...
+	- Linken und Unlinken
+
+## Dateiverwaltung
+
+- Dateien sind logisch Folgen von Elementen
+	- Bytes: einfachte Sicht
+	- Blöcken: folgt physischen Begebenheiten
+	- Datensätze: logische Sicht (heute kaum noch vertretten)
+- Betriebsystem sieht eine Datei als Folge von Blöcken
+- logischen Blöcken müssen physische Blöcke zugewiesen werden (nicht notwendig zusammenhängend)
+
+### Zusammenhängende Belegung
+
+- jede Datei wird in einer kontinuierlichen Folge von Blöcken abgespeichert
+- Zugriff auf Datei über Startblock und Anzahl belegter Blöcke
+- einfache Implementation, hohe Lesegeschwindigkeit
+- nachträgliche Änderung der Dateigröße problematisch (-> externe Fragmentierung)
+
+### Verkettete Blockliste
+
+- zu Beginn jedes Blockes wird ein Zeiger auf den nächsten Block gespeichert (Rest des Blockes = Daten)
+- Zugriff erfolgt nur noch über Startblock
+- keine externe Fragmentierung, aber sehr langsamer wahlfreier Zugriff
+
+### Zentrale Indexstruktur
+
+- zentrale Tabelle (File Allocation Table, FAT) verwaltet alle Blöcke des Dateisystems, Blocknummer ist Index
+- für jeden Block einer Datei wird in der FAT der Index des Folgeblocks gespeichert (physisch beliebig verteilt)
+- FAT ist auf Datenträger gespeichert (wird vollständig oder partitiell in den Hauptspeicher geladen)
+- bei Verlust oder Zerstörung der FAT ist das zugehörige Dateisystem nicht mehr nutzbar
+- Zugriff auf eine Datei über Index des Startblocks im Verzeichnis-Block
+- für heutige Speicherkapazitäten zu groß
+- aktuell genutzt als universelles Austauschformat über Betriebssystemgrenzen hinweg
+
+### Verteilte Indexstruktur
+
+- für jede Datei existiert eine eigene Indexliste mit den Nummern aller benutzten Blöcke (I-Node)
+- Indexliste einer Datei wird in separatem Indexblock im Dateisystem gespeichert; bei langen Dateien  mehrere Indexblöcke
+- Indexblöcke können zudem Attribute der Datei beinhalten
+- i-node muss sich nur im Hauptspeicher befinden, wenn die Datei geöffnet ist
+- Dateisystemkonzept von Unix/Linux, Windows
+
+## Implementierung
+
+- Dateisysteme werden auf externe Speicher geschrieben, die in eine oder mehrere Partitionen unterteilt werden können
+- Sektor 1 wird als MBR (Master Boot Record) bezeichnet und enthält:
+	- Code, der vom BIOS beim Starten des Rechners ausgeführt wird (Bootloader)
+	- Partitionstabelle mit Anfangs- und Endadresse jeder Partition
+	- Markierung einer aktiven Systempartition, von der gebootet wird
+- erster Block in jeder Partition ist ein Bootblock (Bootsektor): Programm zum Start des Betriebssystems
+- Aufbau einer Partition ist vom jeweiligen Dateisystem abhängig
+
+### FAT Partition
+
+- FAT-Dateisystem Eintrag enthält:
+	- Alle Informationen über die Datei
+	- Verweis auf den Anfang der Liste von Blöcken
+- Achtung: verschiedene Versionen
+
+### Unix Partition
+
+- Superblock enthält Verwaltungsinformationen des Dateisystems
+- UNIX-Dateisystem Eintrag enthält:
+	- Dateiname
+	- Verweis auf I-Node-Datenstruktur
+- I-Node beinhaltet:
+- Dateityp
+- Eigentümer
+- Gruppe des Eigentümers
+- Zugriffsschutzbits
+- Datumseinträge
+- Anzahl der Links für diesen I-Node
+- Zeiger auf den Dateiinhalt
+
+## Verwaltung physischer Blöcke
+
+- Jedes Betriebssystem verwaltet pro Dateisystem eine Menge von physikalischen Blöcken (in Teilmengen Unterteilt)
+- **Bad-Block-Liste:** Defekte Blöcke, die nicht mehr verwendet werden können
+- **Liste benutzter Blöcke:** Blöcke, die derzeit von Dateien genutzt werden
+- **Liste freier Blöcke:** Blöcke, die derzeit nicht genutzt werden
+- **Papierkorb-Liste:** Blöcke, die kürzlich genutzt und dann gelöscht wurden (Reaktivieren möglich)
+
+### Blockgröße
+
+- Laufwerke verwalten auf der untersten Ebene meist Sektoren zu 512 Byte (sehr große Anzahl von Blöcken)
+- Zusammenfassung von mehreren Sektoren zu einer Zuordnungseinheit (Cluster)
+- wenige Sektoren/Zuordnungseinheit: Verwaltung träge (Datenstrukturen umfangreich)
+- viele Sektoren/Zuordnungseinheit: Verwaltung verschwenderisch (kleine Datei muss mindestens einen Block belegen)
+
+## Verwaltung freier Blöcke
+
+- **Verkettete Liste** von Plattenblöcken, in der jeder Block so viele Blocknummern wie möglich hat
+- **Bitmap:** Platte mit n Blöcken benötiget eine Bitmap mit n Bits; freie/belegte Blöcke durch 0/1 dargestellt
+
+## Eigenschaften guter Dateisysteme
+
+- Möglichst wenige E/A-Transporte
+	- Puffertechniken mit Buchführung, welche Blöcke sich zur Zeit in Puffern des Arbeitsspeichers beﬁnden
+	- Vorausschauende Lese-/Schreibstrategien im E/A-System
+- Unabhängigkeit von Satz-/Blocklänge ﬂexible Wahl von Blockanzahl und -länge durch Programmierer vermeidet Speicherplatzvergeudung durch bessere Anpassung von Satz- und Blocklänge
+- Automatische Lagebestimmung von Dateien
+	- Verwaltung der Zuordnung "Dateiname <-> physikalische Blocknummer" ist Aufgabe des Dateisystems, nicht des Programmierers
+	- Verwendung von "frei"-Einträgen im Dateiverzeichnis
+- Dynamische Speicherplatzzuweisung
+- Flexible Benennung von Dateien

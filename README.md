@@ -74,7 +74,7 @@
 - [X] Speicherverwaltung
 	- [X] Speicherverwaltung 1
 	- [X] Speicherverwaltung 2
-- [ ] Dateisysteme
+- [X] Dateisysteme
 - [ ] Sicherheit
 
 ## ALGO - Algorithmen und Datenstrukturen
