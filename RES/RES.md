@@ -116,9 +116,9 @@ Betriebssysteme
 - **Bit:** kleinstmögliche Speichereinheit
 - **Byte:** 8 Bits
 - **Si-Präfixe:** 10er- Potenz als Basis (kb, MB, GB, TB, PB, ... -> $=10^x$ Byte)
-  - Umrechnung innerhalb: mul. / div. mit $=2^3$ (Exponent steigt / fällt um 3)
+  - Umrechnung innerhalb: mul. / div. mit $2^3$ (Exponent steigt / fällt um 3)
 - **IEC-Präfixe:** 2er- Potenz als Basis (KiB, MiB, GiB, TiB, PiB, ... -> $=2^x$ Byte)
-  - Umrechnung innerhalb: mul. / div. mit $=2^10$ (Exponent steigt / fällt um 10)
+  - Umrechnung innerhalb: mul. / div. mit $2^{10}$ (Exponent steigt / fällt um 10)
 
 # Grundlegende Strukturen
 
