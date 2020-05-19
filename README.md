@@ -71,9 +71,9 @@
 	- [X] Prozesse 3
 - [X] Deadlocks
 - [X] Ein- und Ausgaben
-- [ ] Speicherverwaltung
+- [X] Speicherverwaltung
 	- [X] Speicherverwaltung 1
-	- [ ] Speicherverwaltung 2
+	- [X] Speicherverwaltung 2
 - [ ] Dateisysteme
 - [ ] Sicherheit
 

@@ -1421,3 +1421,127 @@ $$A=1-p^n$$
 - probalistisches Modell ist nur eine Annährung, weil es annimmt, dass die Prozesse unabhängig voneinander sind
 - in einem realen System kann die CPU nur einen gleichzeitig Prozess ausführen -> andere müssen warten (nicht unabhängig)
 - Dennoch: Multiprogrammierung verbessert die Ausnutzung der CPU
+
+### Probleme der direkten Speicherverwaltung
+
+- Speicherfragmentierung
+- Programme größer als verfügbarer Speicher
+- Relokation von Programmcode (absolute Speicheradressen müssen umgeschrieben werden)
+- Prozess muss on einem Stück im Speicher liegen
+- Verwendung von absoluten Adressen kann zu Speicherschutzverletzungen führen
+- Lösung: **Virtueller Speicher**
+
+## Virtueller Speicher
+
+- mehrere Fragmente müssen für das Programm so dargestellt werden, als ob sie aus einem kontinuierlichen Bereich stammen
+- Verlangt ein Programm mehr Speicher als vorhanden, wird der inaktive Teil ausgelagert (geswappt)
+- Umsetzung der virtuellen in eine physische Adresse durch die Memory Management Unit (MMU)
+
+### Implementierung
+
+- Jeder Prozess besitzt eigenen virtuellen Adressraum
+- virtueller Adressraum besteht aus gleich großen Seiten (page)
+- Arbeitspeicher unterteiltin gleich große Kacheln (page frame)
+- i.d.R.: $\text{page} = \text{page frame} \quad \text{oder} \quad \text{page} * n = \text{page frame}$
+- Hintergrundspeicher aufgeteilt in zusammenhängende Blöcke gleicher Größe
+- nur Blöcke des Hintergrundspeicher adressierbar
+- Verwaltung der Adresse und des Zustand jeder Seite in einer Seitentabelle
+- Typische Größe eines Seitentabelleneintrags: 32 Bit (Zugriffsrechte, Informationsbits für Speicherverwaltung, Seitenrahmennummer)
+
+### Paging
+
+- Abbildung logischer Adressen auf physikalische durch Zerlegung
+- Virtuelle Seite wird gegeben durch $v=(s,w)$ mit Seitennummer $s$ und Offset in der Seite $w$
+- Abgebildet wird $v$ auf die reale Adresse $p=(k,w)$ mit der Kachelnummer $k$
+- Wortbreite von 64 Bit -> Seitentabelle hat $252 = 4∗1015$ Einträge -> Grenzen des Systems erreicht
+- Extrem große Seitentabelle für jeden Prozess lässt schnelle Adressumrechnung nicht mehr zu
+- Lösungsansätze:
+	- Adressbegrenzung: Begrenzung des Adressraums (Speicher) pro Prozess
+	- Mehrstuﬁge Seitentabellen: Reduktion des Verwaltungsaufwandes mit Untertabellen
+	- Invertierte Seitentabellen: Statt Seitentabelle für Prozess -> Seitentabelle für physikalisch vorhandene Seiten (Abbildung aufwendiger)
+	- Assoziativer Tabellencache: Hardware, die virtuelle Adressen ohne Umweg auf physische abbildet (auch TLB - Translation Lookaside Buffer; heutiger Standard)
+		- wird eine virtuelle Seite im TLB gefunden (TLB Hit), kann die Adressumrechnung direkt erfolgen ($> 99%$)
+		- war die Suche im TLB erfolglos (TLB Miss), muss auf die Seitentabellen im Arbeitsspeicher zurückgegriffen werden
+
+#### Seitenersetzungsstrategien
+
+- wird es versucht auf eine Seite zuzugreifen, die nicht im physischen Speicher liegt, wird ein  Systemaufruf mit einem Seitenfehler (page fault) ausgelöst
+	- wenig genutzter Speicherrahmen wird ausgelagert, angeforderte Seite wird in den freien Rahmen geladen
+	- Anpassung der Seitentabelle, Wiederholung des Befehls
+- richtiges Auslagern ist eines der größten Probleme virtueller Speichersysteme (extreme Auswirkungen auf Gesamtleistung)
+- Worst case: ausgelagerte Seite wird sofort wieder benötigt -> Seitenfattern (trashing)
+
+**Optimale Seitenersetzungsstrategie**
+
+- lagere die Seite aus, für die der nächste Zugriff am weitesten in der Zukunft liegt (theoretisch beste Strategie)
+- jedoch unmöglich, herauszuﬁnden, welche Seite wann als nächstes gebraucht wird (praktisch nicht umsetzbar)
+- Auch bekannt als **Belady-Theorem der optimalen Verdrängung**
+- Dient als Referenz für andere Strategien:
+	- **NRU:** teilt Seiten anhand ihrer R- und M-Bits in vier Klassen ein und entfernt zufällig eine Seite aus der niedrigsten, nicht-leeren Klasse
+	- **FIFO:** Auslagern der Seite, die sich am längsten im Hauptspeicher befunden hat (älteste Seite)
+	- **Second-Chance:** FIFO mit R-Bit Überprüfung (verhindert auslagern häufig genutzer Seiten)
+	- **LRU:** Auslagern der Seite, auf die am längsten nicht mehr zugegriffen wurde (aufwändig, Umsetzung über Hardware)
+	- **NFU:** Seite, die am seltensten benutzt wird, soll ausgelagert werden (mit Zähler realisiert; Problem: anfangs viel genutzte Seiten werden nicht augelagert)
+	- **Aging:** Software-Simulation von LRU (alle Zähler 1 Bit nach rechts, R-Bit addiert)
+	- **Clock:** analog Second-Chance -> Uhrzeiger wandert so lange um die Elemente, bis eine Seite mit einem zurückgesetzten R-Bit gefunden wird
+	- **WSClock:** Kombination aus Working-Set (Menge von Seiten eines Prozesses) und Clock
+
+#### Belady’s Anomalie
+
+> Eine Erhöhung der Anzahl der Kacheln verbessert für eine gegebene Seitenersetzungsstrategie nicht immer die Page Fault Rate
+
+#### Aufwand von Seitenwechseln
+
+- Paging ist zeitaufwendig -> Prozessor muss warten
+- Mittlere Speicherzugriffszeit bei Wahrscheinlichkeit $p$ für einen Seitenfehler
+
+$$t_Z=t_{HS}+p*t_{SF}$$
+
+- um Leistungsverluste zu minimieren sollte $p$ sehr klein sein (z.B. durch Vergrößern des Arbeitsspeichers)
+- Paging ist für Echtzeitsysteme ungeeignet
+
+### Segmentierung
+
+- Jedes Programm ist aus vielen Teilen zusammengesetzt (Prozeduren, Module, Klassen, Bibliotheken,...)
+- Jedes Teil verdient einen eigenen Adressraum (Unterteilung in Segmente unterschiedlicher Länge)
+	- wenige große Segmente (Programmcode, Daten, Stack)
+	- mehrere mittelgroße Segmente (Prozeduren, Module, Bibliotheken)
+	- extrem viele kleine Segmente (Objekte, Verbunde)
+- Hilfreich für mehrfache Ausführung des gleichen Programmes, Kommunikation über gemeinsame Segmente und shared libraries
+
+#### Prinzip
+
+- oft auch Prinzip der gestreuten Speicherung (einzelne Seiten liegen nicht sequentiell im Speicher)
+- Definition eines Segmentes durch: Segmentbasis (Erste Adresse im Segment) und Segmentlänge (Zahl der aufeinanderfolgenden Adressen des Segmentes)
+- direkte Segmentierung des physischen Adressraum oder eines virtuellen linearen Adressraum, der auf den physischen abbildet
+- Segmentierung bildet einen logischen Adressraum:
+	- Segmentselektor $s$: direkt oder indirekte (durch Segmentverwaltungstabelle) Bestimmung des adressierten Segments
+	- Offset $d$: Speicherstelle relativ zum Segmentanfang
+- Jedem Programm ist eine Segmenttabelle zugeordnet: physische Anfangsadresse $b$ und Länge $l$ aller logischen Segmente $s$
+- physikalische Adresse ergibt sich aus $b + d$
+
+#### Segmentierung mit Paging
+
+- Segmentierung: Einteilung des virtuellen Speichers in verschiedene feste Bereiche für jeden Prozess
+- Paging: Einteilung von virtuellem und physischem Speicher in Bereiche (unabhängig von den einzelnen Prozessgrenzen)
+- Paging ist im Gegensatz zu Segmentierung nie vom Programmierer zu beeinﬂussen ("transparente Operation")
+- Häuﬁg werden aber Segmentierung und Paging kombiniert, so dass eine zweistufige Adressierung entsteht
+
+#### Segmentierung vs. Paging
+
+- Segmente dienen zur Aufteilung des Adressraumes nach semantischen Kriterien
+- Paging ist ein technisches Hilfsmittel zur Vereinfachung der Speicherverwaltung und Implementierung eines virtuellen Speichers
+- Segmente sind die bessere Abstraktion zur Verwaltung von Teilhaberschaften (shared libraries/text/memory), aber problematisch in Bezug auf die Speicherverwaltung (externe Fragmentierung, ...)
+- Segmentierung kann problemlos auf Paging aufgesetzt werden
+	- Anfang und Größe der Segmente auf ein Vielfaches der Größe von Seitenrahmen beschränkt
+	- impliziert interne Fragmentierung (i.d.R. unproblematisch)
+- Fast alle modernen Betriebsysteme verwalten Adressräume auf logischer Ebene als eine Menge von Segmenten
+
+### Flat Memory Model
+
+- wurden erst mit 32 Bit Prozessoren möglich
+- keine Segmente zur Adressierung des Speichers mehr nötig
+- linearer Adressraum beinhaltet Programmcode und Daten (-> direkte Adressierung aller Speicherzelle)
+- Befehlszeiger (EIP) kann jeden Maschinenbefehl innerhalb der 4 GB ansprechen
+- Segmentregister (CS, DS, SS, ES) speichern nun die Adresse des 4 GB Flat Segment im virtuellen Speicher -> fester Bestandteil des Betriebssystems, nicht veränderbar
+- ESI, EDI und EBX sind 32 Bit Allzweckregister und referenzieren auf Daten die im Speicher abgelegt sind
