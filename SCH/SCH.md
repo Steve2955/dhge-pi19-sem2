@@ -41,7 +41,7 @@ Extern:
 ## 3.4 Welche drei Takte spezifizieren die Leistung des Arbeitsspeichers? Erklären Sie diese und wie sie miteinander zusammenhängen!  
 
 - Speichertakt
-- I/O-Takt (Speichertakt\*2 bei DDR: zweimal eigentliche Taktfrequenz))
+- I/O-Takt ($f_{IO}=\frac{f_{Eff}}{2}$)
 - effektive Taktfrequenz = Speichertakt * Prefetch (bei SDRAM kein Prefetch)
 
 [Wiki: DDR-SDRAM](https://de.wikipedia.org/wiki/DDR-SDRAM#Arbeitsweise)
