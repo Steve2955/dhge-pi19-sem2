@@ -6,6 +6,7 @@ Versuch 1: Rechneraufbau
 ## 3.1 Welche grundlegenden Komponenten, außer dem Gehäuse, gehören zu einem Desktop-Rechner (Innereien und Außen rum)?
 
 Intern:
+
 - Netzteil
 - Mainboard
 - CPU
@@ -17,6 +18,7 @@ Intern:
 - Kühlung (CPU-Lüfter)
 
 Extern:
+
 - Bildschirm
 - Lautsprecher
 - Tastatur und Maus
@@ -88,16 +90,9 @@ Extern:
 
 ## 3.8 Wenn Sie mit einer Software die Latenz des Arbeitsspeichers messen, welche Schaltzeiten müssen Sie dann berücksichtigen wenn das Programm a) eine zufällig bestimmte Speicheradresse anfordert und b) sequenziell auf den Speicher zugreift?
 
-Max:
-```
-a)Zeile aktivieren -> Spalte auswählen -> Zeile deaktivieren(CL) # CL, trcd, tras, evtl. trp, trc  ->  abh. v. d.angeforderten Bank
+a)Zeile aktivieren -> Spalte auswählen -> Zeile deaktivieren: CL, trcd, tras, evtl. trp, trc  ->  abh. v. d.angeforderten Bank
+
 b)Zeile aktivieren -> prefetching buffer (tRCD pro Zeile, jedes mal CL)
-```
-
-Prefetch greift nicht
-
-a) CL + tRCD + (tRP) + (tRC) + tRAS
-b) CL + (tRCD pro Zeile) + tRP + tRAS **+ Befehlsrate**
 
 [Wiki: Arbeitsspeicher](https://de.wikipedia.org/wiki/Arbeitsspeicher#Leistung_von_Speichermodulen)
 
@@ -120,6 +115,7 @@ $$\frac{2.133\ \text{MHz} \times 128\ \text{Bit}}{8\ \text{Bit}} = 34.128\ \text
 
 [Wiki: DDR-SDRAM](https://de.wikipedia.org/wiki/DDR-SDRAM#Berechnung_Speichertransferrate)
 
+\newpage
 
 Versuch 2: Speicher und Raid
 ============================
@@ -150,13 +146,17 @@ Versuch 2: Speicher und Raid
 
 ## 3.2 Welche Vor- und Nachteile bieten die folgenden Speichermedien hinsichtlich ihrer Kosten absolut und pro GiB, Geschwindigkeit sowie Datensicherheit und Portabilität? Erstellen Sie eine entsprechende Tabelle!  USB-Stick (3.0), (Micro)SD-Karte, Festplatte, SSD, DVD
 
-|                   | USB-Stick                                                      | (Micro) SD-Karte                                                                      | Festplatte      | SSD          | DVD                                    |
-| ----------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------- | --------------- | ------------ | -------------------------------------- |
-| absolute Kosten\* | gering                                                         | gering                                                                                | hoch            | hoch         | gering                                 |
-| Kosten/GiB\*      | hoch                                                           | hoch                                                                                  | gering          | hoch         | hoch                                   |
-| Geschwindigkeit   | USB 2.0: 480 Mbit/s<br>USB 3.0: 5 Gbit/s<br>USB 3.1: 10 Gbit/s | Class 2: 16 Mbit/s<br>Class 4: 32 Mbit/s<br>Class 6: 48 Mbit/s<br>Class 10: 80 Mbit/s | etwa 1.6 Gbit/s | bis 4 Gbit/s | 1x: 11,08 Mbit/s<br>24x: 265.92 Mbit/s |
-| Datensicherheit\* | gering                                                         | gering                                                                                | mittel          | mittel       | mittel                                 |
-| Portabilität\*    | hoch                                                           | hoch                                                                                  | gering          | gering       | mittel                                 |
+|                  | USB-Stick           | (Micro) SD-Karte    | Festplatte      | SSD          | DVD                |
+|------------------|---------------------|---------------------|-----------------|--------------|--------------------|
+| absolute Kosten* | gering              | gering              | hoch            | hoch         | gering             |
+| Kosten/GiB*      | hoch                | hoch                | gering          | hoch         | hoch               |
+| Geschwindigkeit  | USB 2.0: 480 Mbit/s | Class 2: 16 Mbit/s  | etwa 1.6 Gbit/s | bis 4 Gbit/s | 1x: 11,08 Mbit/s   |
+|                  | USB 3.0: 5 Gbit/s   | Class 4: 32 Mbit/s  |                 |              | 24x: 265.92 Mbit/s |
+|                  | USB 3.1: 10 Gbit/s  | Class 6: 48 Mbit/s  |                 |              |                    |
+|                  |                     | Class 10: 80 Mbit/s |                 |              |                    |
+| Datensicherheit* | gering              | gering              | mittel          | mittel       | mittel             |
+| Portabilität*    | hoch                | hoch                | gering          | gering       | mittel             |
+| Verlustleistung  | 165 W               | 280 W               |                 |              |                    |
 
 \* = persönliche Einschätzung
 
@@ -167,7 +167,7 @@ Versuch 2: Speicher und Raid
 
 ## 3.3 Erstellen Sie ein Balkendiagramm in dem Sie aktuelle GB-Preise für folgende Speichermedien eintragen: HDD – SATA, SSD – SATA, HDD – SAS, USB-Stick 2.0, USB-Stick 3.0. Suchen Sie nach dem jeweils günstigsten Angebot und geben Sie Ihre Bezugsquelle (Händler) sowie die Gesamtspeichergröße und den Gesamtpreis in einer Tabelle an!
 
-![Balkendiagramm](https://steve2955.github.io/dhge-pi19-sem2/SCH/IMG/Preis_GB_Speicher.png)
+![Vergleich der relativen Kosten](https://steve2955.github.io/dhge-pi19-sem2/SCH/IMG/Preis_GB_Speicher.png)
 
 
 | Speicher      | Preis/GB | Preis    | Kapazität | Händler     | URL                                                                                                           |
@@ -218,6 +218,8 @@ Versuch 2: Speicher und Raid
 [ThomasKrennWiki: RAID](https://www.thomas-krenn.com/de/wiki/RAID)
 [Wiki: RAID](https://de.wikipedia.org/wiki/RAID)
 [Storage Insider](https://www.storage-insider.de/was-ist-raid-alles-ueber-level-1-bis-5-und-mehr-a-517806/)
+
+\newpage
 
 Versuch 3: System-Tuning und Sicherheit
 =======================================
@@ -330,6 +332,7 @@ WinSAT ist das "Windows System Assessment Tool", es zuständig für die Systembe
 
 [win-tipps-tweaks](https://www.win-tipps-tweaks.de/cms/windows-7-tipps/tricks/winsat-windows-system-assessment-tool.html)
 
+\newpage
 
 Versuch 4: Netzwerk
 ====================
