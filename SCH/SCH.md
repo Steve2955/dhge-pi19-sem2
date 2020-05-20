@@ -297,7 +297,7 @@ Nennen Sie mindestens drei Möglichkeiten ein BIOS-Passwort zu löschen bzw. zu 
 
 ```bash
 lsblk
-mount sda /mnt/sda
+mount /dev/sda /mnt/sda
 umount /mnt/sda
 mkdir folder
 touch file
