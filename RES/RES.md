@@ -116,9 +116,9 @@ Betriebssysteme
 - **Bit:** kleinstmögliche Speichereinheit
 - **Byte:** 8 Bits
 - **Si-Präfixe:** 10er- Potenz als Basis (kb, MB, GB, TB, PB, ... -> $=10^x$ Byte)
-  - Umrechnung innerhalb: mul. / div. mit $2^3$ (Exponent steigt / fällt um 3)
+	- Umrechnung innerhalb: mul. / div. mit $2^3$ (Exponent steigt / fällt um 3)
 - **IEC-Präfixe:** 2er- Potenz als Basis (KiB, MiB, GiB, TiB, PiB, ... -> $=2^x$ Byte)
-  - Umrechnung innerhalb: mul. / div. mit $2^{10}$ (Exponent steigt / fällt um 10)
+	- Umrechnung innerhalb: mul. / div. mit $2^{10}$ (Exponent steigt / fällt um 10)
 
 # Grundlegende Strukturen
 
@@ -1725,11 +1725,264 @@ Zugriff auf Dateien erfolgt durch Systemaufrufe die das Betriebssystem zur Verf�
 ## Eigenschaften guter Dateisysteme
 
 - Möglichst wenige E/A-Transporte
-	- Puffertechniken mit Buchführung, welche Blöcke sich zur Zeit in Puffern des Arbeitsspeichers beﬁnden
+	- Puffertechniken mit Buchführung, welche Blöcke sich zur Zeit in Puffern des Arbeitsspeichers befinden
 	- Vorausschauende Lese-/Schreibstrategien im E/A-System
-- Unabhängigkeit von Satz-/Blocklänge ﬂexible Wahl von Blockanzahl und -länge durch Programmierer vermeidet Speicherplatzvergeudung durch bessere Anpassung von Satz- und Blocklänge
+- Unabhängigkeit von Satz-/Blocklänge flexible Wahl von Blockanzahl und -länge durch Programmierer vermeidet Speicherplatzvergeudung durch bessere Anpassung von Satz- und Blocklänge
 - Automatische Lagebestimmung von Dateien
 	- Verwaltung der Zuordnung "Dateiname <-> physikalische Blocknummer" ist Aufgabe des Dateisystems, nicht des Programmierers
 	- Verwendung von "frei"-Einträgen im Dateiverzeichnis
 - Dynamische Speicherplatzzuweisung
 - Flexible Benennung von Dateien
+
+# Sicherheit
+
+## Anforderungen
+
+- **Vertraulichkeit:** Nur berechtigte Personen haben Zugriff auf das System
+- **Integrität:** Nur berechtigte Personen dürfen Änderungen am System vornehmen
+- **Verfügbarkeit:** Niemand darf das System stören, sodass es unbenutztbar wird
+- **Authentizität:** System kann die Identität des Nutzers feststellen
+
+## Bedrohungen
+
+- **Unterbrechung:** Angriff auf die Verfügbarkeit (Zerstörung der Hardware)
+- **Abhören:** Angriff auf die Vertraulichkeit (Unerlaubtes Kopieren von Dateien)
+- **Veränderung:** Angriff auf die Integrität (Ändern des Inhalts einer Nachricht)
+- **Fälschung:** Angriff auf die Authentizität (Einschleusen von Datensätzen in eine Datenbank)
+
+### Passive Bedrohungen
+
+- Aufdecken von Nachrichteninhalten (Zugriff auf sensible Daten während der Kommunikation)
+- Datenflussanalyse
+	- Angreifer kann Standort und Identität der kommunizierenden Hosts feststellen (+ Häufigkeit/Dauer der Kommunikation)
+
+> Passive Angriffe lassen sich nur schwer erkennen, da keine Daten verändert werden
+
+### Aktive Bedrohungen
+
+- Maskerade (Vorgabe falsche Identität)
+- Replay-Angriff (Senden zuvor aufgezeichneter Daten)
+- Ändern von Inhalten (verändern, verzögern, neu strukturieren)
+	- Austausch von Namen -> Angreifer erhält Zugriff auf vertrauliche Daten
+- Denial-of-Service-Angriff (Server im Netzwerk stilllegen)
+	- Server mit einer Flut von Anfragen überfordern
+
+## Schutz
+
+### Schutz durch das Betriebssystem
+
+- **Kein Schutz:** Nur eigene Prozesse laufen
+- **Isolation:** Jeder Prozess verfügt über eigenen Adressraum, Dateien und andere Objekte
+- **Alles oder nichts freigeben:** Besitzer entscheidet ob öffentlich oder privat
+- **Freigabe über Zugriffsbeschränkungen:** Betriebssystem prüft Berechtigung des Zugriffs
+- **Freigabe über dynamische Zugriffsbeschränkungen:** Erzeugung von Zugriffsrechten zur Laufzeit
+- **Eingeschränkte Nutzung:** Einschränkung nicht nur das Zugriffs sondern auch der Nutzung
+
+#### Benutzerauthentiﬁkation durch das Betriebssystem
+
+- Etwas das der Nutzer **weiß** (Name, Passwort) **besitzt** (Schlüssel, Chipkarte) oder **ist** (biometrische Daten)
+- Verbreitetste Lösung: Nutzername und Passwort
+	- Computergenerierte Passwörter sind am sichersten, lassen sich schlecht merken
+	- Reaktive Passwortprüfung: System versucht Passwort zu knacken
+	- Vorbeugende Passwortprüfung: System prüft Passworteingabe des Nutzers auf Sicherheit
+	- Mögliche Kombinationen in Abhängigkeit von der Passwort Länge: $C_{max}=n_C^l$ (Länge ist größter Einfluss auf Sicherheit)
+
+##### Passwortsicherheit und UNIX
+
+- durch Salt-Hashverfahren
+- Salt-Wert erfüllt drei Funktionen
+	- verhindert Passwort-Duplikate in der Passwortdatei
+	- verlängert Passwort, ohne dass sich Nutzer mehr merken muss
+	- Wörterbuchangriffe werden erschwert, da sich der Hash aus dem Salt-Wert und dem Passwort besteht
+
+##### Passwortsicherheit und Regenbogentabellen
+
+- **Rainbow Table:** Datenstruktur für eine schnelle, speichereffiziente Such nach der ursprünglichen Zeichenfolge eines Hashwert
+- Regenbogentabellen sind wesentlich schneller als Brute-Force oder Wörterbuch-Angriffe
+- Vorausgesetzt wird eine Hashfunktion ohne Salt
+
+## Angreifer
+
+- **Ziele:** Zugriff auf das System erlangen und/oder Rechte im System erweitern
+- **Voraussetzung:** Besitz einer Zugangsberechtigung (meist Name + Passwort)
+
+### Wer?
+
+- Herumschnüffeln von nichttechnischen Benutzern (Mensch ist ein neugieriges Wesen)
+- Herumschnüffeln durch Insider (Programmierer, Administratoren und technisches Personal) -> betrachten Sicherheit des Systems zu knacken als persönliche Herausforderung
+- Gezielte Versuche mit wirtschaftlicher Motivation
+- Militärische- oder Wirtschaftsspionage -> Versuch fremder Länder oder Wettbewerber geheime Informationen zu stehlen
+
+### Wie?
+
+- Ausprobieren von Default-Passwörtern und kurzen Passwörtern
+- Ausprobieren mit Hilfe eines Wörterbuches
+- Sammeln von Informationen über Nutzer (Familie, Wohnort, Hobbys, ...)
+- Ausprobieren von Telefonnummern, Kennzeichennummern, ...
+- Umgehung der Zugriffsbeschränkung mit Hilfe eines Trojaners
+- Anzapfen der Leitung zwischen Server und Client
+
+> Sicherheitsproblem: Viele Nutzer verwenden leicht zu erratende Passwörter
+
+## Angriffe von Innen
+
+- Ist der Angreifer im System, kann er beginnen Schaden anzurichten
+	- Kompromittiert ist die komplette Umgebung des Nutzers, dessen Kennung gebrochen wurde
+	- Kompromittierter Zugang kann benutzt werden, um später in weitere Accounts einzubrechen
+
+> Angreifer kann auch ein legitimer Nutzer sein
+
+### Möglichkeiten nach dem Login
+
+- **Trojanisches Pferd:** Schadprogramm, das als nützliche Software getarnt ist
+- **Login-Spoofing:** Nutzer wird ein optisch identischer Login präsentiert -> Angaben Angreifer zugänglich
+- **Logische Bombe:** Einbau von Code, der nach einer Bedingung schädliche Aktionen auslöst
+- **Versteckte Hintertüren:** Teil einer Software ermöglicht umgehen der normalen Zugriffsicherung
+- **Pufferüberläufe:** Betriebssysteme werden in C implementiert -> prüft nicht die Einhaltung von Arraygrenzen (Puffer)
+	- Große Datenmengen werden in einen dafür zu kleinen reservierten Speicherbereich geschrieben, wodurch nach dem Ziel-Speicherbereich liegende Speicherstellen überschrieben werden (Verfälschung von Daten oder Beschädigung von Datenstrukturen der Laufzeitumgebung)
+- **Generische Angriffe:** Basierend auf Ergebnissen von Penetrationstests
+	- Anfordern von Datenträgern -> Suche nach Informationen
+	- Aufrufen ungültiger Systemaufrufe bzw. Systemaufrufe mit ungültigen Parametern (Systemstörungen)
+	- Unterbrechung des Login –> Login erfolgreich
+	- Systemprogrammierer überreden eine Hintertür einzufügen
+	- Sekretärin des Systemverantwortlichen aufsuchen (bestechen) –> Herausgabe des Passwortes
+
+## Angriffe von Außen
+
+### Voraussetzungen
+
+- Netzwerkinfrastruktur
+- Zugang zum Netzwerk
+- Schadprogramm, welches sich im Netz verbreiten kann
+	- Virus: Code, der sich repliziert indem er sich anderen Programmen anhängt
+	- Wurm: Programm, das sich selbst repliziert, nachdem es ausgeführt wurde
+
+### Viren
+
+**Phasen**
+
+- **Schlafphase:** Virus ist inaktiv (Wartet auf Ereignis)
+- **Verbreitungsphase:** Virus setzt identische Kopien in andere Programme oder bestimmte Systembereiche
+- **Auslösephase:** Virus wird durch eine Reihe von Systemereignissen aktiviert
+- **Ausführungsphase:** Schadfunktion wird ausgeführt
+
+**Arten**
+
+- **Parasitäres Virus:** hängt sich ausführbaren Dateien an
+- **Speicherresidentes Virus:** infiziert als Teil eines speicherresidenten Systemprogramms jedes ausgeführte Programm
+- **Boot-Sektor-Virus:** infiziert MBR, verbreitet sich bei Systemstart
+- **Tarnkappen-Virus:** spezieller Virus, der von Antivirensoftware nicht erkannt werden kann
+- **Polymorphes Virus:** ändert sich mit jeder Infizierung (kein Erkennen durch Signatur möglich)
+- **Makro-Virus:** Virus, der in ein Textverarbeitungsdokument oder ähnliches eingebettet ist
+
+### Würmer
+
+- gleiche Eigenschaften wie Virus
+- kann erkennen, ob eine System bereits infiziert ist
+- kann Anwesenheit verschleiern, indem er sich wie ein Systemprozess nennt
+- benutzt Netzwerkdienste zur Verbreitung (z.B. E-Mail)
+
+### Antivirenprogramme
+
+- ideale Lösung für das Virenproblem ist die **Vermeidung**
+- in Realität nicht erreichbar -> Antivirensoftware
+- **Problem:** ständiges Wettrüsten zwischen Virenschreibern und Antivirenprogrammierern
+
+## Verdeckte Kanäle
+
+- **Verdeckter Kanal:** parasitärer Kommunikationskanal, welcher Bandbreite eines legitimierten Informationskanals nutzt, um Informationen zu übermitteln
+- **Speicherkanal:** Kommunikation über gespeicherte Daten
+- **Zeitkanal:** Information werden über die zeitliche Abfolge informationstechnischer Verarbeitungen übertragen
+- verdeckte Kanäle in einem Computersystem können weder ausgeschlossen, noch sinnvoll verhindert werden
+
+### Speicherkanal
+
+- Beispiel: Steganographie (verstecktes Schreiben)
+	- verändern weniger Details in einem Bild, um weiter Informationen einzubringen
+- komprimierten Daten werden verschlüsselt in die niederwertigen Bits jedes Farbwertes (RGB) eingebunden -> Auge kann nicht unterscheiden
+- Bei Auflösung von 1024 x 768 Pixel können ca. 295 kByte geheime Informationen gespeichert werden
+
+### Zeitkanal
+
+- Beispiel: Öffnen und Schließen einer Datei oder Setzen von Dateiattributen nach vereinbartem Muster
+- Ein Programm manipuliert Datei, ein anderes überwacht diese Datei und interpretiert die sich die Abfolge der Zustände
+- kaum möglich, ein solches Verhalten zu erkennen
+
+## Einbruchserkennung
+
+- Schnelle Einbruchserkennung kann Angreifer identifizieren und Schaden begrenzen
+- Wirkt abschreckend und kann Angriffe verhindern
+- Sammeln von Informationen über Angriffstechniken zur Verbesserung der Einbruchsvermeidung
+
+### Grundlage
+
+- Beruht auf der Annahme, dass sich das Verhalten eines Angreifers von dem eines berechtigten Benutzers so unterscheidet, dass es in Zahlen ausgedrückt werden kann
+- Verhaltensprofile von Angreifern und berechtigten Benutzern
+
+### Ansätze
+
+- Statische Anomalieerkennung definiert normales bzw. erwartetes Verhalten
+	- Schwellwerterkennung oder profilbasierte Erkennung
+- Regelbasierte Erkennung definiert richtigen Verhaltens
+	- Suche nach verdächtigem Verhalten oder Abweichungen von normalem Verhalten
+- Audit-Protokolle, hier werden alle laufenden Aktivitäten aufgezeichnet
+	- Erfassung nativ durch das Betriebssystem oder durch spezielle Software
+
+## Vertrauenswürdige Systeme
+
+- fast alle Computersysteme weisen Sicherheitslücken auf -> Existiert ein sicheres System?
+- einzige Möglichkeit Sicheres System zu entwickeln besteht darin es einfach zu halten
+- mehr Features = mehr Komplexität, Code, Bugs, **sicherheitskritische Fehler**
+- Beispiel: E-Mail mit ASCII-Text sicher -> diverse Probleme bei HTML-Mail
+- Um ein sicheres System zu entwickeln braucht man:
+	- ein Sicherheitsmodell im Kern des Betriebssystems, das einfach genug ist um wirklich verstanden zu werden
+	- Stehvermögen um das Modell nicht durch neue Features aufzuweichen
+
+> Vertrauenswürdige Systeme sind Systeme, die Sicherheitsanforderungen formal festgelegt haben und diesen Anforderungen genügen.
+
+- **Trusted Computing Base:** Kernstück des Systems (Durchsetzung der Sicherheitsregeln)
+- **Referenzmonitor:** wichtigster Teil (Verarbeitung aller sicherheitskritischen Systemaufrufe, kann nicht umgangen werden)
+
+### Formale Modelle
+
+- Schutzsysteme auf der Basis dynamischer Zugriffsmatrizen
+- Autorisierung ist ein Managementproblem
+	- Matrix bestimmt zu jedem Zeitpunkt, nur was jeder Prozess tun kann, nicht ob er wirklich autorisiert ist
+
+### Multilevel Sicherheit
+
+- Benutzerbestimmte Zugriffskontrollstrategie: Benutzer bestimmt, wer seine Dateien und ihre anderen Objekte lesen, schreiben und ausführen darf
+- Systembestimmte Zugriffskontrollstrategie: Umgebungen mit Organisation die zusätzliche Regeln und Berechtigungen festgelegt
+- weitest verbreitetes Multilevel-Sicherheitsmodell: **Bell-La Padula-Modell**
+	- Schützt Vertraulichkeit von Daten durch Kontrolle des Informationsflusses
+	- Weitergabe von vertraulichen Informationen an nicht vertrauenswürdige Personen verhindern
+	- Regeln:
+		- niedriger eingestufte Personen dürfen nicht auf Informationen höher eingestufter Personen zugreifen
+		- höher eingestufte Personen dürfen nicht in Informationen von niedriger eingestuften schreiben (keine Weitergabe nach unten)
+		- Frei definierbare Zugriffsmatrix, um den Zugriff von Personen auf Objekte anzugeben
+
+#### Biba-Modell
+
+- Schützt Integrität der Daten durch Kontrolle von Lese- und Schreibzugriffen anhand exisitierender Benutzerrechte
+- No-Read-Down: Es darf einer höher eingestuften Ebene nicht möglich sein, Informationen einer tieferen Sicherheitsebene zu lesen
+- No-Write-Up: auf höhere Schichten kann von tieferen Sichten nicht geschrieben werden
+
+### Orange Book
+
+- teilt Betriebssysteme aufgrund ihrer Sicherheitseigenschaften in sieben Kategorien
+- Europäischer Standard: ITSEC -> Neuer allgemeiner Standard: Common Criteria
+
+**Common Criteria**
+
+- Der Evaluation Assurance Level eines Systems ist eine Bewertung nach Abschluss der "Common Criteria" Sicherheitsprüfung
+- ansteigenden EAL-Werte spiegeln steigenden Anforderungen wieder
+- Übertreffen Systeme die minimalen Anforderungen einer EAL-Stufe so wird dies durch EAL-Wert gefolgt von einem Plus "+" notiert
+- Die Zertifizierung EAL4-Standard gehört zu den anspruchsvollsten und teuersten Zertifizierungstests
+- Windows und Linux Betriebssysteme sind EAL4+ zertifiziert
+
+## Fazit
+
+- kein System ist absolut sicher
+- es tauchen immer wieder Sicherheitslücken auf
+- Computersicherheit ist und bleibt ein aktuelles Thema
+- Schwerpunkte: Netzwerksicherheit, Benutzerauthentifikation, Kryptographie
