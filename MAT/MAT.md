@@ -85,7 +85,46 @@ Da $\left|q\right|$ kleiner als $1$, konvergiert die in Frage stehende Reihe. De
 
 $$\sum_{k=1}^\infty (k*q1^k)\rightarrow \frac{q1}{(q1-1)^2} \quad q(k):= \frac{(k+1) * q1^{k+1}}{k*q1^k}=\frac{k+1}{k} * q1$$
 
-## Aufgabe 9: Differentieren von Vektorwertigen Funktionen
+## Aufgabe 7: Grenzwert von Funktionen
+
+$$f(x) = \frac{x^2-1}{x-1}$$
+
+Zerlegung in Zähler und Nennerpolynom:
+
+$$p(x)=x^2-1 \qquad q(x)=x-1$$
+
+$f(x)$ besitzt an der Stelle $x=1$ eine Lücke in der Definition. Der Wert an der Definitionslücke kann durch einen Grenzwert erklärt werden.
+
+Durch Faktorisieren und anschließendes Vereinfachen kann die Definitionslücke in der Regel erklärt werden: $x^2-1 = (x+1) * (x-1)$
+
+$$f(x)=\frac{(x+1) * (x-1)}{x-1}=x+1 \rightarrow f(1)=2$$
+
+Beispiel einer Trigonometrischen Funktion: $f(x)=\frac{sin(x)}{cos(x)-1}$
+
+$f(x)$ besitzt an der Stelle 0 eine Polstelle. Keine Division möglich -> Lösung über L'Hospital (später)
+
+## Aufgabe 8: Differenzieren von Funktionen
+
+$$f(x) = sin(cos(x^2))$$
+
+Zweimalig Anwendung der Kettenregel:
+
+$$f'(x) = cos(cos(x^2)) * -\sin(x^2) * 2x = 2x*sin(x^2) * cos(cos(x^2))$$
+
+$$f(x) = ln(cos(x)e^x)$$
+
+$$f'(x) = \frac{1}{cos(x) * e^x} * (-sin(x) * e^x + cos(x)+e^x)= \frac{1}{cos(x)} * (cos(x)-sin(x))=1-tan(x)$$
+
+Kettenregel:
+
+$$f(x) = \frac{sin(x^2)}{cos(x)}$$
+
+Quotientenregel:
+
+$$f'(x) = \frac{cos(x^2) * 2x * cos(x)-sin(x^2) * (-sin(x^2))}{cos(x)^2}$$
+
+
+## Aufgabe 9: Differenzieren von vektorwertigen Funktionen
 
 $$v(t)\begin{bmatrix}t*cos(t)\\t*sin(t)\\e^{-2t}\end{bmatrix}$$
 

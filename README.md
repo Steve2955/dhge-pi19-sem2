@@ -44,20 +44,22 @@
 
 ## MAT - Analysis
 
-- [X] Zahlenfolgen, Grenzwerte von Zahlenfolgen
-- [X] Reihen, Grenzwerte von Reihen
-- [ ] Konvergenzkriterien für Reihen
-- [ ] Stetigkeit von Funktionen
-- [ ] Funktionen, Grenzwerte von Funktionen
-- [ ] Differentiation von Funktionen
-- [ ] Regel von L’Hospital
-- [ ] Taylorreihen
-- [ ] Potenzreihen
-- [ ] Bestimmtes und unbestimmtes Integral, Hauptsatz der Diff.-Int.Rechnung
+- [X] Zahlenfolgen und Reihen
+- [X] Konvergenzkriterien für Reihen
+- [X] Grenzwerte von Funktionen ohne Benutzung der Regel von L’Hospital
+- [X] Differentiation von Funktionen einer Variablen
+- [ ] Newton-Verfahren, Regel von L’Hospital
+- [ ] Taylor- und Potenzreihen
+- [ ] Bestimmtes und unbestimmtes Integral
+Partialbruchzerlegung
+- [ ] Integrationstechniken
 - [ ] Funktionen mehrerer Variabler
-- [ ] Gewöhnliche Differentialgleichungen
+- [ ] Gewöhnliche DGL 1.Ordnung
+- [ ] Gewöhnliche DGL 2.Ordnung
+- [ ] Gewöhnliche lineare DGL höherer Ordnung
 - [ ] Fourier-Reihen
-- [ ] Integraltransformationen (Fourier-Transformation, Laplace-Transformation)
+- [ ] Laplace-Transformation
+
 
 ## RES - Betriebssysteme
 
