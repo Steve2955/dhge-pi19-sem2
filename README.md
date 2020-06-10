@@ -41,6 +41,7 @@
 - [X] Templates
 - [X] Die Standard Templates Library
 - [X] Die C++-11 Erweiterungen
+- [X] Einfache GUI-Programmierung
 
 ## MAT - Analysis
 
