@@ -65,20 +65,30 @@ Partialbruchzerlegung
 ## RES - Betriebssysteme
 
 - [X] Grundlagen
+	- [ ] Lernkontrollfragen
 - [X] Architekturen
+	- [X] Lernkontrollfragen
 - [X] Strukturen
+	- [ ] Lernkontrollfragen
 - [X] Schnittstellen
+ - [ ] Lernkontrollfragen
 - [X] Prozesse
 	- [X] Prozesse 1
 	- [X] Prozesse 2
 	- [X] Prozesse 3
+	- [ ] Lernkontrollfragen
 - [X] Deadlocks
+	- [ ] Lernkontrollfragen
 - [X] Ein- und Ausgaben
+	- [ ] Lernkontrollfragen
 - [X] Speicherverwaltung
 	- [X] Speicherverwaltung 1
 	- [X] Speicherverwaltung 2
+		- [ ] Lernkontrollfragen
 - [X] Dateisysteme
+	- [ ] Lernkontrollfragen
 - [X] Sicherheit
+	- [ ] Lernkontrollfragen
 
 ## ALGO - Algorithmen und Datenstrukturen
 
