@@ -69,9 +69,9 @@ Partialbruchzerlegung
 - [X] Architekturen
 	- [X] Lernkontrollfragen
 - [X] Strukturen
-	- [ ] Lernkontrollfragen
+	- [X] Lernkontrollfragen
 - [X] Schnittstellen
- - [ ] Lernkontrollfragen
+	- [ ] Lernkontrollfragen
 - [X] Prozesse
 	- [X] Prozesse 1
 	- [X] Prozesse 2
@@ -84,7 +84,7 @@ Partialbruchzerlegung
 - [X] Speicherverwaltung
 	- [X] Speicherverwaltung 1
 	- [X] Speicherverwaltung 2
-		- [ ] Lernkontrollfragen
+	- [ ] Lernkontrollfragen
 - [X] Dateisysteme
 	- [ ] Lernkontrollfragen
 - [X] Sicherheit
