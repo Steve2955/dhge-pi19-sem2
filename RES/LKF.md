@@ -104,3 +104,37 @@ $10^{9}$ Befehle werden pro Sekunde bei einer vierstufigen abgearbeitet. Durch d
 ### Was verstehen Sie unter einem Mikrokern?
 
 Ein Mikrokern implementiert nur die wichtigsten Funktionen im Kern (z.B. Prozess-, Speicherverwaltung und Kommunikationsschnittstellen). Alles Weiter wird von Betriebssystemdiensten verwaltet (z.B. Dateisystem, Gerätetreibe). Diese werden im User-Mode ausgeführt.
+
+## Schnittstellen
+
+### Angenommen wir beschreiben für eine anspruchsvolle Grafik die Farbe eines Pixels direkt ohne CLUT mit 24 Bit Genauigkeit (Farbtiefe). Wie groß muss der Bildwiederholspeicher für eine 1024x768 großes Bild mindestens sein? Wie groß, wenn er drei Ebenen davon abspeichern soll?
+
+$$1024*768*\frac{24}{8} * 3 = ‭‭7.077.888‬‬ \text{Byte} = ‭‭7,078 \text{MByte}‬$$
+
+### Wie groß muss der Bildwiederholspeicher für das Bild mindestens sein, wenn gleichzeitig 65536 = 16 Bit Farben sichtbar sein sollen und eine einstufige Umsetzung mit CLUT möglich ist. Wieviel Platz benötigt diese CLUT?
+
+$65.536=2^{16}$ -> 16 Bit
+
+$65.536*(3*16)=‭12.745.728‬$
+
+### Ein SLIM-Terminal (thin client, "dummes Terminal") wird zur Ausgabe einer Webseite verwendet, die ein animiertes Bild mit 400 mal 160 Punkten und einer Bildwiederholrate von 10 Bildern pro Sekunde besitzt (24 Bit Farbtiefe). Welcher Anteil eines 100 Mbps Fast Ethernet wird durch die Darstellung der Animation verbraucht.
+
+$$400*160*\frac{24}{8}=‭192.000‬$$
+
+$$\frac{‭192.000‬ * 10^{-6} \text{Bytes} * 10s}{100 \text{Mbps}} = 0,0192$$
+
+### Ein Bitmap-Terminal enthält 1280 mal 960 Bildpunkte. Um ein Fenster zu scrollen, muss die CPU (oder der Controller) alle Zeilen des monochromen Textes nach oben schieben, indem sie die entsprechenden Bits innerhalb des Videospeichers kopiert. Wenn ein spezielles Fenster 60 Zeilen hoch und 80 Zeichen breit ist und ein Zeichen 16 Pixel hoch und 8 Pixel breit ist,
+
+#### a) wie lange dauert es dann, das gesamte Fenster bei einer Geschwindigkeit von 50 ns pro Byte zu scrollen?
+
+$$(60*80) * (16*8*1\text{Bit}) = ‭614.400‬ \text{Bit} = 76.800 \text{Byte}$$
+
+$$76.800 \text{Byte} * \frac{50 ns}{1 \text{Byte}} = 3.840.000‬ ns = 3,84 ms$$
+
+#### b) Wenn alle Zeilen 80 Zeichen lang sind, was ist dann die gleichwertige Baudrate (Ausgabe einer Zeile) des Terminals? Das Ausgeben eines Zeichens dauert 5 µs.
+
+$$80 * (16*8*1\text{Bit}) = 10.240‬ \text{Bit} = 1.280‬ \text{Byte}$$
+
+#### c) Wieviel Zeilen pro Sekunde können angezeigt werden?
+
+### Bewerten Sie den Einsatz des lokalen Desktop-Konzeptes von Windows NT gegenüber dem verteilten X-Window-System? Denken Sie dabei an Applikationen wie die Prozesssteuerung eines Stahlwerks mit einem Rechnernetz, die Datenauswertung der Abteilungen über das Intranet eines Betriebs, die Softwareinstallation und Wartung für einen vernetzten Rechnerpool usw.

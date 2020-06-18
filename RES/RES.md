@@ -1363,7 +1363,7 @@ $$T=t_S+t_d+t_T=t_s+\frac{t_R}{2}+\frac{k}{m}t_R$$
 **Strategien**
 
 - **First-Fit-Verfahren:** Durchlaufen des Speicherbereiches, Allokation des erstbesten freien Bereiches
-- **Next-Fit-Verfahren:** Wie First-Fit, aber aufeinanderfolgende Suchen werden bei zuletzt gefundenem Speicherpaltz begonnen
+- **Next-Fit-Verfahren:** Wie First-Fit, aber aufeinanderfolgende Suchen werden bei zuletzt gefundenem Speicherplatz begonnen
 - **Best-Fit-Verfahren:** Durchsuchen der gesamten Speicherliste, Allokation des kleinsten Bereichs (optimale Ausnutzung)
 - **Worst-Fit-Verfahren:** Allokation des größten freien Bereichs
 - **Quick-Fit-Verfahren:** unterhält getrennte Listen für freie Bereiche gebräuchlicher Größe
@@ -1401,7 +1401,7 @@ $$T=t_S+t_d+t_T=t_s+\frac{t_R}{2}+\frac{k}{m}t_R$$
 - Laden von Prozessen in Speicher: evtl. Auslagern von anderen Prozessen
 - Zuweisung von Partitionen an Prozesse
 	- Bereiche gleicher Länge: trivial
-	- Bereiche variabler Länge: kleinst verfügbare ausreichend große Partition
+	- Bereiche variabler Länge: kleinste verfügbare ausreichend große Partition
 
 **Dynamische Partitionierung**
 
@@ -1443,7 +1443,7 @@ $$A=1-p^n$$
 
 - Jeder Prozess besitzt eigenen virtuellen Adressraum
 - virtueller Adressraum besteht aus gleich großen Seiten (page)
-- Arbeitspeicher unterteiltin gleich große Kacheln (page frame)
+- Arbeitspeicher unterteilt in gleich große Kacheln (page frame)
 - i.d.R.: $\text{page} = \text{page frame} \quad \text{oder} \quad \text{page} * n = \text{page frame}$
 - Hintergrundspeicher aufgeteilt in zusammenhängende Blöcke gleicher Größe
 - nur Blöcke des Hintergrundspeicher adressierbar
@@ -1455,14 +1455,14 @@ $$A=1-p^n$$
 - Abbildung logischer Adressen auf physikalische durch Zerlegung
 - Virtuelle Seite wird gegeben durch $v=(s,w)$ mit Seitennummer $s$ und Offset in der Seite $w$
 - Abgebildet wird $v$ auf die reale Adresse $p=(k,w)$ mit der Kachelnummer $k$
-- Wortbreite von 64 Bit -> Seitentabelle hat $252 = 4∗1015$ Einträge -> Grenzen des Systems erreicht
+- Wortbreite von 64 Bit -> Seitentabelle hat $2^{52} = 4∗10^{15}$ Einträge -> Grenzen des Systems erreicht
 - Extrem große Seitentabelle für jeden Prozess lässt schnelle Adressumrechnung nicht mehr zu
 - Lösungsansätze:
 	- Adressbegrenzung: Begrenzung des Adressraums (Speicher) pro Prozess
-	- Mehrstuﬁge Seitentabellen: Reduktion des Verwaltungsaufwandes mit Untertabellen
+	- Mehrstufige Seitentabellen: Reduktion des Verwaltungsaufwandes mit Untertabellen
 	- Invertierte Seitentabellen: Statt Seitentabelle für Prozess -> Seitentabelle für physikalisch vorhandene Seiten (Abbildung aufwendiger)
 	- Assoziativer Tabellencache: Hardware, die virtuelle Adressen ohne Umweg auf physische abbildet (auch TLB - Translation Lookaside Buffer; heutiger Standard)
-		- wird eine virtuelle Seite im TLB gefunden (TLB Hit), kann die Adressumrechnung direkt erfolgen ($> 99%$)
+		- wird eine virtuelle Seite im TLB gefunden (TLB Hit), kann die Adressumrechnung direkt erfolgen ($> 99\%$)
 		- war die Suche im TLB erfolglos (TLB Miss), muss auf die Seitentabellen im Arbeitsspeicher zurückgegriffen werden
 
 #### Seitenersetzungsstrategien
@@ -1471,12 +1471,12 @@ $$A=1-p^n$$
 	- wenig genutzter Speicherrahmen wird ausgelagert, angeforderte Seite wird in den freien Rahmen geladen
 	- Anpassung der Seitentabelle, Wiederholung des Befehls
 - richtiges Auslagern ist eines der größten Probleme virtueller Speichersysteme (extreme Auswirkungen auf Gesamtleistung)
-- Worst case: ausgelagerte Seite wird sofort wieder benötigt -> Seitenfattern (trashing)
+- Worst case: ausgelagerte Seite wird sofort wieder benötigt -> Seitenflattern (trashing)
 
 **Optimale Seitenersetzungsstrategie**
 
 - lagere die Seite aus, für die der nächste Zugriff am weitesten in der Zukunft liegt (theoretisch beste Strategie)
-- jedoch unmöglich, herauszuﬁnden, welche Seite wann als nächstes gebraucht wird (praktisch nicht umsetzbar)
+- jedoch unmöglich, herauszufinden, welche Seite wann als nächstes gebraucht wird (praktisch nicht umsetzbar)
 - Auch bekannt als **Belady-Theorem der optimalen Verdrängung**
 - Dient als Referenz für andere Strategien:
 	- **NRU:** teilt Seiten anhand ihrer R- und M-Bits in vier Klassen ein und entfernt zufällig eine Seite aus der niedrigsten, nicht-leeren Klasse
