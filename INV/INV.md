@@ -214,7 +214,7 @@ Automat, der nur dessen Worte akzeptiert, die weder **aa** noch **bb** enthalten
 
 - keine technischen Geräte in der Informatik -> mathematische Modelle zur Umformung von Eingaben
 - erkennende Automaten (Akzeptoren): Beschreibung von Sprachen
-- Übersetzende Automaten (Tranduktoren): Umwandlung von Ein- in Ausgaben
+- Übersetzende Automaten (Transduktoren): Umwandlung von Ein- in Ausgaben
 - Automatentheorie definiert Lösbarkeit von Problemen mit Rechnern (Registermaschine/Turingmaschine)
 
 ## Funktionen
@@ -264,7 +264,7 @@ F= \{A_1,\dots,A_m,S_1,\dots,S_m\} \\
 i \in \{1,\dots,m\}
 A_i: N^m_0 \rightarrow N^m_0 \qquad Ai(x_1,\dots,x_m)=x_1,\dots,x_{i-1},x_i\ +1,x_{i+1},\dots,x_m) \text{und} \\
 S_i: N^m_0 \rightarrow N^m_0 \qquad Si(x_1,\dots,x_m)=x_1,\dots,x_{i-1},x_i\ -1,x_{i+1},\dots,x_m) \text{mit} \\
-x-1 = \begin{cases} x-1 & \text{falls} x \geq 0 \\0 & \text{sonst.}\end{cases}
+x-1 = \begin{cases} x-1 & \text{falls} x \geq 0 \\ 0 & \text{sonst.}\end{cases}
 \end{matrix}$$
 
 - Menge der Booleschen Funktionen $T$: Testen ob der Wert eines Registers 0 ist
@@ -306,16 +306,17 @@ Programm, dass zwei Zahlen subtrahiert:
 - Programm = endliche Folge von Befehlen einer festgelegten Befehlsliste
 - Solche Erweiterung einer Registermaschine mit wahlfreiem Zugriff auf Speicherzellen = Random Access Machine (RAM)
 
+**Befehlssatz**
+
+- ähnelt einem abstrakten Assembler
+- Unterschiedliche Programme und Algorithmen realisierbar
+- Zeichen nach einer bestimmten Vorschrift als Zahlen codiert werden -> RAMs können auch Alphabete verarbeiten
+
 **Beispielbefehle:**
 
 - Operationen mit Registern/Konstanten/indirekt adressierten Operanden
 - Sprungbefehl
 - Halt-Befehl
-
-
-- Befehlssatz ähnelt einem abstrakten Assembler
-- Unterschiedliche Programme und Algorithmen realisierbar
-- Zeichen nach einer bestimmten Vorschrift als Zahlen codiert werden -> RAMs können auch Alphabete verarbeiten
 
 # Turing-Maschinen
 
@@ -339,11 +340,11 @@ $$T=(I,B,Q,\delta,q_0,F)$$
 
 Turing-Maschinen können entweder Funktionen berechnen oder entscheiden, ob bestimmte Eingabeworte als Worte einer Sprache akzeptiert werden. Dabei gelten die folgenden Definitionen:
 
-- Funktion $f:I^*\rightarrow I^*$ heißt total rekursiv (berechenbar), wenn eine Turing-Maschine existiert, die aus einer Eingabe $x$ den Funktionswert $f(x)$ berechnet
+- Funktion $f:I^\*\rightarrow I^\*$ heißt total rekursiv (berechenbar), wenn eine Turing-Maschine existiert, die aus einer Eingabe $x$ den Funktionswert $f(x)$ berechnet
 
 - Funktion $f:N^k\rightarrow N$ heißt total rekursiv, wenn eine Turing-Maschine existiert, die für Eingaben vom Typ $bin(i_1), bin(i_2), \dots, bin(i_k)$ mit einem Ergebnis $bin(m)$ stoppt, wenn $m = ƒ( i_1, \dots , i_k)$
 
-- Eine Sprache $L \subset I^*$ heißt rekursiv (entscheidbar), wenn eine Turing-Maschine existiert, die für alle Eingaben stoppt und das Eingabewort $w$ akzeptiert, wenn $w \in L$
+- Eine Sprache $L \subset I^\*$ heißt rekursiv (entscheidbar), wenn eine Turing-Maschine existiert, die für alle Eingaben stoppt und das Eingabewort $w$ akzeptiert, wenn $w \in L$
 
 - Eine Sprache $L \subset I^*$ heißt rekursiv aufzählbar (semientscheidbar), wenn eine Turing-Maschine existiert, die genau die Eingaben $w$ akzeptiert, die aus $L$ sind
 
