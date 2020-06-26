@@ -1526,8 +1526,8 @@ $$t_Z=t_{HS}+p*t_{SF}$$
 
 - Segmentierung: Einteilung des virtuellen Speichers in verschiedene feste Bereiche für jeden Prozess
 - Paging: Einteilung von virtuellem und physischem Speicher in Bereiche (unabhängig von den einzelnen Prozessgrenzen)
-- Paging ist im Gegensatz zu Segmentierung nie vom Programmierer zu beeinﬂussen ("transparente Operation")
-- Häuﬁg werden aber Segmentierung und Paging kombiniert, so dass eine zweistufige Adressierung entsteht
+- Paging ist im Gegensatz zu Segmentierung nie vom Programmierer zu beeinflussen ("transparente Operation")
+- Häufig werden aber Segmentierung und Paging kombiniert, so dass eine zweistufige Adressierung entsteht
 
 #### Segmentierung vs. Paging
 
@@ -1537,7 +1537,7 @@ $$t_Z=t_{HS}+p*t_{SF}$$
 - Segmentierung kann problemlos auf Paging aufgesetzt werden
 	- Anfang und Größe der Segmente auf ein Vielfaches der Größe von Seitenrahmen beschränkt
 	- impliziert interne Fragmentierung (i.d.R. unproblematisch)
-- Fast alle modernen Betriebsysteme verwalten Adressräume auf logischer Ebene als eine Menge von Segmenten
+- Fast alle modernen Betriebssysteme verwalten Adressräume auf logischer Ebene als eine Menge von Segmenten
 
 ### Flat Memory Model
 
