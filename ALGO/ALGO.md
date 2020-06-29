@@ -204,7 +204,7 @@ Gesucht wird ein Teilgraph, der ein Baum ist und alle Knoten des Graphen enthäl
 	- entlang einer Rückwärtskante um $\Delta$ verkleinert wird
 - Größtmögliche Zunahme ist das Minimum folgender Zahlen für alle Kanten $[i,j]$ eines Weges:
 
-$$\Delta_{ij} = \begin{cases} c_{ij}-f_{ij}, & \text{Vorwärtskante}\\f_{ij}, & \text{Rückwärtskante}\end{cases}$$
+$$\Delta_{ij} = \begin{cases} c_{ij}-f_{ij}, & \text{Vorwärtskante}\\ f_{ij}, & \text{Rückwärtskante}\end{cases}$$
 
 - Der maximale Fluss ist genau dann erreicht wenn es keinen zunehmenden Weg von der Quelle zur Senke gibt
 
@@ -260,7 +260,7 @@ w(i,j)+w(j,k) \geq w(i,k)\\
 
 - minimalen Spannbaum $M$ konstruieren
 - Verdoppeln aller Kanten in $M$, finden eines Euler-Zuges
-- Konstruieren eines Hamilton-Kreises: Entlanggehen am Euler-Zug (bereits durchlaufen Kanten überspringen)
+- Konstruieren eines Hamilton-Kreises: Entlanggehen am Euler-Zug (bereits durchlaufene Knoten überspringen)
 
 **Praktische Grenzen der Berechenbarkeit**
 
