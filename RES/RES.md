@@ -653,7 +653,7 @@ Ein Prozess beﬁndet sich in genau einem der folgenden Zustände:
 - **User-Thread:** für Programmierer sichtbar, **logische Realisierung** der gewünschten Parallelität
 - **Kernel-Thread:** dem Betriebssystem bekannt, erhält vom Betriebssystem Rechenzeit
 
-> User-Thread muss einem einem konkreten Kernel-Thread zugeteilt werden, dmit er real Ausgeführt wird
+> User-Thread muss einem einem konkreten Kernel-Thread zugeteilt werden, damit er real Ausgeführt wird
 
 **Realisierungsformen:**
 - $m:1$-Zuordnung: Alle zu einem Prozessgehörenden User-Threads werden einem einzigen Kernel-Thread zugeteilt (Multithreading außerhalb des Systemkerns)
@@ -714,7 +714,7 @@ Grundlegender Bedeutung: Kommunikation, Synchronisation zwischen Prozessen; Nutz
 
 #### Decker-Algorithmus
 
-- Für jeden Prozess exisiter eine Flag
+- Für jeden Prozess exisitert eine Flag
 - eine gesetzte Flag signalisiert, dass sich der Prozess in einem kritischen Abschnitt befindet
 - Variable ```turn``` entscheidet, wer als nächstes einen kritischen Abschnitt betretten kann
 - Problem: Prozess kann nicht in kritische Region, solange anderer Prozess ```turn``` besitzt und einen nichtkritischen Bereich bearbeitet
@@ -735,8 +735,7 @@ Grundlegender Bedeutung: Kommunikation, Synchronisation zwischen Prozessen; Nutz
 Klassisches Beispiel: Erzeuger-Verbraucher-Problem
 
 - Erzeuger: erzeugt Datenpakete, bis zur vollen Warteschlange (schäft und wird geweckt, wenn Platz in der Warteschlange ist)
-- VerbraucherL verbraucht Datenpakete (schläf und wird geweckt, wenn neue Daten vorhanden sind)
-
+- Verbraucher: verbraucht Datenpakete (schläf und wird geweckt, wenn neue Daten vorhanden sind)
 
 **Problemfall**
 
@@ -748,7 +747,7 @@ Klassisches Beispiel: Erzeuger-Verbraucher-Problem
 - "Ampel", die immer nur einem Prozess die Benutzung erlaubt und allen anderen verweigert
 - Alle Prozesse sind dazu verpflichtet bestimmten Code nur auszuführen, wenn es die Semaphore erlaubt
 - Prozesse synchronisieren sich über die Semaphore (Setzen/Rücksetzen der Semaphore bei Betretten/Verlassen kritischer Bereiche)
-- Zur Manipulation und Abfrage der Senaphoren exisitieren zwei unteilbare Operationen
+- Zur Manipulation und Abfrage der Semaphoren exisitieren zwei unteilbare Operationen
 - Notation nach Dijkstra:
 	- **P(sema)** Semaphore reservieren (auch down-Operation)
 	- **V(sema)** Semaphore freigeben (auch up-Operation)
