@@ -202,16 +202,217 @@ Betriebssysteme - Zusammenfassung
 - Interrupt = kurzfristige Unterbrechung eines Programms durch eine von der CPU abzuarbeitende Befehlssequenz (Interrupt Service Routine -> schnelle Reaktion auf I/O o. Zeitgeber)
 - intern/extern -> synchron/asynchron zu ausgeführtem Prozess
 
-#### Hardware-Interrupts
+### Hardware-Interrupts
 
 - durch HW ausgelöst: maskierbar oder nicht maskierbar
 - wird ein nicht-maskierter Interrupt ausgelöst, arbeitet der Prozessor den gerade ausgeübten Befehl ab und führt unmittelbar anschließend den Interrupt durch
+- Verarbeitung der Anforderungen durch Interruptcontroller -> Weitergabe nach Priorität an Prozessor
+- vektorisiert/nichtvektorisiert -> Addresse direkt auf BUS/Vektortabelle
 
-#### Software-Interrupts
+
+### Software-Interrupts
 
 - Aufruf mit speziellen Maschinenbefehlen (nur Nummer für den Interrupt notwendig)
 - Nummer -> Interrupt-Vektor-Tabelle -> Adresse des Interrupt-Unterprogrammes
 
-#### Traps
+### Traps
 
 - Art automatischer Prozeduraufruf bei bestimmten Bedingungen (z.B. Gleitkommaüberlauf) -> Programmcounter wird mit Adresse des Trap-Handlers überschrieben
+
+### Ablauf der Interrupt-Verarbeitung
+
+- Sperren weiterer Unterbrechungen mit gleicher oder geringerer Priorität
+- Rettung wichtiger Register-Informationen (total/partitiell)
+- Bestimmen der Interruptquelle (durch Hardware realisiert)
+- Laden des zugehörigen Interruptvektors
+- Abarbeitung der Interruptroutine
+- Rückkehr zur unterbrochenen Aufgabe
+
+## Polling
+
+- zyklische Abfragen von E/A-Devices -> Status ohne Interrupts abfragen
+- **Vorteile:** einfach, Kommunikationsanforderungen parallel zum Programm
+- **Nachteile:** hoher Overhead (Anfragen meist unnötig), höhere Reaktionszeit, Priorisierung erfordert zusätzlichen Aufwand
+
+# Deadlocks
+
+> Eine Menge von Prozessen beﬁndet sich in einem Deadlock-Zustand, wenn jeder Prozess aus der Menge auf ein Ereignis wartet, das nur ein anderer Prozess aus der Menge auslösen kann.
+
+## Notwendige Bedingungen für Deadlocks
+
+- Mutual Exclusion
+- Belegungs- und Wartebedingung
+- Ununterbrechbarkeit
+- Zyklische Wartebedingung
+
+## Verhinderung
+
+- Eine der vier Voraussetzungen eliminieren
+
+- **Mutual Exclusion:** Spooling -> Dienst verwaltet Ressource (kann von mehreren Prozessen angefordert werden) -> Aber:nicht bei allen Ressourcen möglich
+- **Belegungs- und Wartebedingung:** Jeder Prozess fordert seine Ressourcen im Voraus an (Ausführung nur, wenn alle verfügbar) -> benötigte Ressourcen meist nicht im Voraus bekannt
+	- Alternative: Prozess gibt vor Anforderung alle Ressourcen kurzzeitig frei und reserviert dann alles auf einmal
+- **Ununterbrechbarkeit:** Prozessen Ressourcen zu entziehen ist schwierig oder unmöglich (z.B. gerade genutzter Drucker)
+- **Zyklische Wartebedingung:** Ressourcen durchnummerieren -> Alle Prozesse dürfen nur in aufsteigender Reihenfolge reservieren (Belegungs-Anforderungs-Graph immer zyklenfrei)
+
+# Ein- und Ausgabe
+
+## Grundlegende Hardware
+
+- Zeichen- vs. block-orientiert
+- Sequentieller vs. wahlfreier Zugriff
+- gemeinsame vs. exklusive Kanäle
+- Geschwindigkeit: Abhängig vom Gerät oder Kommunikationspartner
+- read/write, read only, write only
+
+> jedes Gerät durch **Controller** verwaltet (einfache Schnittstelle zum OS, Datenpuffer)
+
+- Benutzerprozess <-> Kernel-Verteiler <-> Auftragsverwaltung <-> Pufferung <-> Treiber <-> Controller <-> Gerät
+- Kommunikation mit Controller mit **Ein-/Ausgabe-Port-Nummer** oder **Memory Mapped**
+
+## Grundlagen Software
+
+- Ziele: Geräteunabhängigkeit, Abstraktion, einheitliche Benennung, Fehlerbehandlung, Pufferung, ...
+- **Programmgesteuertes I/O:** dauernde Kontrolle über den E/A-Vorgang durch den Prozessor (Polling/busy wait) -> Einfach, aber Verschwendung von Rechenzeit (wait)
+- **Interruptgesteuertes I/O:** Bessere Ausnutzung der Wartezeiten, aber Interrupts kosten Zeit
+
+## Gerätetreiber
+
+- geräteabhängige Steuersoftware (meist für Geräteklasse)
+- initialisiert den Controller und das Gerät beim Systemstart (Aktiviert das Gerät)
+- wandelt allgemeine E/A-Anforderungen in gerätespeziﬁsche Befehle um
+- meldet Geräte- und Controllerbefehle
+- bearbeitet und puffert Schreib-und Lesebefehle
+
+## Physikalische Geräte
+
+### Plattenspeicher
+
+#### Zugriffszeiten
+
+- mittlere Suchzeit $t_S$
+- Rotationsverzögerung $t_D$ - bis Sektor unter Kopf erscheint
+- Dauer der Datenübertragung $t_T$
+- Gesamtzugriffszeit mit $t_d=\frac{t_R}{2}$
+$$T=t_S+t_d+t_T=t_s+\frac{t_R}{2}+\frac{k}{m}t_R$$
+- Zugriffszeit dominiert durch Suchzeit
+	- Dateien möglichst in aufeinanderfolgenden Sektoren
+	- geeignetes Scheduling der Plattenzugriffe
+
+#### Schedulingstrategien für Plattenzugriffe
+
+- FCFS: Zugriff in Reihenfolge der Aufträge -> viele unnötige Bewegungen des Plattenarms
+- Priority: Zugriff prioritätsgesteuert -> „Verhungern“ möglich
+- SSTF: (Shortest Seek Time First) kürzesten Bewegungen zuerst
+- SCAN: möglichst wenig Richtungswechsel: erst in eine Richtung, bis es in dieser Richtung keine Anfragen mehr gibt, dann Richtung wechseln (Fahrstuhlalgorithmus)
+- read-ahead (Vorauslesen): große Wahrscheinlichkeit, das nachfolgende Sektoren benötigt werden
+- lazy write (verzögertes Schreiben): Daten werden nicht sofort geschrieben sondern zwischengepuffert
+
+# Speicherverwaltung
+
+- Teil des Betriebssystems, dass die Speicherhierarchie verwaltet
+- Überwacht belegten Speicher, teilt Prozessen Speicher zu und gibt ihn wieder frei
+- Außerdem: Auslagern von Speicher (Swapping/Paging), wenn der Hauptspeicher zu klein ist
+- Anforderungen: Relokation, Schutz (vor anderen Prozessen), Gemeinsame Nutzung, Logische und Physisikalische Organisation
+- Grundproblem: Organisation des Informationsﬂusses zwischen Haupt- (schnell, teuer, flüchtig) und Sekundärspeicher (langsam, billig, nicht flüchtig)
+
+## Freispeicherverwaltung
+
+- OS verwaltet Speicherbereiche als eine Kette von freien Speicherblöcken
+- **First-Fit-Verfahren:** Durchlaufen des Speicherbereiches, Allokation des erstbesten freien Bereiches
+- **Next-Fit-Verfahren:** Wie First-Fit, aber aufeinanderfolgende Suchen werden bei zuletzt gefundenem Speicherplatz begonnen
+- **Best-Fit-Verfahren:** Durchsuchen der gesamten Speicherliste, Allokation des kleinsten Bereichs (optimale Ausnutzung)
+- **Worst-Fit-Verfahren:** Allokation des größten freien Bereichs
+- **Quick-Fit-Verfahren:** unterhält getrennte Listen für freie Bereiche gebräuchlicher Größe
+- **Buddy-Verfahren:** für jede Speichergröße eine eigene Liste (nur Blöcke von Zweierpotenzen verwendet)
+	- ist kein gewünschter Block frei, wird ein Block in zwei gleich große Blöcke aufgeteilt
+
+### Partitionierung
+
+- **Statische Partitionierung:** Bereiche gleicher Länge -> Interne Fragmentierung (Platzverschwendung)
+- **Dynamische Partitionierung:** exakt passende Speicherbereiche -> externer Fragmentierung durch Ein-/Auslagern
+
+### Probleme der direkten Speicherverwaltung
+
+- Speicherfragmentierung
+- Prozess muss on einem Stück im Speicher liegen
+- Relokation von Programmcode (absolute Speicheradressen müssen umgeschrieben werden)
+
+## Virtueller Speicher
+
+- mehrere Fragmente müssen für das Programm so dargestellt werden, als ob sie aus einem kontinuierlichen Bereich stammen
+- Verlangt ein Programm mehr Speicher als vorhanden, wird der inaktive Teil ausgelagert (geswappt)
+- Umsetzung der virtuellen in eine physische Adresse durch die Memory Management Unit (MMU)
+
+### Paging
+
+- Abbildung logischer Adressen auf physikalische durch Zerlegung
+- Virtuelle Seite wird gegeben durch $v=(s,w)$ mit Seitennummer $s$ und Offset in der Seite $w$
+- Abgebildet wird $v$ auf die reale Adresse $p=(k,w)$ mit der Kachelnummer $k$
+- Wortbreite von 64 Bit -> Seitentabelle hat $2^{52} = 4∗10^{15}$ Einträge -> Grenzen des Systems erreicht
+- Extrem große Seitentabelle für jeden Prozess lässt schnelle Adressumrechnung nicht mehr zu
+	- Lösung: Adressbegrenzung, Mehrstufige/invertierte Seitentabelle, Assoziativer Tabellencache
+
+### Seitenersetzungsstrategien
+
+- wird es versucht auf eine Seite zuzugreifen, die nicht im physischen Speicher liegt, wird ein  Systemaufruf mit einem Seitenfehler (page fault) ausgelöst
+- richtiges Auslagern ist eines der größten Probleme virtueller Speichersysteme (extreme Auswirkungen auf Gesamtleistung)
+- Worst case: ausgelagerte Seite wird sofort wieder benötigt -> Seitenflattern (trashing)
+
+- **NRU:** teilt Seiten anhand ihrer R- und M-Bits in vier Klassen ein und entfernt zufällig eine Seite aus der niedrigsten, nicht-leeren Klasse
+- **FIFO:** Auslagern der Seite, die sich am längsten im Hauptspeicher befunden hat (älteste Seite)
+- **Second-Chance:** FIFO mit R-Bit Überprüfung (verhindert auslagern häufig genutzer Seiten)
+- **LRU:** Auslagern der Seite, auf die am längsten nicht mehr zugegriffen wurde (aufwändig, Umsetzung über Hardware)
+- **NFU:** Seite, die am seltensten benutzt wird, soll ausgelagert werden (mit Zähler realisiert; Problem: anfangs viel genutzte Seiten werden nicht augelagert)
+- **Aging:** Software-Simulation von LRU (alle Zähler 1 Bit nach rechts, R-Bit addiert)
+- **Clock:** analog Second-Chance -> Uhrzeiger wandert so lange um die Elemente, bis eine Seite mit einem zurückgesetzten R-Bit gefunden wird
+- **WSClock:** Kombination aus Working-Set (Menge von Seiten eines Prozesses) und Clock
+
+### Aufwand von Seitenwechseln
+
+- Paging ist zeitaufwendig -> Prozessor muss warten
+- Mittlere Speicherzugriffszeit bei Wahrscheinlichkeit $p$ für einen Seitenfehler
+
+$$t_Z=t_{HS}+p*t_{SF}$$
+
+- um Leistungsverluste zu minimieren sollte $p$ sehr klein sein (z.B. durch Vergrößern des Arbeitsspeichers)
+
+### Segmentierung vs. Paging
+
+- Segmente dienen zur Aufteilung des Adressraumes nach semantischen Kriterien
+- Paging ist ein technisches Hilfsmittel zur Vereinfachung der Speicherverwaltung und Implementierung eines virtuellen Speichers
+- Segmente sind die bessere Abstraktion zur Verwaltung von Teilhaberschaften (shared libraries/text/memory), aber problematisch in Bezug auf die Speicherverwaltung (externe Fragmentierung, ...)
+
+### Flat Memory Model
+
+- wurden erst mit 32 Bit Prozessoren möglich
+- keine Segmente zur Adressierung des Speichers mehr nötig
+- linearer Adressraum beinhaltet Programmcode und Daten (-> direkte Adressierung aller Speicherzelle)
+
+# Dateisysteme
+
+- Daten müssen in einen nicht flüchtigen Speicher geschrieben werden können
+- Dateisystem vermittelt zwischen der logischen Sicht von Dateien und Verzeichnissen und der physikalischen Sicht von Blöcken, Spuren, Sektoren, Geräten, Netzlaufwerken
+- Abstraktion des Betriebssystems zur geräteunabhängigen Verwaltung von Dateien
+
+### Zentrale Indexstruktur
+
+- zentrale Tabelle (File Allocation Table, FAT) verwaltet alle Blöcke des Dateisystems, Blocknummer ist Index
+- für jeden Block einer Datei wird in der FAT der Index des Folgeblocks gespeichert (physisch beliebig verteilt) -> bei Verlust oder Zerstörung der FAT ist das zugehörige Dateisystem nicht mehr nutzbar
+- FAT ist auf Datenträger gespeichert
+- Zugriff auf eine Datei über Index des Startblocks im Verzeichnis-Block
+- für heutige Speicherkapazitäten zu groß
+
+### Verteilte Indexstruktur
+
+- für jede Datei existiert eine eigene Indexliste mit den Nummern aller benutzten Blöcke (I-Node)
+- Indexliste einer Datei wird in separatem Indexblock im Dateisystem gespeichert; bei langen Dateien  mehrere Indexblöcke
+- Indexblöcke können zudem Attribute der Datei beinhalten
+- i-node muss sich nur im Hauptspeicher befinden, wenn die Datei geöffnet ist
+
+### Blockgröße
+
+- Laufwerke verwalten auf der untersten Ebene meist Sektoren zu 512 Byte (sehr große Anzahl von Blöcken)
+- Zusammenfassung von mehreren Sektoren zu einer Zuordnungseinheit (Cluster)
+- wenige Sektoren/Zuordnungseinheit: Verwaltung träge (Datenstrukturen umfangreich)
+- viele Sektoren/Zuordnungseinheit: Verwaltung verschwenderisch (kleine Datei muss mindestens einen Block belegen)

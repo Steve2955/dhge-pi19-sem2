@@ -801,7 +801,7 @@ Klassisches Beispiel: Erzeuger-Verbraucher-Problem
 - mehrere Prozesse konkurrieren zur gleichen Zeit um die CPU -> Konfliktsituation
 - Koordination des Zugriffes auf die CPU notwendig, wenn Nachfrage zu hoch
 	- Langzeit-(Job)Scheduler = zuständig für Prozesse, die in den Speicher geladen werden
-	- Kurzzeit-(CPU)Scheduler = zuständig für die bereits im Speicher befindlichen, rechenbereiten Prozesse
+	- Kurzzeit-(CPU)Scheduler = zuständig für die bereits im Speicher befindlichen rechenbereiten Prozesse
 - zentrale oder dezentrale (Prozess selbst) Verwaltung
 	- **Deterministisches Modell:** alle Informationen bekannt
 	- **Probalistisches Modell:** offen (Anzahl der Prozesse nicht bekannt) oder geschlossen (Anzahl bekannt, Bedienzeit nicht)
@@ -857,7 +857,7 @@ Klassisches Beispiel: Erzeuger-Verbraucher-Problem
 - **maskierbare** (sperrbare) oder **nicht maskierbare** Interrupts
 - wird ein nicht-maskierbarer Interrupt ausgelöst, arbeitet der Prozessor den gerade ausgeübten Befehl ab und führt unmittelbar anschließend den Interrupt durch
 - **Interrupt-Controller** verwaltet mehrere Interrupt-Anforderungen und gibt sie *geordnet nach Priorität* an den Prozessor
-- **vektorisiert:** Interruptquelle legt Adress der ISR auf den Datenbus und verzweigt direkt zum Mikroprogramm
+- **vektorisiert:** Interruptquelle legt Adresse der ISR auf den Datenbus und verzweigt direkt zum Mikroprogramm
 - **nichtvektorisiert:** Interruptquelle legt eine Vektornummer auf den Datenbus, mit der due Adresse der ISR aus einer Vektortabelle ermittelt wird
 
 #### Software-Interrupts
@@ -869,7 +869,7 @@ Klassisches Beispiel: Erzeuger-Verbraucher-Problem
 
 - Art automatische Prozeduraufrufe, welche durch eine vom Programm verursachte Bedingung eingeleitet werden (z.B. Gleitkommaüberlauf)
 - Bei Auftretten der Bedingung stoppt die Ablaufsteuerung die Ausführung und überschreibt den Programmcounter mit der Adresse des Trap-Handlers
-- Wesentliches Merkmal: Auslösung bie Ausnahmebedingungen (durch HW oder Mikroprogramme)
+- Wesentliches Merkmal: Auslösung bei Ausnahmebedingungen (durch HW oder Mikroprogramme)
 
 #### Ablauf der Interrupt-Verarbeitung
 
@@ -878,7 +878,7 @@ Klassisches Beispiel: Erzeuger-Verbraucher-Problem
 - Bestimmen der Interruptquelle (durch Hardware realisiert)
 - Laden des zugehörigen Interruptvektors
 - Abarbeitung der Interruptroutine
-- Rückkehr zur unterbrochenen Aufgabe entweder
+- Rückkehr zur unterbrochenen Aufgabe
 
 #### Zustandssicherungskonzepte
 
@@ -978,7 +978,7 @@ Lösung dieser Probleme wäre ein direkter Speicherzugriff eines Devices, da so 
 #### Bankier-Algorithmus
 
 - Bankier hat so viele Ressourcen, dass er das größte vorhandene Limit gerade noch bedienen kann
--  Kunde bekommt die Ressource, falls der Banker danach noch genügend Ressourcen hat, um mindestens einem der Kunden sein komplettes Limit zuteilen zu können
+- Kunde bekommt die Ressource, falls der Banker danach noch genügend Ressourcen hat, um mindestens einem der Kunden sein komplettes Limit zuteilen zu können
 - Algorithmus überprüft bei jedem Kundenantrag, ob die Freigabe zu einem unsicheren Zustand führt (wenn ja ablehnen, sonst freigeben)
 
 **Algorithmus**
@@ -1008,7 +1008,7 @@ Lösung dieser Probleme wäre ein direkter Speicherzugriff eines Devices, da so 
 **Belegungs- und Wartebedingung**
 
 - Jeder Prozess fordert seine Ressourcen im Voraus an (Ausführung nur, wenn alle verfügbar)
-- Problem: benötigte Ressourcen meist icht im Voraus bekannt
+- Problem: benötigte Ressourcen meist nicht im Voraus bekannt
 - Alternative: Prozess gibt vor Anforderung alle Ressourcen kurzzeitig frei und reserviert dann alles auf einmal
 
 **Ununterbrechbarkeit**
@@ -1060,7 +1060,7 @@ Lösung dieser Probleme wäre ein direkter Speicherzugriff eines Devices, da so 
 | Controller         |
 | Gerät              |
 
-- idealisierte Struktur einer IO-Verwaltung
+- idealisierte Struktur einer I/O-Verwaltung
 - jede Schicht Kommuniziert nur mit ihren direkten Nachbarn
 
 ### Kommunikation mit Controller
@@ -1130,7 +1130,7 @@ Zwei Alternativen:
 
 ### Aufgaben
 
-- deﬁniert das Gerät und sich selbst gegenüber dem Betriebssystem
+- definiert das Gerät und sich selbst gegenüber dem Betriebssystem
 - initialisiert den Controller und das Gerät beim Systemstart (Aktiviert das Gerät)
 - wandelt allgemeine E/A-Anforderungen in gerätespeziﬁsche Befehle um
 - antwortet auf Hardwaresignale (Interrupts)
@@ -1277,7 +1277,6 @@ $$T=t_S+t_d+t_T=t_s+\frac{t_R}{2}+\frac{k}{m}t_R$$
 
 - Buffer cache: Orientierung an logischen Sektoren
 - File cache: Orientierung an konkreter Speicherung der Datei (Vorteil bei fragmentierter Datenspeicherung)
-
 
 #### Interleaving
 
@@ -1428,7 +1427,7 @@ $$A=1-p^n$$
 - Speicherfragmentierung
 - Programme größer als verfügbarer Speicher
 - Relokation von Programmcode (absolute Speicheradressen müssen umgeschrieben werden)
-- Prozess muss on einem Stück im Speicher liegen
+- Prozess muss in einem Stück im Speicher liegen
 - Verwendung von absoluten Adressen kann zu Speicherschutzverletzungen führen
 - Lösung: **Virtueller Speicher**
 
@@ -1565,7 +1564,6 @@ $$t_Z=t_{HS}+p*t_{SF}$$
 - **Dateisystem** bildet einen **Namensraum**
 - Alle Dateien sind so über eine eindeutige Adresse (Dateiname inkl. Pfad) innerhalb des Dateisystems aufrufbar
 
-
 **Namenskonventionen**
 
 - Regeln zur Benennung von Dateien variieren von System zu System
@@ -1597,7 +1595,6 @@ $$t_Z=t_{HS}+p*t_{SF}$$
 - Zeitpunkt der Erstellung/letzten Änderung/letzten Zugriffs
 - aktuelle Größe
 - ...
-
 
 ### Dateioperationen
 
@@ -1693,13 +1690,13 @@ Zugriff auf Dateien erfolgt durch Systemaufrufe die das Betriebssystem zur Verf�
 	- Dateiname
 	- Verweis auf I-Node-Datenstruktur
 - I-Node beinhaltet:
-- Dateityp
-- Eigentümer
-- Gruppe des Eigentümers
-- Zugriffsschutzbits
-- Datumseinträge
-- Anzahl der Links für diesen I-Node
-- Zeiger auf den Dateiinhalt
+	- Dateityp
+	- Eigentümer
+	- Gruppe des Eigentümers
+	- Zugriffsschutzbits
+	- Datumseinträge
+	- Anzahl der Links für diesen I-Node
+	- Zeiger auf den Dateiinhalt
 
 ## Verwaltung physischer Blöcke
 
