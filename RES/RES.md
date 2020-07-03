@@ -1959,7 +1959,7 @@ Zugriff auf Dateien erfolgt durch Systemaufrufe die das Betriebssystem zur Verf�
 
 #### Biba-Modell
 
-- Schützt Integrität der Daten durch Kontrolle von Lese- und Schreibzugriffen anhand exisitierender Benutzerrechte
+- Schützt Integrität der Daten durch Kontrolle von Lese- und Schreibzugriffen anhand exsitierender Benutzerrechte
 - No-Read-Down: Es darf einer höher eingestuften Ebene nicht möglich sein, Informationen einer tieferen Sicherheitsebene zu lesen
 - No-Write-Up: auf höhere Schichten kann von tieferen Sichten nicht geschrieben werden
 

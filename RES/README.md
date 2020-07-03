@@ -11,6 +11,36 @@ Betriebssysteme - Zusammenfassung
 - **IEC-Präfixe:** 2er- Potenz als Basis (KiB, MiB, GiB, TiB, PiB, ... -> $=2^x$ Byte)
 	- Umrechnung innerhalb: mul. / div. mit $2^{10}$ (Exponent steigt / fällt um 10)
 
+| KB | $10^3$    | KiB | $2^{10}$ |
+|----|-----------|-----|----------|
+| MB | $10^6$    | MiB | $2^{20}$ |
+| GB | $10^9$    | GiB | $2^{30}$ |
+| TB | $10^{12}$ | TiB | $2^{40}$ |
+| PB | $10^{15}$ | PiB | $2^{50}$ |
+| EB | $10^{18}$ | EiB | $2^{60}$ |
+
+### 10er Potenzen von Einheiten
+
+| Yotta | $10^{24}$  |
+|-------|------------|
+| Zetta | $10^{21}$  |
+| Exa   | $10^{18}$  |
+| Peta  | $10^{15}$  |
+| Tera  | $10^{12}$  |
+| Giga  | $10^{9}$   |
+| Mega  | $10^{6}$   |
+| Kilo  | $10^{3}$   |
+| Hekto | $10^{2}$   |
+| Deka  | $10^1$     |
+| Dezi  | $10^{-1}$  |
+| Zenti | $10^{-2}$  |
+| Milli | $10^{-3}$  |
+| Mikro | $10^{-6}$  |
+| Nano  | $10^{-9}$  |
+| Piko  | $10^{-12}$ |
+| Femto | $10^{-15}$ |
+| Atto  | $10^{-18}$ |
+
 ## Aufbau eines Rechnersystems
 
 - Hilfsprogramme: System-/Anwendersoftware
@@ -85,6 +115,7 @@ Betriebssysteme - Zusammenfassung
 
 - erfolgt in mehreren Schritten (FETCH -> DECODE -> EXECUTE) -> Pipeline
 - Durchsatzerhöhung durch **Prefetching** (versetzte Verarbeitung mehrerer Befehle)
+- $\text{Durchsatz}=\frac{1\text{Sekunde}}{\text{Bearbeitungszeit einer Stufe}}$
 
 ## Strukturen
 
@@ -111,6 +142,8 @@ Betriebssysteme - Zusammenfassung
 - Kommandozeileninterpreter (Shell) ließt eine Zeile Text ein, interpretiert sie und führt sie aus
 - **Vorteile:** schnelle, direkte Kontrolle; Erreichbarkeit; einfache Automatisierung
 - **Probleme:** länderspezifische Textdarstellung und Eingabe
+- Baudrate: Zeit für die Übertragung eines Zeichens
+- Für Übung: beim Scrollen bleit immer eine Zeile stehen (+ es muss gescrollt werden)
 
 ### Grafikschnittstelle
 
@@ -118,6 +151,14 @@ Betriebssysteme - Zusammenfassung
 - wichtige Kriterien: Benutzerkontrolle, Rückkopplung, Visualisierung, Konsistenz, Einfachheit, Ästhetik
 - **Vorteile:** leichter für weniger erfahrene Nutzer; ermöglicht WYSIWYG
 - **Probleme:** Erfordert Verarbeitung großer Datenmengen; Einschränkung von Kontrolle und Erreichbarkeit
+
+#### Color Lookup Table (CLUT)
+
+- **Speicherbedarf ohne CLUT:** $\text{Speicherbedarf}=\text{Auflösung/Anzahl der Pixel} * \text{Speicherbedarf einer Farbe}$
+- Farbtiefe: In der Regel werden RGB-Farben mit 8 Bit pro Farbanteil verwendet -> $3 * 8 \text{Bit}= 24 \text{Bit}$
+- **Größe der CLUT:** $\text{Speicherbedarf der CLUT}=\text{Anzahl Einträge/versch. Farben} * \text{Speicherbedarf einer Farbe}$
+- **Speicherbedarf mit CLUT:** $\text{Speicherbedarf}=\text{Auflösung/Anzahl der Pixel} * \text{Speicherbedarf für den Index der CLUT}$
+- Wenn die CLUT z.B. $65538=2^{16}$ Einträge beinhaltet, bedarf die Speicherung eines Index $16 \text{Bit} = 2 \text{Byte}$
 
 ### API
 
@@ -237,6 +278,8 @@ Betriebssysteme - Zusammenfassung
 # Deadlocks
 
 > Eine Menge von Prozessen beﬁndet sich in einem Deadlock-Zustand, wenn jeder Prozess aus der Menge auf ein Ereignis wartet, das nur ein anderer Prozess aus der Menge auslösen kann.
+
+Ein System ist Deadlock-frei, wenn die Anzahl der Ressourcen mindestens $p(m-1)+1$ entspricht. Wobei $p$ die Anzahl der Prozesse und $m$ die maximale Zahl reservierter Ressourcen pro Prozess ist.
 
 ## Notwendige Bedingungen für Deadlocks
 
